@@ -73,47 +73,50 @@ export default function Home() {
 
     {/* XELTA */}
     <Link
-  href="/"
-  onClick={() => setMenuOpen(false)}
-  className="text-lg font-bold tracking-[0.18em] text-red-600"
->
-  XELTA
-</Link>
-<div className="hidden items-center gap-8 md:flex">
-<Link
-  href="/"
-  className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
->
-  Home
-</Link>
+      href="/"
+      onClick={() => setMenuOpen(false)}
+      className="text-lg font-bold tracking-[0.18em] text-red-600"
+    >
+      XELTA
+    </Link>
 
-<Link
-  href="/#about"
-  className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
->
-  About
-</Link>
+    {/* Desktop Navigation */}
+    <div className="hidden items-center gap-8 md:flex">
 
-<Link
-  href="/akademi"
-  className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
->
-  Akademi Unggul
-</Link>
+      <Link
+        href="/"
+        className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
+      >
+        Home
+      </Link>
 
-<Link
-  href="/adikarya"
-  className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
->
-  Adikarya Utama
-</Link>
+      <Link
+        href="/#about"
+        className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
+      >
+        About
+      </Link>
 
-<Link
-  href="/contact"
-  className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-950 transition-all duration-200 hover:bg-cyan-400"
->
-  Contact
-</Link>
+      <Link
+        href="/akademi"
+        className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
+      >
+        Akademi Unggul
+      </Link>
+
+      <Link
+        href="/adikarya"
+        className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
+      >
+        Adikarya Utama
+      </Link>
+
+      <Link
+        href="/contact"
+        className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-950 transition-all duration-200 hover:bg-cyan-400"
+      >
+        Contact
+      </Link>
 
 </div>
 
