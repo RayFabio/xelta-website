@@ -68,7 +68,7 @@ export default function Home() {
       {/* =====================================================
     NAVBAR
 ====================================================== */}
-<nav className="xelta-navbar fixed left-0 right-0 top-0 z-50 border-b border-slate-200 bg-white">
+<nav className="xelta-navbar fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-slate-950/95 backdrop-blur-xl">
   <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
 
     {/* XELTA */}
