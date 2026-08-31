@@ -113,7 +113,7 @@ export default function Home() {
 
   <Link
     href="/contact"
-    className="text-sm font-medium text-white transition-colors hover:text-cyan-400"
+    className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-950 transition-all duration-300 hover:bg-cyan-400"
   >
     Contact
   </Link>
