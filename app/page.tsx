@@ -119,7 +119,27 @@ export default function Home() {
       </Link>
     </div>
 
-    {/* Mobile Navigation Drawer */}
+    {/* Mobile Toggle Button */}
+    <button
+      type="button"
+      aria-label="Toggle navigation menu"
+      aria-expanded={menuOpen}
+      onClick={() => setMenuOpen(!menuOpen)}
+      className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 text-white transition hover:border-cyan-400 hover:text-cyan-400 md:hidden"
+    >
+      {menuOpen ? (
+        <span className="text-2xl leading-none">×</span>
+      ) : (
+        <div className="flex flex-col gap-1.5">
+          <span className="block h-0.5 w-5 bg-current" />
+          <span className="block h-0.5 w-5 bg-current" />
+          <span className="block h-0.5 w-5 bg-current" />
+        </div>
+      )}
+    </button>
+  </div>
+
+  {/* Mobile Navigation Drawer */}
 <div
   className={`overflow-hidden border-t border-white/10 bg-slate-950/95 backdrop-blur-xl transition-all duration-300 md:hidden ${
     menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
