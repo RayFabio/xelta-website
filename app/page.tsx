@@ -68,55 +68,57 @@ export default function Home() {
       {/* =====================================================
     NAVBAR
 ====================================================== */}
-<nav className="fixed left-0 right-0 top-0 z-50 border-b border-slate-200 bg-white">
+<nav className="xelta-navbar fixed left-0 right-0 top-0 z-50 border-b border-slate-200 bg-white">
   <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
 
     {/* XELTA */}
     <Link
-      href="/"
-      onClick={() => setMenuOpen(false)}
-      className="text-lg font-bold tracking-[0.18em] !text-slate-950"
-    >
-      XELTA
-    </Link>
+  href="/"
+  onClick={() => setMenuOpen(false)}
+  className="text-lg font-bold tracking-[0.18em] text-slate-950"
+>
+  XELTA
+</Link>
 
     {/* Desktop Navigation */}
     <div className="hidden items-center gap-8 md:flex">
-      <Link
-        href="/"
-        className="text-sm font-medium !text-slate-950 transition-colors hover:!text-cyan-600"
-      >
-        Home
-      </Link>
 
-      <Link
-        href="/#about"
-        className="text-sm font-medium !text-slate-950 transition-colors hover:!text-cyan-600"
-      >
-        About
-      </Link>
+  <Link
+    href="/"
+    className="text-sm font-medium text-slate-950 transition-colors hover:text-cyan-600"
+  >
+    Home
+  </Link>
 
-      <Link
-        href="/akademi"
-        className="text-sm font-medium !text-slate-950 transition-colors hover:!text-cyan-600"
-      >
-        Akademi Unggul
-      </Link>
+  <Link
+    href="/#about"
+    className="text-sm font-medium text-slate-950 transition-colors hover:text-cyan-600"
+  >
+    About
+  </Link>
 
-      <Link
-        href="/adikarya"
-        className="text-sm font-medium !text-slate-950 transition-colors hover:!text-cyan-600"
-      >
-        Adikarya Utama
-      </Link>
+  <Link
+    href="/akademi"
+    className="text-sm font-medium text-slate-950 transition-colors hover:text-cyan-600"
+  >
+    Akademi Unggul
+  </Link>
 
-      <Link
-        href="/contact"
-        className="rounded-full bg-slate-950 px-5 py-2.5 text-sm font-semibold !text-white transition-all duration-300 hover:bg-cyan-500"
-      >
-        Contact
-      </Link>
-    </div>
+  <Link
+    href="/adikarya"
+    className="text-sm font-medium text-slate-950 transition-colors hover:text-cyan-600"
+  >
+    Adikarya Utama
+  </Link>
+
+  <Link
+    href="/contact"
+    className="rounded-full bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-cyan-500"
+  >
+    Contact
+  </Link>
+
+</div>
 
     {/* Mobile Button */}
     <button
@@ -137,62 +139,6 @@ export default function Home() {
       )}
     </button>
   </div>
-
-  {/* Mobile Navigation */}
-  <div
-    className={`overflow-hidden border-t border-slate-200 bg-white transition-all duration-300 md:hidden ${
-      menuOpen
-        ? "max-h-[420px] opacity-100"
-        : "max-h-0 opacity-0"
-    }`}
-  >
-    <div className="mx-auto max-w-7xl px-6 py-5">
-      <div className="flex flex-col">
-
-        <Link
-          href="/"
-          onClick={() => setMenuOpen(false)}
-          className="border-b border-slate-200 py-4 text-sm font-medium !text-slate-950 hover:!text-cyan-600"
-        >
-          Home
-        </Link>
-
-        <Link
-          href="/#about"
-          onClick={() => setMenuOpen(false)}
-          className="border-b border-slate-200 py-4 text-sm font-medium !text-slate-950 hover:!text-cyan-600"
-        >
-          About
-        </Link>
-
-        <Link
-          href="/akademi"
-          onClick={() => setMenuOpen(false)}
-          className="border-b border-slate-200 py-4 text-sm font-medium !text-slate-950 hover:!text-cyan-600"
-        >
-          Akademi Unggul
-        </Link>
-
-        <Link
-          href="/adikarya"
-          onClick={() => setMenuOpen(false)}
-          className="border-b border-slate-200 py-4 text-sm font-medium !text-slate-950 hover:!text-cyan-600"
-        >
-          Adikarya Utama
-        </Link>
-
-        <Link
-          href="/contact"
-          onClick={() => setMenuOpen(false)}
-          className="mt-5 rounded-full bg-slate-950 px-5 py-3 text-center text-sm font-semibold !text-white hover:bg-cyan-500"
-        >
-          Contact
-        </Link>
-
-      </div>
-    </div>
-  </div>
-</nav>
 
   {/* Mobile Navigation */}
   <div
