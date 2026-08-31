@@ -84,32 +84,32 @@ export default function Home() {
     <div className="hidden items-center gap-8 md:flex">
 
   <Link
-  href="/"
-  className="text-sm font-medium text-white transition-colors hover:text-cyan-400"
->
-  Home
-</Link>
+    href="/"
+    className="text-sm font-medium !text-white transition-colors hover:!text-cyan-400"
+  >
+    Home
+  </Link>
 
-<Link
-  href="/#about"
-  className="text-sm font-medium text-white transition-colors hover:text-cyan-400"
->
-  About
-</Link>
+  <Link
+    href="/#about"
+    className="text-sm font-medium !text-white transition-colors hover:!text-cyan-400"
+  >
+    About
+  </Link>
 
-<Link
-  href="/akademi"
-  className="text-sm font-medium text-white transition-colors hover:text-cyan-400"
->
-  Akademi Unggul
-</Link>
+  <Link
+    href="/akademi"
+    className="text-sm font-medium !text-white transition-colors hover:!text-cyan-400"
+  >
+    Akademi Unggul
+  </Link>
 
-<Link
-  href="/adikarya"
-  className="text-sm font-medium text-white transition-colors hover:text-cyan-400"
->
-  Adikarya Utama
-</Link>
+  <Link
+    href="/adikarya"
+    className="text-sm font-medium !text-white transition-colors hover:!text-cyan-400"
+  >
+    Adikarya Utama
+  </Link>
 
   <Link
     href="/contact"
