@@ -85,28 +85,28 @@ export default function Home() {
 
   <Link
     href="/"
-    className="text-sm font-medium text-slate-950 transition-colors hover:text-cyan-600"
+    className="text-sm font-medium !text-white transition-colors hover:!text-cyan-400"
   >
     Home
   </Link>
 
   <Link
     href="/#about"
-    className="text-sm font-medium text-slate-950 transition-colors hover:text-cyan-600"
+    className="text-sm font-medium !text-white transition-colors hover:!text-cyan-400"
   >
     About
   </Link>
 
   <Link
     href="/akademi"
-    className="text-sm font-medium text-slate-950 transition-colors hover:text-cyan-600"
+    className="text-sm font-medium !text-white transition-colors hover:!text-cyan-400"
   >
     Akademi Unggul
   </Link>
 
   <Link
     href="/adikarya"
-    className="text-sm font-medium text-slate-950 transition-colors hover:text-cyan-600"
+    className="text-sm font-medium !text-white transition-colors hover:!text-cyan-400"
   >
     Adikarya Utama
   </Link>
