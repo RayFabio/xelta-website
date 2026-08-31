@@ -1,0 +1,10 @@
+<svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" width="200" height="80">
+  <!-- X in gray -->
+  <g transform="translate(20, 20)">
+    <line x1="0" y1="0" x2="20" y2="20" stroke="#4B5563" stroke-width="4" stroke-linecap="round"/>
+    <line x1="20" y1="0" x2="0" y2="20" stroke="#4B5563" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  
+  <!-- ELTA in red -->
+  <text x="55" y="55" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#FF3D3D" letter-spacing="2">ELTA</text>
+</svg>
