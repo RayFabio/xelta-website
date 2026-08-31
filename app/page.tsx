@@ -75,7 +75,7 @@ export default function Home() {
     <Link
   href="/"
   onClick={() => setMenuOpen(false)}
-  className="text-xl font-black tracking-[0.12em] text-red-600 transition-colors duration-200 hover:text-red-400"
+  className="!text-red-500 text-2xl font-black"
 >
   XELTA
 </Link>
