@@ -1,3 +1,4 @@
+import Navbar from "@/components/Navbar";
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
@@ -53,6 +54,9 @@ export default function Adikarya() {
 
   return (
     <div className="min-h-screen">
+
+      <Navbar />
+
       {/* Hero Section */}
       <section className="section py-24 bg-gradient-dark text-white">
         <div className="container-xelta text-center">
