@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+
+/* =========================================================
+   XELTA THEME
+========================================================= */
+
 @theme {
   --color-primary-50: #f8fafc;
   --color-primary-200: #e2e8f0;
@@ -15,23 +20,55 @@
   --color-accent-600: #0891b2;
 }
 
+
+/* =========================================================
+   ROOT
+========================================================= */
+
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
 }
 
+
 * {
   box-sizing: border-box;
 }
 
+
+/* =========================================================
+   HTML
+========================================================= */
+
 html {
+  margin: 0;
+  padding: 0;
+
   scroll-behavior: smooth;
+
+  /*
+   * Snap halaman
+   */
+  scroll-snap-type: y mandatory;
+
+  /*
+   * Mencegah overscroll yang terlalu bebas
+   */
+  overscroll-behavior-y: none;
 }
+
+
+/* =========================================================
+   BODY
+========================================================= */
 
 body {
   margin: 0;
+  padding: 0;
+
   background: var(--background);
   color: var(--foreground);
+
   font-family:
     ui-sans-serif,
     system-ui,
@@ -45,131 +82,80 @@ body {
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /*
+   * Penting untuk mobile
+   */
+  overscroll-behavior-y: none;
 }
+
+
+/* =========================================================
+   LINKS
+========================================================= */
 
 a {
   color: inherit;
   text-decoration: none;
 }
 
-::selection {
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+*::selection {
   background: #06b6d4;
   color: #ffffff;
 }
 
-/* =========================================
-   XELTA GLOBAL
-========================================= */
 
-.container-xelta {
-  width: 100%;
-  max-width: 80rem;
-  margin-inline: auto;
-  padding-inline: 1.5rem;
-}
-
-@media (min-width: 1024px) {
-  .container-xelta {
-    padding-inline: 2rem;
-  }
-}
-
-/* =========================================
-   XELTA SCROLL
-========================================= */
-
-html {
-  scroll-behavior: smooth;
-}
-
-.xelta-scroll {
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  overscroll-behavior-y: contain;
-}
+/* =========================================================
+   XELTA SECTION
+========================================================= */
 
 .xelta-section {
-  height: 100vh;
-  min-height: 100vh;
+  position: relative;
+
+  /*
+   * Satu section = satu layar
+   */
+  height: 100svh;
+  min-height: 100svh;
+
+  /*
+   * Jangan sampai section lebih panjang dari layar
+   */
+  max-height: 100svh;
+
+  /*
+   * Snap tepat ke section
+   */
   scroll-snap-align: start;
   scroll-snap-stop: always;
+
+  overflow: hidden;
 }
 
-/* =========================================
-   LOGO GLOW
-========================================= */
 
-.xelta-logo-glow {
-  filter:
-    drop-shadow(0 0 20px rgba(255, 255, 255, 0.08))
-    drop-shadow(0 0 60px rgba(6, 182, 212, 0.08));
+/* =========================================================
+   XELTA SCROLL CONTAINER
+========================================================= */
+
+.xelta-scroll {
+  width: 100%;
+  min-height: 100vh;
+
+  /*
+   * Snap vertical
+   */
+  scroll-snap-type: y mandatory;
 }
 
-/* =========================================
-   LOGO FLOAT
-========================================= */
 
-@keyframes xeltaFloat {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.xelta-floating {
-  animation: xeltaFloat 5s ease-in-out infinite;
-}
-
-/* =========================================
-   PULSE
-========================================= */
-
-@keyframes xeltaPulse {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.8;
-    transform: scale(1.08);
-  }
-}
-
-.xelta-pulse {
-  animation: xeltaPulse 4s ease-in-out infinite;
-}
-
-/* =========================================
-   SECTION REVEAL
-========================================= */
-
-@keyframes xeltaReveal {
-  from {
-    opacity: 0;
-    transform: translateY(35px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.xelta-reveal {
-  animation: xeltaReveal 0.9s ease-out both;
-}
-
-/* =========================================
-   GRID BACKGROUND
-========================================= */
+/* =========================================================
+   BACKGROUND GRID
+========================================================= */
 
 .xelta-grid {
   background-image:
@@ -184,4 +170,218 @@ html {
     );
 
   background-size: 80px 80px;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   BACKGROUND LOGO
+========================================================= */
+
+.xelta-background-logo {
+  width: min(80vw, 900px);
+
+  opacity: 0.025;
+
+  filter: grayscale(1);
+
+  transform: rotate(-8deg);
+
+  user-select: none;
+  pointer-events: none;
+
+  animation: xeltaBackgroundFloat 12s ease-in-out infinite;
+}
+
+
+@keyframes xeltaBackgroundFloat {
+  0%,
+  100% {
+    transform:
+      rotate(-8deg)
+      translateY(0)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      rotate(-5deg)
+      translateY(-20px)
+      scale(1.04);
+  }
+}
+
+
+/* =========================================================
+   LOGO GLOW
+========================================================= */
+
+.xelta-logo-glow {
+  filter:
+    drop-shadow(
+      0 0 20px rgba(255, 255, 255, 0.08)
+    )
+    drop-shadow(
+      0 0 60px rgba(6, 182, 212, 0.12)
+    );
+}
+
+
+/* =========================================================
+   LOGO FLOAT
+========================================================= */
+
+@keyframes xeltaFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+
+.xelta-floating {
+  animation:
+    xeltaFloat 5s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   SCROLL INDICATOR
+========================================================= */
+
+.xelta-scroll-line {
+  width: 1px;
+  height: 40px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #22d3ee,
+      transparent
+    );
+
+  animation:
+    xeltaScrollLine 2s ease-in-out infinite;
+}
+
+
+@keyframes xeltaScrollLine {
+  0% {
+    transform: scaleY(0.4);
+    transform-origin: top;
+    opacity: 0.4;
+  }
+
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+    opacity: 1;
+  }
+
+  100% {
+    transform: scaleY(0.4);
+    transform-origin: bottom;
+    opacity: 0.4;
+  }
+}
+
+
+/* =========================================================
+   DIVISION CARD
+========================================================= */
+
+.xelta-division-card {
+  min-height: 330px;
+
+  /*
+   * Background logo tidak boleh mengganggu klik
+   */
+  isolation: isolate;
+}
+
+
+.xelta-division-card::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(6, 182, 212, 0.04),
+      transparent 45%
+    );
+
+  opacity: 0;
+
+  transition:
+    opacity 0.5s ease;
+}
+
+
+.xelta-division-card:hover::before {
+  opacity: 1;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  html {
+    scroll-snap-type: y mandatory;
+  }
+
+
+  .xelta-section {
+    height: 100svh;
+    min-height: 100svh;
+    max-height: 100svh;
+  }
+
+
+  .xelta-background-logo {
+    width: 120vw;
+    opacity: 0.02;
+  }
+
+
+  .xelta-division-card {
+    min-height: 270px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .xelta-floating,
+  .xelta-background-logo,
+  .xelta-scroll-line {
+    animation: none;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+  }
+
 }
