@@ -62,74 +62,161 @@ const values = [
 ];
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    const sections = Array.from(
-      document.querySelectorAll<HTMLElement>(".xelta-page")
-    );
-
     let ticking = false;
 
-    const updateActiveSection = () => {
-      const viewportCenter = window.innerHeight / 2;
+    const updateScroll = () => {
+      const page1 = document.getElementById("page-1");
+      const page2 = document.getElementById("divisions");
+      const page3 = document.getElementById("about");
 
-      let closestIndex = 0;
-      let closestDistance = Infinity;
+      if (!page1 || !page2 || !page3) return;
 
-      sections.forEach((section, index) => {
-        const rect = section.getBoundingClientRect();
+      const scrollY = window.scrollY;
 
-        const sectionCenter = rect.top + rect.height / 2;
-        const distance = Math.abs(sectionCenter - viewportCenter);
+      const page1Top = page1.offsetTop;
+      const page2Top = page2.offsetTop;
+      const page3Top = page3.offsetTop;
 
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestIndex = index;
-        }
-      });
+      /*
+       * Progress:
+       *
+       * 0 = Page 1
+       * 1 = Page 2
+       * 2 = Page 3
+       */
 
-      setActiveSection(closestIndex);
+      let progress = 0;
+
+      if (scrollY < page2Top) {
+        const distance = page2Top - page1Top;
+
+        progress =
+          distance === 0
+            ? 0
+            : Math.max(
+                0,
+                Math.min(1, (scrollY - page1Top) / distance)
+              );
+      } else {
+        const distance = page3Top - page2Top;
+
+        progress =
+          distance === 0
+            ? 1
+            : Math.max(
+                1,
+                Math.min(
+                  2,
+                  1 + (scrollY - page2Top) / distance
+                )
+              );
+      }
+
+      setScrollProgress(progress);
+
       ticking = false;
     };
 
     const handleScroll = () => {
       if (!ticking) {
-        window.requestAnimationFrame(updateActiveSection);
+        window.requestAnimationFrame(updateScroll);
         ticking = true;
       }
     };
 
-    updateActiveSection();
+    updateScroll();
 
     window.addEventListener("scroll", handleScroll, {
       passive: true,
     });
 
-    window.addEventListener("resize", updateActiveSection);
+    window.addEventListener("resize", updateScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", updateActiveSection);
+      window.removeEventListener("resize", updateScroll);
     };
   }, []);
 
+  /*
+   * =========================================================
+   * LOGO ANIMATION
+   * =========================================================
+   */
+
+  let logoScale = 1;
+  let logoOpacity = 1;
+  let logoX = -50;
+  let logoY = -50;
+  let logoWidth = "360px";
+
+  /*
+   * PAGE 1 → PAGE 2
+   */
+
+  if (scrollProgress <= 1) {
+    const progress = scrollProgress;
+
+    /*
+     * Logo membesar secara smooth
+     */
+    logoScale = 1 + progress * 2.1;
+
+    /*
+     * Logo perlahan menjadi background
+     */
+    logoOpacity = 1 - progress * 0.92;
+
+    /*
+     * Ukuran dasar
+     */
+    logoWidth = "360px";
+
+    logoX = -50;
+    logoY = -50;
+  }
+
+  /*
+   * PAGE 2 → PAGE 3
+   */
+
+  if (scrollProgress > 1) {
+    const progress = scrollProgress - 1;
+
+    /*
+     * Logo semakin besar
+     */
+    logoScale = 3.1 + progress * 1.2;
+
+    /*
+     * Semakin transparan
+     */
+    logoOpacity = 0.08 - progress * 0.045;
+
+    logoWidth = "360px";
+
+    logoX = -50;
+    logoY = -50;
+  }
+
   return (
-    <main className="xelta-home text-white">
+    <main className="xelta-home">
 
       {/* =====================================================
-          GLOBAL XELTA LOGO
-          SATU LOGO UNTUK SEMUA PAGE
+          GLOBAL LOGO
+          SATU LOGO UNTUK PAGE 1 → PAGE 2 → PAGE 3
       ====================================================== */}
 
       <div
-        className={`xelta-global-logo ${
-          activeSection === 0
-            ? "xelta-logo-page-1"
-            : activeSection === 1
-              ? "xelta-logo-page-2"
-              : "xelta-logo-page-3"
-        }`}
+        className="xelta-global-logo"
+        style={{
+          width: logoWidth,
+          transform: `translate(${logoX}%, ${logoY}%) scale(${logoScale})`,
+          opacity: logoOpacity,
+        }}
       >
         <img
           src="/XELTA%20Logo.jpg.jpeg"
@@ -138,127 +225,95 @@ export default function Home() {
       </div>
 
       {/* =====================================================
-          PAGE 1 — OPENING
+          PAGE 1
       ====================================================== */}
 
       <section
-        data-index="0"
+        id="page-1"
         className="xelta-page xelta-page-locked relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-slate-950"
       >
 
-        {/* Grid */}
+        {/* Background Grid */}
 
         <div className="absolute inset-0 xelta-grid opacity-40" />
 
-        {/* Glow */}
+        {/* Background Glow */}
 
-        <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/10 blur-[150px]" />
+        <div className="absolute left-1/2 top-1/2 h-[550px] w-[550px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/10 blur-[160px]" />
 
-        {/* Content */}
+        {/* Page 1 content */}
 
-        <div className="relative z-10 flex flex-col items-center text-center">
+        <div className="relative z-10 flex flex-col items-center">
 
-          <p className="mb-8 text-xs font-semibold tracking-[0.35em] text-cyan-400">
+          <p className="mb-8 text-xs font-semibold tracking-[0.45em] text-cyan-400">
             PT XELTA
           </p>
 
-          <h1 className="max-w-4xl text-4xl font-semibold leading-tight tracking-[-0.04em] text-white sm:text-5xl md:text-7xl">
-            Building Tomorrow,
-            <br />
-            <span className="text-slate-500">
-              Creating Meaningful Impact.
-            </span>
-          </h1>
+          <div className="h-[300px] w-[500px]" />
 
-          <Link
-            href="#divisions"
-            className="group mt-12 inline-flex items-center gap-5 rounded-full border border-white/20 bg-white/5 px-7 py-4 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-500 hover:border-cyan-400 hover:bg-cyan-400 hover:text-slate-950"
-          >
-            <span>Explore XELTA</span>
+          <p className="mt-12 text-[9px] tracking-[0.45em] text-slate-600">
+            SCROLL TO EXPLORE
+          </p>
 
-            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 transition-all duration-500 group-hover:translate-x-1 group-hover:border-slate-950">
-              →
-            </span>
-          </Link>
+          <div className="mt-4 h-12 w-px bg-gradient-to-b from-cyan-400 to-transparent" />
 
-        </div>
-
-        {/* Scroll */}
-
-        <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3">
-          <span className="text-[9px] tracking-[0.35em] text-slate-500">
-            SCROLL
-          </span>
-
-          <div className="h-10 w-px bg-gradient-to-b from-cyan-400 to-transparent" />
         </div>
 
       </section>
 
       {/* =====================================================
-          PAGE 2 — BUSINESS DIVISIONS
+          PAGE 2
       ====================================================== */}
 
       <section
         id="divisions"
-        data-index="1"
-        className="xelta-page xelta-page-locked relative flex min-h-[100svh] items-center overflow-hidden bg-slate-950 py-24"
+        className="xelta-page xelta-page-locked relative flex min-h-[100svh] items-center overflow-hidden bg-slate-950"
       >
 
         {/* Grid */}
 
         <div className="absolute inset-0 xelta-grid opacity-30" />
 
-        {/* Background glow */}
+        {/* Glow kiri */}
 
         <div className="absolute left-1/4 top-1/2 h-[450px] w-[450px] -translate-y-1/2 rounded-full bg-cyan-500/10 blur-[140px]" />
 
+        {/* Glow kanan */}
+
         <div className="absolute right-1/4 top-1/2 h-[450px] w-[450px] -translate-y-1/2 rounded-full bg-blue-600/10 blur-[140px]" />
 
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-8">
+        {/* Content */}
 
-          {/* Heading */}
+        <div className="relative z-20 mx-auto w-full max-w-7xl px-6 lg:px-8">
 
-          <div
-            className={`mb-14 text-center transition-all duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              activeSection === 1
-                ? "translate-y-0 opacity-100"
-                : "translate-y-8 opacity-0"
-            }`}
-          >
+          <div className="mb-14 text-center">
 
             <p className="mb-5 text-xs font-bold tracking-[0.3em] text-cyan-400">
               OUR BUSINESS
             </p>
 
             <h2 className="text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
-              Two pillars.
+              Choose your path.
             </h2>
 
             <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-slate-500">
-              Two specialized business divisions operating within the XELTA
-              ecosystem.
+              Explore the two specialized business divisions within the
+              XELTA ecosystem.
             </p>
 
           </div>
 
           {/* =================================================
-              TWO BUSINESS OPTIONS
+              DIVISIONS
           ================================================= */}
 
-          <div
-            className={`grid gap-6 lg:grid-cols-2 transition-all duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              activeSection === 1
-                ? "translate-y-0 opacity-100"
-                : "translate-y-12 opacity-0"
-            }`}
-          >
+          <div className="grid gap-6 lg:grid-cols-2">
 
             {divisions.map((division) => (
               <Link
                 key={division.number}
                 href={division.href}
-                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-sm transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-3 hover:border-cyan-400/40 hover:bg-white/[0.07] hover:shadow-2xl md:p-10"
+                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-slate-950/60 p-8 backdrop-blur-md transition-all duration-700 ease-out hover:-translate-y-3 hover:border-cyan-400/40 hover:bg-white/[0.06] hover:shadow-2xl md:p-10"
               >
 
                 {/* Number */}
@@ -313,9 +368,9 @@ export default function Home() {
 
                 </div>
 
-                {/* Bottom animation */}
+                {/* Bottom hover */}
 
-                <div className="absolute bottom-0 left-0 h-1 w-0 bg-cyan-400 transition-all duration-700 ease-out group-hover:w-full" />
+                <div className="absolute bottom-0 left-0 h-1 w-0 bg-cyan-400 transition-all duration-700 group-hover:w-full" />
 
               </Link>
             ))}
@@ -327,33 +382,24 @@ export default function Home() {
       </section>
 
       {/* =====================================================
-          PAGE 3 — ABOUT XELTA
+          PAGE 3 — ABOUT
           NORMAL SCROLL
       ====================================================== */}
 
       <section
         id="about"
-        data-index="2"
         className="xelta-page relative min-h-[100svh] overflow-hidden bg-white py-32 text-slate-950"
       >
 
-        {/* Subtle background */}
+        {/* Background */}
 
         <div className="absolute right-0 top-0 h-[600px] w-[600px] rounded-full bg-cyan-400/10 blur-[160px]" />
 
         <div className="absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full bg-slate-200/50 blur-[130px]" />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="relative z-20 mx-auto max-w-7xl px-6 lg:px-8">
 
-          {/* Label */}
-
-          <div
-            className={`mb-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              activeSection === 2
-                ? "translate-y-0 opacity-100"
-                : "translate-y-8 opacity-0"
-            }`}
-          >
+          <div className="mb-20">
 
             <p className="mb-6 text-xs font-bold tracking-[0.3em] text-cyan-600">
               ABOUT XELTA
@@ -368,8 +414,6 @@ export default function Home() {
             </h2>
 
           </div>
-
-          {/* About */}
 
           <div className="grid gap-16 lg:grid-cols-[0.8fr_1.2fr]">
 
@@ -442,7 +486,6 @@ export default function Home() {
 
       {/* =====================================================
           FOOTER
-          PAGE 3 TIDAK DI-LOCK
       ====================================================== */}
 
       <footer className="relative border-t border-white/10 bg-slate-950 py-16 text-white">

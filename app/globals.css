@@ -30,10 +30,17 @@
 
 html {
   scroll-behavior: smooth;
+
+  /*
+   * Page 1 dan Page 2 snap.
+   * Page 3 tetap bisa lanjut ke footer.
+   */
+  scroll-snap-type: y mandatory;
 }
 
 body {
   margin: 0;
+
   background: var(--background);
   color: var(--foreground);
 
@@ -63,12 +70,14 @@ a {
 }
 
 /* =========================================================
-   XELTA HOME
+   HOME
 ========================================================= */
 
 .xelta-home {
   position: relative;
+
   width: 100%;
+
   overflow-x: hidden;
 }
 
@@ -81,51 +90,41 @@ a {
 }
 
 /*
-  Page 1 dan Page 2 dibuat seperti full-screen slides.
-*/
+ * PAGE 1 & PAGE 2
+ *
+ * Full viewport.
+ * Scroll snap.
+ */
 
 .xelta-page-locked {
-  min-height: 100svh;
   height: 100svh;
+  min-height: 100svh;
 
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
 
 /*
-  Page 3 TIDAK dikunci.
-  Jadi setelah masuk About, user bebas scroll
-  sampai footer.
-*/
+ * PAGE 3
+ *
+ * Tidak dikunci.
+ * Jadi bisa lanjut ke footer.
+ */
 
-.xelta-page:not(.xelta-page-locked) {
+#about {
   scroll-snap-align: start;
+  scroll-snap-stop: normal;
 }
 
 /* =========================================================
-   SCROLL SNAP
+   GLOBAL LOGO
 ========================================================= */
-
-html {
-  scroll-snap-type: y proximity;
-}
 
 /*
-  Proximity lebih smooth daripada mandatory.
-  User tetap mendapatkan efek page-to-page,
-  tetapi tidak dipaksa terus-menerus.
-*/
-
-@media (min-width: 768px) {
-  html {
-    scroll-snap-type: y mandatory;
-  }
-}
-
-/* =========================================================
-   GLOBAL XELTA LOGO
-   SATU LOGO UNTUK PAGE 1 → PAGE 2 → PAGE 3
-========================================================= */
+ * SATU logo digunakan dari awal sampai akhir.
+ *
+ * Logo ini berada DI BELAKANG content.
+ */
 
 .xelta-global-logo {
   position: fixed;
@@ -141,16 +140,22 @@ html {
 
   will-change:
     transform,
-    opacity,
-    filter;
-
-  transition:
-    transform 1.35s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 1.15s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity;
 
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+
+  /*
+   * Jangan pakai transition terlalu lama.
+   *
+   * Karena posisi logo dikontrol oleh scroll.
+   * Ini membuat gerakannya mengikuti jari/mouse
+   * secara langsung.
+   */
+  transition:
+    opacity 0.15s linear;
+
+  mix-blend-mode: normal;
 }
 
 .xelta-global-logo img {
@@ -163,69 +168,37 @@ html {
 
   user-select: none;
 
+  /*
+   * Membantu rendering agar transform lebih halus.
+   */
   transform: translateZ(0);
-}
 
-/* =========================================================
-   PAGE 1
-   LOGO BESAR DI TENGAH
-========================================================= */
-
-.xelta-logo-page-1 {
-  width: min(380px, 60vw);
-
-  transform:
-    translate(-50%, -50%)
-    scale(1);
-
-  opacity: 1;
-
+  /*
+   * Shadow sangat lembut.
+   */
   filter:
-    drop-shadow(0 0 25px rgba(255, 255, 255, 0.08))
-    drop-shadow(0 0 80px rgba(6, 182, 212, 0.12));
-}
-
-/* =========================================================
-   PAGE 2
-   LOGO BERUBAH MENJADI BACKGROUND
-========================================================= */
-
-.xelta-logo-page-2 {
-  width: min(1100px, 90vw);
-
-  transform:
-    translate(-50%, -50%)
-    scale(1.25);
-
-  opacity: 0.075;
-
-  filter:
-    grayscale(0.15)
-    blur(0.4px)
+    drop-shadow(0 0 25px rgba(255, 255, 255, 0.05))
     drop-shadow(0 0 80px rgba(6, 182, 212, 0.08));
 }
 
 /* =========================================================
-   PAGE 3
-   LOGO MENJADI BACKGROUND YANG LEBIH BESAR
+   PAGE 1
 ========================================================= */
 
-.xelta-logo-page-3 {
-  width: min(1500px, 120vw);
+#page-1 {
+  isolation: isolate;
+}
 
-  transform:
-    translate(-50%, -50%)
-    scale(1.15);
+/*
+ * Content Page 1 berada di atas logo.
+ */
 
-  opacity: 0.035;
-
-  filter:
-    grayscale(1)
-    blur(1px);
+#page-1 > div:not(.xelta-global-logo) {
+  position: relative;
 }
 
 /* =========================================================
-   GRID BACKGROUND
+   GRID
 ========================================================= */
 
 .xelta-grid {
@@ -244,13 +217,61 @@ html {
 }
 
 /* =========================================================
+   PAGE 2
+========================================================= */
+
+#divisions {
+  isolation: isolate;
+}
+
+/*
+ * Background logo harus benar-benar berada
+ * di belakang card.
+ */
+
+#divisions .relative.z-20 {
+  position: relative;
+
+  z-index: 20;
+}
+
+/* =========================================================
+   PAGE 3
+========================================================= */
+
+#about {
+  isolation: isolate;
+}
+
+/*
+ * Content About berada di atas watermark.
+ */
+
+#about > div {
+  position: relative;
+  z-index: 20;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+  position: relative;
+
+  z-index: 30;
+
+  scroll-snap-align: none;
+}
+
+/* =========================================================
    MOBILE
 ========================================================= */
 
 @media (max-width: 767px) {
 
   html {
-    scroll-snap-type: y proximity;
+    scroll-snap-type: y mandatory;
   }
 
   .xelta-page-locked {
@@ -258,27 +279,22 @@ html {
     min-height: 100svh;
   }
 
-  .xelta-logo-page-1 {
-    width: min(300px, 72vw);
+  .xelta-global-logo {
+    width: 280px !important;
   }
 
-  .xelta-logo-page-2 {
-    width: 850px;
-    max-width: none;
-
-    opacity: 0.065;
+  #divisions .relative.z-20 {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
   }
 
-  .xelta-logo-page-3 {
-    width: 1000px;
-    max-width: none;
-
-    opacity: 0.03;
+  #divisions h2 {
+    font-size: 2.5rem;
   }
 }
 
 /* =========================================================
-   REDUCE MOTION
+   REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
