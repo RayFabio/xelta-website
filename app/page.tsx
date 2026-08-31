@@ -75,7 +75,7 @@ export default function Home() {
     <Link
   href="/"
   onClick={() => setMenuOpen(false)}
-  className="xelta-brand"
+  className="text-xl font-black tracking-[0.12em] text-red-700 transition-colors duration-200 hover:text-red-500"
 >
   XELTA
 </Link>
@@ -84,28 +84,28 @@ export default function Home() {
     <div className="hidden items-center gap-8 md:flex">
       <Link
         href="/"
-        className="text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white"
+        className="!text-white text-sm font-medium transition-colors duration-200 hover:!text-cyan-400"
       >
         Home
       </Link>
 
       <Link
         href="/#about"
-        className="text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white"
+        className="!text-white text-sm font-medium transition-colors duration-200 hover:!text-cyan-400"
       >
         About
       </Link>
 
       <Link
         href="/akademi"
-        className="text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white"
+        className="!text-white text-sm font-medium transition-colors duration-200 hover:!text-cyan-400"
       >
         Akademi Unggul
       </Link>
 
       <Link
         href="/adikarya"
-        className="text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white"
+        className="!text-white text-sm font-medium transition-colors duration-200 hover:!text-cyan-400"
       >
         Adikarya Utama
       </Link>

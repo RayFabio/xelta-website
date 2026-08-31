@@ -58,18 +58,3 @@ a {
     padding-inline: 2rem;
   }
 }
-
-.xelta-brand {
-  color: #e00000;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  font-size: 1.35rem;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-}
-
-.xelta-brand:hover {
-  color: #e00000;
-  opacity: 0.8;
-}
