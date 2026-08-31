@@ -68,92 +68,88 @@ export default function Home() {
       {/* =====================================================
     NAVBAR
 ====================================================== */}
-<nav className="xelta-navbar fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-slate-950/95 backdrop-blur-xl">
+<nav className="xelta-navbar fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
   <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
 
-    {/* XELTA */}
+    {/* Brand / Logo XELTA */}
     <Link
       href="/"
       onClick={() => setMenuOpen(false)}
-      className="text-lg font-bold tracking-[0.18em] text-red-600"
+      className="text-xl font-bold tracking-[0.2em] text-white transition hover:text-cyan-400"
     >
       XELTA
     </Link>
 
     {/* Desktop Navigation */}
     <div className="hidden items-center gap-8 md:flex">
-
       <Link
         href="/"
-        className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
+        className="text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white"
       >
         Home
       </Link>
 
       <Link
         href="/#about"
-        className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
+        className="text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white"
       >
         About
       </Link>
 
       <Link
         href="/akademi"
-        className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
+        className="text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white"
       >
         Akademi Unggul
       </Link>
 
       <Link
         href="/adikarya"
-        className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
+        className="text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white"
       >
         Adikarya Utama
       </Link>
 
       <Link
         href="/contact"
-        className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-950 transition-all duration-200 hover:bg-cyan-400"
+        className="rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-slate-950 transition-all duration-200 hover:bg-cyan-400"
       >
         Contact
       </Link>
+    </div>
 
-</div>
-
-    {/* Mobile Button */}
+    {/* Mobile Toggle Button */}
     <button
       type="button"
       aria-label="Toggle navigation menu"
       aria-expanded={menuOpen}
       onClick={() => setMenuOpen(!menuOpen)}
-      className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 !text-slate-950 transition hover:border-cyan-500 hover:!text-cyan-600 md:hidden"
+      className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 text-white transition hover:border-cyan-400 hover:text-cyan-400 md:hidden"
     >
       {menuOpen ? (
         <span className="text-2xl leading-none">×</span>
       ) : (
         <div className="flex flex-col gap-1.5">
-          <span className="block h-px w-5 bg-current" />
-          <span className="block h-px w-5 bg-current" />
-          <span className="block h-px w-5 bg-current" />
+          <span className="block h-0.5 w-5 bg-current" />
+          <span className="block h-0.5 w-5 bg-current" />
+          <span className="block h-0.5 w-5 bg-current" />
         </div>
       )}
     </button>
   </div>
 
-  {/* Mobile Navigation */}
+  {/* Mobile Navigation Drawer */}
   <div
     className={`overflow-hidden border-t border-white/10 bg-slate-950/95 backdrop-blur-xl transition-all duration-300 md:hidden ${
-      menuOpen ? "max-h-[420px] opacity-100" : "max-h-0 opacity-0"
+      menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
     }`}
   >
-    <div className="mx-auto max-w-7xl px-6 py-5">
-
-      <div className="flex flex-col">
-
+    <div className="mx-auto max-w-7xl px-6 py-6">
+      <div className="flex flex-col gap-4">
         <Link
           href="/"
           onClick={() => setMenuOpen(false)}
-          className="border-b border-white/10 py-4 text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
+          className="text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
         >
           Home
         </Link>
@@ -161,7 +157,7 @@ export default function Home() {
         <Link
           href="/#about"
           onClick={() => setMenuOpen(false)}
-          className="border-b border-white/10 py-4 text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
+          className="text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
         >
           About
         </Link>
@@ -169,7 +165,7 @@ export default function Home() {
         <Link
           href="/akademi"
           onClick={() => setMenuOpen(false)}
-          className="border-b border-white/10 py-4 text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
+          className="text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
         >
           Akademi Unggul
         </Link>
@@ -177,7 +173,7 @@ export default function Home() {
         <Link
           href="/adikarya"
           onClick={() => setMenuOpen(false)}
-          className="border-b border-white/10 py-4 text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
+          className="text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
         >
           Adikarya Utama
         </Link>
@@ -185,11 +181,11 @@ export default function Home() {
         <Link
           href="/contact"
           onClick={() => setMenuOpen(false)}
-          className="mt-5 rounded-full bg-white px-5 py-3 text-center text-sm font-semibold text-black transition-all hover:bg-cyan-400"
+          className="mt-2 rounded-full bg-white px-5 py-3 text-center text-sm font-semibold text-slate-950 transition-all hover:bg-cyan-400"
         >
           Contact
         </Link>
-
+        
       </div>
     </div>
   </div>
