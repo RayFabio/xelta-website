@@ -131,7 +131,7 @@ export default function Home() {
       <Link
         href="/"
         onClick={() => setMenuOpen(false)}
-        className="text-sm font-medium !text-white transition-colors duration-200 hover:!text-cyan-400"
+        className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
       >
         Home
       </Link>
@@ -139,7 +139,7 @@ export default function Home() {
       <Link
         href="/#about"
         onClick={() => setMenuOpen(false)}
-        className="text-sm font-medium !text-white transition-colors duration-200 hover:!text-cyan-400"
+        className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
       >
         About
       </Link>
@@ -147,7 +147,7 @@ export default function Home() {
       <Link
         href="/akademi"
         onClick={() => setMenuOpen(false)}
-        className="text-sm font-medium !text-white transition-colors duration-200 hover:!text-cyan-400"
+        className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
       >
         Akademi Unggul
       </Link>
@@ -155,7 +155,7 @@ export default function Home() {
       <Link
         href="/adikarya"
         onClick={() => setMenuOpen(false)}
-        className="text-sm font-medium !text-white transition-colors duration-200 hover:!text-cyan-400"
+        className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
       >
         Adikarya Utama
       </Link>
@@ -163,14 +163,14 @@ export default function Home() {
       <Link
         href="/contact"
         onClick={() => setMenuOpen(false)}
-        className="mt-2 rounded-full bg-white px-5 py-3 text-center text-sm font-semibold !text-slate-950 transition-all duration-200 hover:bg-cyan-400"
+        className="mt-2 rounded-full bg-white px-5 py-3 text-center text-sm font-semibold text-slate-950 transition-all duration-200 hover:bg-cyan-400"
       >
         Contact
       </Link>
 
+      </div>
     </div>
   </div>
-</div>
 </nav>
       {/* =====================================================
           HERO
