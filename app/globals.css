@@ -25,11 +25,15 @@
 }
 
 html {
+  margin: 0;
+  padding: 0;
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
+  padding: 0;
+
   background: var(--background);
   color: var(--foreground);
 
@@ -53,13 +57,13 @@ a {
   text-decoration: none;
 }
 
-*::selection {
+::selection {
   background: #06b6d4;
   color: #ffffff;
 }
 
 /* =========================================================
-   XELTA CONTAINER
+   XELTA GLOBAL
 ========================================================= */
 
 .container-xelta {
@@ -76,40 +80,24 @@ a {
 }
 
 /* =========================================================
-   PAGE / SCROLL
+   XELTA SECTION
 ========================================================= */
 
-/*
-  Hanya Page 1 dan Page 2 yang menggunakan
-  scroll snap.
-
-  Page 3 sengaja TIDAK menggunakan snap supaya
-  halaman dapat terus turun menuju footer.
-*/
-
-.xelta-page {
-  min-height: 100vh;
-}
-
-.xelta-snap {
+.xelta-section {
   min-height: 100svh;
-
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
 
 /*
-  Snap hanya aktif untuk dua section pertama.
+  Snap hanya bekerja untuk container XELTA.
+  Page 3 tidak dibuat menjadi scroll-lock karena
+  JavaScript akan membiarkan browser scroll normal
+  setelah masuk page 3.
 */
-.xelta-page {
-  scroll-snap-type: y proximity;
-}
 
-/*
-  Setelah Page 2, scrolling tetap normal.
-*/
-.xelta-about {
-  scroll-snap-align: none;
+.xelta-scroll {
+  scroll-snap-type: y proximity;
 }
 
 /* =========================================================
@@ -123,10 +111,10 @@ a {
 }
 
 /* =========================================================
-   OPENING LOGO
+   FLOATING LOGO
 ========================================================= */
 
-@keyframes xeltaOpeningFloat {
+@keyframes xeltaFloat {
   0%,
   100% {
     transform: translateY(0);
@@ -137,49 +125,80 @@ a {
   }
 }
 
-.xelta-opening-logo {
-  animation: xeltaOpeningFloat 5s ease-in-out infinite;
+.xelta-floating {
+  animation: xeltaFloat 5s ease-in-out infinite;
 }
 
 /* =========================================================
-   BACKGROUND LOGO
+   PAGE 1 BACKGROUND LOGO
 ========================================================= */
 
 .xelta-background-logo {
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
-  width: min(80vw, 850px);
-
-  transform: translate(-50%, -50%);
-
-  opacity: 0.035;
-
   pointer-events: none;
-  user-select: none;
-
-  filter: grayscale(1);
-
-  animation: xeltaBackgroundFloat 12s ease-in-out infinite;
+  overflow: hidden;
 }
 
-.xelta-background-logo img {
-  width: 100%;
-  height: auto;
+.xelta-bg-logo-image {
+  width: min(75vw, 900px);
+  max-width: 900px;
+
   object-fit: contain;
+
+  opacity: 0.025;
+
+  /*
+    Membantu menghilangkan background putih
+    dari file JPG logo ketika diletakkan
+    di atas background gelap.
+  */
+  mix-blend-mode: screen;
+
+  filter:
+    grayscale(1)
+    blur(1px);
 }
 
-@keyframes xeltaBackgroundFloat {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
+/* =========================================================
+   PAGE 2 BIG LOGO
+========================================================= */
 
-  50% {
-    transform: translate(-50%, -50%) scale(1.05);
-  }
+.xelta-big-logo {
+  width: min(75vw, 950px);
+  max-width: 950px;
+
+  object-fit: contain;
+
+  filter:
+    grayscale(1)
+    blur(1px);
+
+  /*
+    Membuat logo sangat samar sebagai background.
+  */
+  mix-blend-mode: screen;
+}
+
+.xelta-big-logo-small {
+  width: min(32vw, 420px);
+  max-width: 420px;
+
+  object-fit: contain;
+
+  filter:
+    grayscale(1)
+    blur(1px);
+
+  mix-blend-mode: screen;
+}
+
+/* =========================================================
+   PILLAR
+========================================================= */
+
+.xelta-pillar {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* =========================================================
@@ -202,44 +221,21 @@ a {
 }
 
 /* =========================================================
-   PAGE 2 LOGO SMOOTHNESS
-========================================================= */
-
-.xelta-pillar {
-  will-change: transform, opacity;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-.xelta-pillar img {
-  will-change: transform;
-}
-
-/* =========================================================
    MOBILE
 ========================================================= */
 
-@media (max-width: 768px) {
-  /*
-    Di mobile, snap tetap aktif tetapi lebih toleran
-    agar gesture touch tidak terasa terlalu keras.
-  */
-
-  .xelta-page {
-    scroll-snap-type: y proximity;
-  }
-
-  .xelta-snap {
-    scroll-snap-stop: normal;
-  }
-
-  .xelta-background-logo {
+@media (max-width: 640px) {
+  .xelta-big-logo {
     width: 110vw;
+  }
+
+  .xelta-big-logo-small {
+    width: 55vw;
   }
 }
 
 /* =========================================================
-   ACCESSIBILITY
+   REDUCE MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
@@ -247,9 +243,12 @@ a {
     scroll-behavior: auto;
   }
 
-  .xelta-opening-logo,
-  .xelta-background-logo {
+  .xelta-floating {
     animation: none;
+  }
+
+  .xelta-section {
+    scroll-snap-stop: normal;
   }
 
   .xelta-pillar {
