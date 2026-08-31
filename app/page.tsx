@@ -73,12 +73,12 @@ export default function Home() {
 
     {/* Brand / Logo XELTA */}
     <Link
-      href="/"
-      onClick={() => setMenuOpen(false)}
-      className="text-xl font-bold tracking-[0.2em] text-white transition hover:text-cyan-400"
-    >
-      XELTA
-    </Link>
+  href="/"
+  onClick={() => setMenuOpen(false)}
+  className="xelta-brand"
+>
+  XELTA
+</Link>
 
     {/* Desktop Navigation */}
     <div className="hidden items-center gap-8 md:flex">
@@ -185,7 +185,7 @@ export default function Home() {
         >
           Contact
         </Link>
-        
+
       </div>
     </div>
   </div>
