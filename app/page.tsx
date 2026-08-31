@@ -1,222 +1,164 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const divisions = [
   {
     number: "01",
-    label: "EDUCATION & HUMAN RESOURCE DEVELOPMENT",
     title: "XELTA Akademi Unggul",
+    subtitle: "EDUCATION & HUMAN RESOURCE DEVELOPMENT",
     description:
       "Developing human potential through education, professional training, and comprehensive human resource development.",
-    services: [
-      "Professional Training",
-      "Skill & Competency Development",
-      "Corporate Training",
-      "Human Resource Development",
-    ],
     href: "/akademi",
   },
   {
     number: "02",
-    label: "CIVIL CONSTRUCTION & INFRASTRUCTURE",
     title: "XELTA Adikarya Utama",
+    subtitle: "CIVIL CONSTRUCTION & INFRASTRUCTURE",
     description:
       "Delivering professional civil construction and infrastructure solutions with a strong focus on quality, planning, and reliability.",
-    services: [
-      "Civil Construction",
-      "Infrastructure Development",
-      "Engineering & Design",
-      "Project Management",
-    ],
     href: "/adikarya",
   },
 ];
 
-const values = [
-  {
-    number: "01",
-    title: "Professional",
-    description:
-      "Maintaining professional standards across every service, process, and collaboration.",
-  },
-  {
-    number: "02",
-    title: "Innovative",
-    description:
-      "Embracing new approaches and ideas to create relevant and meaningful solutions.",
-  },
-  {
-    number: "03",
-    title: "Quality Driven",
-    description:
-      "Committed to quality, precision, and responsible results in everything we do.",
-  },
-  {
-    number: "04",
-    title: "Collaborative",
-    description:
-      "Building long-term relationships through communication, trust, and collaboration.",
-  },
-];
-
 export default function Home() {
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [activePage, setActivePage] = useState(0);
+  const isScrolling = useRef(false);
 
+  /*
+   * PAGE 1 & PAGE 2 = LOCKED
+   * PAGE 3 = NORMAL SCROLL
+   */
   useEffect(() => {
-    let ticking = false;
-
-    const updateScroll = () => {
-      const page1 = document.getElementById("page-1");
-      const page2 = document.getElementById("divisions");
-      const page3 = document.getElementById("about");
-
-      if (!page1 || !page2 || !page3) return;
-
+    const handleWheel = (event: WheelEvent) => {
       const scrollY = window.scrollY;
-
-      const page1Top = page1.offsetTop;
-      const page2Top = page2.offsetTop;
-      const page3Top = page3.offsetTop;
+      const viewport = window.innerHeight;
 
       /*
-       * Progress:
-       *
-       * 0 = Page 1
-       * 1 = Page 2
-       * 2 = Page 3
+       * Menentukan halaman berdasarkan posisi scroll.
        */
+      let currentPage = Math.round(scrollY / viewport);
 
-      let progress = 0;
+      /*
+       * Page 3 tidak dikunci.
+       * Kalau sudah masuk Page 3, biarkan browser
+       * melakukan scroll normal.
+       */
+      if (currentPage >= 2) {
+        setActivePage(2);
+        return;
+      }
 
-      if (scrollY < page2Top) {
-        const distance = page2Top - page1Top;
+      /*
+       * LOCK SCROLL PAGE 1 & PAGE 2
+       */
+      event.preventDefault();
 
-        progress =
-          distance === 0
-            ? 0
-            : Math.max(
-                0,
-                Math.min(1, (scrollY - page1Top) / distance)
-              );
+      if (isScrolling.current) return;
+
+      isScrolling.current = true;
+
+      if (event.deltaY > 0) {
+        /*
+         * Scroll DOWN
+         */
+        if (currentPage < 2) {
+          const nextPage = currentPage + 1;
+
+          setActivePage(nextPage);
+
+          window.scrollTo({
+            top: nextPage * viewport,
+            behavior: "smooth",
+          });
+        }
       } else {
-        const distance = page3Top - page2Top;
+        /*
+         * Scroll UP
+         */
+        if (currentPage > 0) {
+          const previousPage = currentPage - 1;
 
-        progress =
-          distance === 0
-            ? 1
-            : Math.max(
-                1,
-                Math.min(
-                  2,
-                  1 + (scrollY - page2Top) / distance
-                )
-              );
+          setActivePage(previousPage);
+
+          window.scrollTo({
+            top: previousPage * viewport,
+            behavior: "smooth",
+          });
+        }
       }
 
-      setScrollProgress(progress);
-
-      ticking = false;
+      /*
+       * Cooldown supaya mouse wheel tidak
+       * langsung melewati beberapa halaman.
+       */
+      setTimeout(() => {
+        isScrolling.current = false;
+      }, 900);
     };
 
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateScroll);
-        ticking = true;
-      }
-    };
-
-    updateScroll();
-
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
+    window.addEventListener("wheel", handleWheel, {
+      passive: false,
     });
 
-    window.addEventListener("resize", updateScroll);
-
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", updateScroll);
+      window.removeEventListener("wheel", handleWheel);
     };
   }, []);
 
   /*
-   * =========================================================
-   * LOGO ANIMATION
-   * =========================================================
+   * Update halaman ketika user berada di Page 3
+   * atau menggunakan scrollbar.
    */
+  useEffect(() => {
+    const handleScroll = () => {
+      const viewport = window.innerHeight;
+      const scrollY = window.scrollY;
 
-  let logoScale = 1;
-  let logoOpacity = 1;
-  let logoX = -50;
-  let logoY = -50;
-  let logoWidth = "360px";
+      if (scrollY >= viewport * 2 - 100) {
+        setActivePage(2);
+      } else if (scrollY >= viewport - 100) {
+        setActivePage(1);
+      } else {
+        setActivePage(0);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   /*
-   * PAGE 1 → PAGE 2
+   * Klik tombol Explore
    */
+  const goToPage2 = () => {
+    setActivePage(1);
 
-  if (scrollProgress <= 1) {
-    const progress = scrollProgress;
-
-    /*
-     * Logo membesar secara smooth
-     */
-    logoScale = 1 + progress * 2.1;
-
-    /*
-     * Logo perlahan menjadi background
-     */
-    logoOpacity = 1 - progress * 0.92;
-
-    /*
-     * Ukuran dasar
-     */
-    logoWidth = "360px";
-
-    logoX = -50;
-    logoY = -50;
-  }
-
-  /*
-   * PAGE 2 → PAGE 3
-   */
-
-  if (scrollProgress > 1) {
-    const progress = scrollProgress - 1;
-
-    /*
-     * Logo semakin besar
-     */
-    logoScale = 3.1 + progress * 1.2;
-
-    /*
-     * Semakin transparan
-     */
-    logoOpacity = 0.08 - progress * 0.045;
-
-    logoWidth = "360px";
-
-    logoX = -50;
-    logoY = -50;
-  }
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: "smooth",
+    });
+  };
 
   return (
-    <main className="xelta-home">
+    <main className="xelta-site">
 
       {/* =====================================================
-          GLOBAL LOGO
-          SATU LOGO UNTUK PAGE 1 → PAGE 2 → PAGE 3
+          GLOBAL LOGO TRANSITION
       ====================================================== */}
 
       <div
-        className="xelta-global-logo"
-        style={{
-          width: logoWidth,
-          transform: `translate(${logoX}%, ${logoY}%) scale(${logoScale})`,
-          opacity: logoOpacity,
-        }}
+        className={`xelta-logo-transition ${
+          activePage === 0
+            ? "logo-page-1"
+            : activePage === 1
+            ? "logo-page-2"
+            : "logo-page-3"
+        }`}
       >
         <img
           src="/XELTA%20Logo.jpg.jpeg"
@@ -224,153 +166,143 @@ export default function Home() {
         />
       </div>
 
+
       {/* =====================================================
           PAGE 1
       ====================================================== */}
 
-      <section
-        id="page-1"
-        className="xelta-page xelta-page-locked relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-slate-950"
-      >
+      <section className="xelta-page page-one">
 
         {/* Background Grid */}
-
-        <div className="absolute inset-0 xelta-grid opacity-40" />
+        <div className="xelta-grid-background" />
 
         {/* Background Glow */}
+        <div className="hero-glow" />
 
-        <div className="absolute left-1/2 top-1/2 h-[550px] w-[550px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/10 blur-[160px]" />
+        <div className="page-one-content">
 
-        {/* Page 1 content */}
-
-        <div className="relative z-10 flex flex-col items-center">
-
-          <p className="mb-8 text-xs font-semibold tracking-[0.45em] text-cyan-400">
+          <p className="page-label">
             PT XELTA
           </p>
 
-          <div className="h-[300px] w-[500px]" />
+          <div className="page-one-logo-space">
+            {/* Logo diambil dari global animated logo */}
+          </div>
 
-          <p className="mt-12 text-[9px] tracking-[0.45em] text-slate-600">
-            SCROLL TO EXPLORE
-          </p>
+          <h1>
+            Building Tomorrow,
+            <br />
+            <span>
+              Creating Meaningful Impact.
+            </span>
+          </h1>
 
-          <div className="mt-4 h-12 w-px bg-gradient-to-b from-cyan-400 to-transparent" />
+          <button
+            onClick={goToPage2}
+            className="explore-button"
+          >
+            <span>
+              Scroll to Explore
+            </span>
+
+            <span className="explore-arrow">
+              ↓
+            </span>
+          </button>
 
         </div>
 
+        <div className="scroll-indicator">
+          <span>SCROLL</span>
+          <div />
+        </div>
+
       </section>
+
 
       {/* =====================================================
           PAGE 2
       ====================================================== */}
 
-      <section
-        id="divisions"
-        className="xelta-page xelta-page-locked relative flex min-h-[100svh] items-center overflow-hidden bg-slate-950"
-      >
+      <section className="xelta-page page-two">
 
-        {/* Grid */}
+        {/* Background Grid */}
+        <div className="xelta-grid-background" />
 
-        <div className="absolute inset-0 xelta-grid opacity-30" />
+        {/* Background Glow */}
+        <div className="division-glow glow-left" />
+        <div className="division-glow glow-right" />
 
-        {/* Glow kiri */}
+        <div className="page-two-content">
 
-        <div className="absolute left-1/4 top-1/2 h-[450px] w-[450px] -translate-y-1/2 rounded-full bg-cyan-500/10 blur-[140px]" />
+          <div className="division-heading">
 
-        {/* Glow kanan */}
-
-        <div className="absolute right-1/4 top-1/2 h-[450px] w-[450px] -translate-y-1/2 rounded-full bg-blue-600/10 blur-[140px]" />
-
-        {/* Content */}
-
-        <div className="relative z-20 mx-auto w-full max-w-7xl px-6 lg:px-8">
-
-          <div className="mb-14 text-center">
-
-            <p className="mb-5 text-xs font-bold tracking-[0.3em] text-cyan-400">
-              OUR BUSINESS
+            <p>
+              XELTA / BUSINESS
             </p>
 
-            <h2 className="text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
-              Choose your path.
+            <h2>
+              Two pillars.
             </h2>
 
-            <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-slate-500">
-              Explore the two specialized business divisions within the
-              XELTA ecosystem.
-            </p>
+            <span>
+              Choose a division to explore.
+            </span>
 
           </div>
 
-          {/* =================================================
-              DIVISIONS
-          ================================================= */}
 
-          <div className="grid gap-6 lg:grid-cols-2">
+          {/* PILARS */}
+
+          <div className="division-container">
 
             {divisions.map((division) => (
               <Link
                 key={division.number}
                 href={division.href}
-                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-slate-950/60 p-8 backdrop-blur-md transition-all duration-700 ease-out hover:-translate-y-3 hover:border-cyan-400/40 hover:bg-white/[0.06] hover:shadow-2xl md:p-10"
+                className="division-card"
               >
 
                 {/* Number */}
-
-                <span className="absolute right-7 top-3 select-none text-8xl font-bold tracking-[-0.08em] text-white/[0.03] transition-all duration-700 group-hover:text-cyan-400/[0.06]">
+                <span className="division-number">
                   {division.number}
                 </span>
 
-                <div className="relative z-10">
+                {/* Logo background */}
+                <div className="division-card-logo">
+                  <img
+                    src="/XELTA%20Logo.jpg.jpeg"
+                    alt=""
+                  />
+                </div>
 
-                  <div className="mb-12 flex items-center justify-between">
+                <div className="division-card-content">
 
-                    <span className="max-w-[80%] text-xs font-bold tracking-[0.2em] text-cyan-400">
-                      {division.label}
-                    </span>
+                  <p className="division-subtitle">
+                    {division.subtitle}
+                  </p>
 
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 text-lg transition-all duration-500 group-hover:border-cyan-400 group-hover:bg-cyan-400 group-hover:text-slate-950">
-                      ↗
-                    </span>
-
-                  </div>
-
-                  <h3 className="max-w-lg text-3xl font-semibold tracking-[-0.03em] md:text-4xl">
+                  <h3>
                     {division.title}
                   </h3>
 
-                  <p className="mt-5 max-w-xl text-base leading-8 text-slate-400">
+                  <p className="division-description">
                     {division.description}
                   </p>
 
-                  <div className="mt-10 border-t border-white/10 pt-7">
+                  <div className="division-enter">
+                    <span>
+                      Explore
+                    </span>
 
-                    <p className="mb-4 text-[10px] font-bold tracking-[0.25em] text-slate-500">
-                      KEY CAPABILITIES
-                    </p>
-
-                    <div className="grid gap-3 sm:grid-cols-2">
-
-                      {division.services.map((service) => (
-                        <div
-                          key={service}
-                          className="flex items-center gap-3 text-sm text-slate-400"
-                        >
-                          <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
-                          {service}
-                        </div>
-                      ))}
-
-                    </div>
-
+                    <span>
+                      ↗
+                    </span>
                   </div>
 
                 </div>
 
-                {/* Bottom hover */}
-
-                <div className="absolute bottom-0 left-0 h-1 w-0 bg-cyan-400 transition-all duration-700 group-hover:w-full" />
+                <div className="division-line" />
 
               </Link>
             ))}
@@ -381,171 +313,134 @@ export default function Home() {
 
       </section>
 
+
       {/* =====================================================
-          PAGE 3 — ABOUT
-          NORMAL SCROLL
+          PAGE 3
+          NORMAL SCROLL — NO LOCK
       ====================================================== */}
 
-      <section
-        id="about"
-        className="xelta-page relative min-h-[100svh] overflow-hidden bg-white py-32 text-slate-950"
-      >
+      <section className="page-three">
 
-        {/* Background */}
+        <div className="xelta-grid-background" />
 
-        <div className="absolute right-0 top-0 h-[600px] w-[600px] rounded-full bg-cyan-400/10 blur-[160px]" />
+        <div className="about-glow" />
 
-        <div className="absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full bg-slate-200/50 blur-[130px]" />
+        <div className="about-container">
 
-        <div className="relative z-20 mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="about-header">
 
-          <div className="mb-20">
-
-            <p className="mb-6 text-xs font-bold tracking-[0.3em] text-cyan-600">
+            <p>
               ABOUT XELTA
             </p>
 
-            <h2 className="max-w-5xl text-5xl font-semibold leading-[1.05] tracking-[-0.05em] md:text-7xl">
+            <h2>
               One company.
               <br />
-              <span className="text-slate-400">
-                Meaningful impact.
+              <span>
+                Two areas of impact.
               </span>
             </h2>
 
           </div>
 
-          <div className="grid gap-16 lg:grid-cols-[0.8fr_1.2fr]">
+
+          <div className="about-content">
+
+            <p className="about-main-text">
+              PT XELTA is a diversified company built around
+              two core business divisions with distinct areas
+              of expertise and a shared commitment to creating
+              meaningful value.
+            </p>
+
+            <p className="about-secondary-text">
+              Through XELTA Akademi Unggul, we focus on
+              education, professional training, and human
+              resource development. Meanwhile, XELTA
+              Adikarya Utama focuses on civil construction
+              and infrastructure development.
+            </p>
+
+          </div>
+
+
+          {/* ABOUT DETAILS */}
+
+          <div className="about-details">
 
             <div>
+              <span>01</span>
 
-              <p className="text-xs font-bold tracking-[0.25em] text-slate-400">
-                OUR STORY
+              <h3>
+                Akademi Unggul
+              </h3>
+
+              <p>
+                Education, professional training, and
+                human resource development.
               </p>
-
-              <div className="mt-6 h-px w-24 bg-cyan-500" />
-
             </div>
 
             <div>
+              <span>02</span>
 
-              <p className="text-xl leading-9 text-slate-700 md:text-2xl">
-                PT XELTA is a diversified company built around a commitment
-                to developing people, building infrastructure, and creating
-                meaningful value for society.
+              <h3>
+                Adikarya Utama
+              </h3>
+
+              <p>
+                Civil construction, engineering, and
+                infrastructure development.
               </p>
-
-              <p className="mt-8 text-base leading-8 text-slate-500">
-                Through XELTA Akademi Unggul, the company focuses on education,
-                professional training, and human resource development.
-                Through XELTA Adikarya Utama, XELTA delivers civil
-                construction, infrastructure development, engineering, and
-                project management solutions.
-              </p>
-
-              <p className="mt-8 text-base leading-8 text-slate-500">
-                Both areas operate with the same commitment to professional
-                standards, innovation, quality, and collaboration.
-              </p>
-
             </div>
 
           </div>
 
-          {/* Values */}
 
-          <div className="mt-32 border-t border-slate-200 pt-16">
+          {/* FOOTER */}
 
-            <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+          <footer className="xelta-footer">
 
-              {values.map((value) => (
-                <div key={value.number}>
+            <div className="footer-logo">
+              <img
+                src="/XELTA%20Logo.jpg.jpeg"
+                alt="XELTA"
+              />
+            </div>
 
-                  <span className="font-mono text-sm text-cyan-600">
-                    {value.number}
-                  </span>
+            <div className="footer-info">
 
-                  <h3 className="mt-5 text-xl font-semibold">
-                    {value.title}
-                  </h3>
+              <p>
+                PT XELTA
+              </p>
 
-                  <p className="mt-3 text-sm leading-7 text-slate-500">
-                    {value.description}
-                  </p>
-
-                </div>
-              ))}
+              <span>
+                Building tomorrow, creating meaningful impact.
+              </span>
 
             </div>
 
-          </div>
+            <div className="footer-links">
 
-        </div>
-
-      </section>
-
-      {/* =====================================================
-          FOOTER
-      ====================================================== */}
-
-      <footer className="relative border-t border-white/10 bg-slate-950 py-16 text-white">
-
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-
-          <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
-
-            <div>
-
-              <p className="text-3xl font-black italic tracking-wider">
-                <span className="text-white">x</span>
-                <span className="text-red-600">elta</span>
-              </p>
-
-              <p className="mt-4 max-w-md text-sm leading-7 text-slate-500">
-                Building tomorrow and creating meaningful impact through
-                people, infrastructure, and collaboration.
-              </p>
-
-            </div>
-
-            <div className="flex flex-wrap gap-6 text-sm text-slate-400">
-
-              <Link
-                href="/akademi"
-                className="transition-colors hover:text-cyan-400"
-              >
+              <Link href="/akademi">
                 Akademi Unggul
               </Link>
 
-              <Link
-                href="/adikarya"
-                className="transition-colors hover:text-cyan-400"
-              >
+              <Link href="/adikarya">
                 Adikarya Utama
               </Link>
 
-              <Link
-                href="/contact"
-                className="transition-colors hover:text-cyan-400"
-              >
+              <Link href="/contact">
                 Contact
               </Link>
 
             </div>
 
-          </div>
-
-          <div className="mt-12 border-t border-white/10 pt-6">
-
-            <p className="text-xs text-slate-600">
-              © {new Date().getFullYear()} PT XELTA. All rights reserved.
-            </p>
-
-          </div>
+          </footer>
 
         </div>
 
-      </footer>
+      </section>
 
     </main>
   );
