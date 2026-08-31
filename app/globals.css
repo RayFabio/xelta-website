@@ -15,6 +15,10 @@
   --color-accent-600: #0891b2;
 }
 
+/* =========================================================
+   ROOT
+========================================================= */
+
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
@@ -25,15 +29,11 @@
 }
 
 html {
-  margin: 0;
-  padding: 0;
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  padding: 0;
-
   background: var(--background);
   color: var(--foreground);
 
@@ -57,148 +57,171 @@ a {
   text-decoration: none;
 }
 
-::selection {
+*::selection {
   background: #06b6d4;
   color: #ffffff;
 }
 
 /* =========================================================
-   XELTA GLOBAL
+   XELTA HOME
 ========================================================= */
 
-.container-xelta {
+.xelta-home {
+  position: relative;
   width: 100%;
-  max-width: 80rem;
-  margin-inline: auto;
-  padding-inline: 1.5rem;
-}
-
-@media (min-width: 1024px) {
-  .container-xelta {
-    padding-inline: 2rem;
-  }
+  overflow-x: hidden;
 }
 
 /* =========================================================
-   XELTA SECTION
+   PAGE
 ========================================================= */
 
-.xelta-section {
+.xelta-page {
+  position: relative;
+}
+
+/*
+  Page 1 dan Page 2 dibuat seperti full-screen slides.
+*/
+
+.xelta-page-locked {
   min-height: 100svh;
+  height: 100svh;
+
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
 
 /*
-  Snap hanya bekerja untuk container XELTA.
-  Page 3 tidak dibuat menjadi scroll-lock karena
-  JavaScript akan membiarkan browser scroll normal
-  setelah masuk page 3.
+  Page 3 TIDAK dikunci.
+  Jadi setelah masuk About, user bebas scroll
+  sampai footer.
 */
 
-.xelta-scroll {
+.xelta-page:not(.xelta-page-locked) {
+  scroll-snap-align: start;
+}
+
+/* =========================================================
+   SCROLL SNAP
+========================================================= */
+
+html {
   scroll-snap-type: y proximity;
 }
 
-/* =========================================================
-   LOGO GLOW
-========================================================= */
+/*
+  Proximity lebih smooth daripada mandatory.
+  User tetap mendapatkan efek page-to-page,
+  tetapi tidak dipaksa terus-menerus.
+*/
 
-.xelta-logo-glow {
-  filter:
-    drop-shadow(0 0 20px rgba(255, 255, 255, 0.08))
-    drop-shadow(0 0 60px rgba(6, 182, 212, 0.12));
-}
-
-/* =========================================================
-   FLOATING LOGO
-========================================================= */
-
-@keyframes xeltaFloat {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-12px);
+@media (min-width: 768px) {
+  html {
+    scroll-snap-type: y mandatory;
   }
 }
 
-.xelta-floating {
-  animation: xeltaFloat 5s ease-in-out infinite;
-}
-
 /* =========================================================
-   PAGE 1 BACKGROUND LOGO
+   GLOBAL XELTA LOGO
+   SATU LOGO UNTUK PAGE 1 → PAGE 2 → PAGE 3
 ========================================================= */
 
-.xelta-background-logo {
+.xelta-global-logo {
+  position: fixed;
+
+  left: 50%;
+  top: 50%;
+
+  z-index: 5;
+
   pointer-events: none;
-  overflow: hidden;
-}
 
-.xelta-bg-logo-image {
-  width: min(75vw, 900px);
-  max-width: 900px;
+  transform-origin: center center;
 
-  object-fit: contain;
+  will-change:
+    transform,
+    opacity,
+    filter;
 
-  opacity: 0.025;
+  transition:
+    transform 1.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 1.15s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 1.15s cubic-bezier(0.22, 1, 0.36, 1);
 
-  /*
-    Membantu menghilangkan background putih
-    dari file JPG logo ketika diletakkan
-    di atas background gelap.
-  */
-  mix-blend-mode: screen;
-
-  filter:
-    grayscale(1)
-    blur(1px);
-}
-
-/* =========================================================
-   PAGE 2 BIG LOGO
-========================================================= */
-
-.xelta-big-logo {
-  width: min(75vw, 950px);
-  max-width: 950px;
-
-  object-fit: contain;
-
-  filter:
-    grayscale(1)
-    blur(1px);
-
-  /*
-    Membuat logo sangat samar sebagai background.
-  */
-  mix-blend-mode: screen;
-}
-
-.xelta-big-logo-small {
-  width: min(32vw, 420px);
-  max-width: 420px;
-
-  object-fit: contain;
-
-  filter:
-    grayscale(1)
-    blur(1px);
-
-  mix-blend-mode: screen;
-}
-
-/* =========================================================
-   PILLAR
-========================================================= */
-
-.xelta-pillar {
-  will-change: transform;
-  transform: translateZ(0);
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.xelta-global-logo img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  object-fit: contain;
+
+  user-select: none;
+
+  transform: translateZ(0);
+}
+
+/* =========================================================
+   PAGE 1
+   LOGO BESAR DI TENGAH
+========================================================= */
+
+.xelta-logo-page-1 {
+  width: min(380px, 60vw);
+
+  transform:
+    translate(-50%, -50%)
+    scale(1);
+
+  opacity: 1;
+
+  filter:
+    drop-shadow(0 0 25px rgba(255, 255, 255, 0.08))
+    drop-shadow(0 0 80px rgba(6, 182, 212, 0.12));
+}
+
+/* =========================================================
+   PAGE 2
+   LOGO BERUBAH MENJADI BACKGROUND
+========================================================= */
+
+.xelta-logo-page-2 {
+  width: min(1100px, 90vw);
+
+  transform:
+    translate(-50%, -50%)
+    scale(1.25);
+
+  opacity: 0.075;
+
+  filter:
+    grayscale(0.15)
+    blur(0.4px)
+    drop-shadow(0 0 80px rgba(6, 182, 212, 0.08));
+}
+
+/* =========================================================
+   PAGE 3
+   LOGO MENJADI BACKGROUND YANG LEBIH BESAR
+========================================================= */
+
+.xelta-logo-page-3 {
+  width: min(1500px, 120vw);
+
+  transform:
+    translate(-50%, -50%)
+    scale(1.15);
+
+  opacity: 0.035;
+
+  filter:
+    grayscale(1)
+    blur(1px);
 }
 
 /* =========================================================
@@ -224,13 +247,33 @@ a {
    MOBILE
 ========================================================= */
 
-@media (max-width: 640px) {
-  .xelta-big-logo {
-    width: 110vw;
+@media (max-width: 767px) {
+
+  html {
+    scroll-snap-type: y proximity;
   }
 
-  .xelta-big-logo-small {
-    width: 55vw;
+  .xelta-page-locked {
+    height: 100svh;
+    min-height: 100svh;
+  }
+
+  .xelta-logo-page-1 {
+    width: min(300px, 72vw);
+  }
+
+  .xelta-logo-page-2 {
+    width: 850px;
+    max-width: none;
+
+    opacity: 0.065;
+  }
+
+  .xelta-logo-page-3 {
+    width: 1000px;
+    max-width: none;
+
+    opacity: 0.03;
   }
 }
 
@@ -239,19 +282,18 @@ a {
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
+
   html {
     scroll-behavior: auto;
+    scroll-snap-type: none;
   }
 
-  .xelta-floating {
-    animation: none;
+  .xelta-global-logo {
+    transition: none;
   }
 
-  .xelta-section {
+  .xelta-page-locked {
+    scroll-snap-align: none;
     scroll-snap-stop: normal;
-  }
-
-  .xelta-pillar {
-    transition: none !important;
   }
 }
