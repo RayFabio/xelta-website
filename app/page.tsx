@@ -78,12 +78,7 @@ export default function Home() {
   className="text-lg font-bold tracking-[0.18em] text-slate-950"
 >
   XELTA
-</Link>
-
-    {/* Desktop Navigation */}
-    <div className="hidden items-center gap-8 md:flex">
-
-  <Link
+<Link
   href="/"
   className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
 >
