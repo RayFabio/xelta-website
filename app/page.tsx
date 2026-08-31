@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 const divisions = [
   {
@@ -59,60 +62,190 @@ const values = [
 ];
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <main className="min-h-screen bg-white text-slate-950">
       {/* =====================================================
     NAVBAR
 ====================================================== */}
-<nav className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+<nav className="fixed left-0 right-0 top-0 z-50 border-b border-slate-200 bg-white">
   <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
 
-    {/* Logo / Brand */}
+    {/* XELTA */}
     <Link
       href="/"
-      className="text-lg font-bold tracking-[0.18em] text-white transition-colors hover:text-cyan-400"
+      onClick={() => setMenuOpen(false)}
+      className="text-lg font-bold tracking-[0.18em] !text-slate-950"
     >
       XELTA
     </Link>
 
-    {/* Navigation */}
+    {/* Desktop Navigation */}
     <div className="hidden items-center gap-8 md:flex">
       <Link
         href="/"
-        className="text-sm font-medium text-slate-300 transition-colors hover:text-white"
+        className="text-sm font-medium !text-slate-950 transition-colors hover:!text-cyan-600"
       >
         Home
       </Link>
 
       <Link
         href="/#about"
-        className="text-sm font-medium text-slate-300 transition-colors hover:text-white"
+        className="text-sm font-medium !text-slate-950 transition-colors hover:!text-cyan-600"
       >
         About
       </Link>
 
       <Link
         href="/akademi"
-        className="text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
+        className="text-sm font-medium !text-slate-950 transition-colors hover:!text-cyan-600"
       >
         Akademi Unggul
       </Link>
 
       <Link
         href="/adikarya"
-        className="text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
+        className="text-sm font-medium !text-slate-950 transition-colors hover:!text-cyan-600"
       >
         Adikarya Utama
       </Link>
 
       <Link
         href="/contact"
-        className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black transition-all duration-300 hover:bg-cyan-400"
+        className="rounded-full bg-slate-950 px-5 py-2.5 text-sm font-semibold !text-white transition-all duration-300 hover:bg-cyan-500"
       >
         Contact
       </Link>
     </div>
 
+    {/* Mobile Button */}
+    <button
+      type="button"
+      aria-label="Toggle navigation menu"
+      aria-expanded={menuOpen}
+      onClick={() => setMenuOpen(!menuOpen)}
+      className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 !text-slate-950 transition hover:border-cyan-500 hover:!text-cyan-600 md:hidden"
+    >
+      {menuOpen ? (
+        <span className="text-2xl leading-none">×</span>
+      ) : (
+        <div className="flex flex-col gap-1.5">
+          <span className="block h-px w-5 bg-current" />
+          <span className="block h-px w-5 bg-current" />
+          <span className="block h-px w-5 bg-current" />
+        </div>
+      )}
+    </button>
+  </div>
+
+  {/* Mobile Navigation */}
+  <div
+    className={`overflow-hidden border-t border-slate-200 bg-white transition-all duration-300 md:hidden ${
+      menuOpen
+        ? "max-h-[420px] opacity-100"
+        : "max-h-0 opacity-0"
+    }`}
+  >
+    <div className="mx-auto max-w-7xl px-6 py-5">
+      <div className="flex flex-col">
+
+        <Link
+          href="/"
+          onClick={() => setMenuOpen(false)}
+          className="border-b border-slate-200 py-4 text-sm font-medium !text-slate-950 hover:!text-cyan-600"
+        >
+          Home
+        </Link>
+
+        <Link
+          href="/#about"
+          onClick={() => setMenuOpen(false)}
+          className="border-b border-slate-200 py-4 text-sm font-medium !text-slate-950 hover:!text-cyan-600"
+        >
+          About
+        </Link>
+
+        <Link
+          href="/akademi"
+          onClick={() => setMenuOpen(false)}
+          className="border-b border-slate-200 py-4 text-sm font-medium !text-slate-950 hover:!text-cyan-600"
+        >
+          Akademi Unggul
+        </Link>
+
+        <Link
+          href="/adikarya"
+          onClick={() => setMenuOpen(false)}
+          className="border-b border-slate-200 py-4 text-sm font-medium !text-slate-950 hover:!text-cyan-600"
+        >
+          Adikarya Utama
+        </Link>
+
+        <Link
+          href="/contact"
+          onClick={() => setMenuOpen(false)}
+          className="mt-5 rounded-full bg-slate-950 px-5 py-3 text-center text-sm font-semibold !text-white hover:bg-cyan-500"
+        >
+          Contact
+        </Link>
+
+      </div>
+    </div>
+  </div>
+</nav>
+
+  {/* Mobile Navigation */}
+  <div
+    className={`overflow-hidden border-t border-white/10 bg-slate-950/95 backdrop-blur-xl transition-all duration-300 md:hidden ${
+      menuOpen ? "max-h-[420px] opacity-100" : "max-h-0 opacity-0"
+    }`}
+  >
+    <div className="mx-auto max-w-7xl px-6 py-5">
+
+      <div className="flex flex-col">
+
+        <Link
+          href="/"
+          onClick={() => setMenuOpen(false)}
+          className="border-b border-white/10 py-4 text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
+        >
+          Home
+        </Link>
+
+        <Link
+          href="/#about"
+          onClick={() => setMenuOpen(false)}
+          className="border-b border-white/10 py-4 text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
+        >
+          About
+        </Link>
+
+        <Link
+          href="/akademi"
+          onClick={() => setMenuOpen(false)}
+          className="border-b border-white/10 py-4 text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
+        >
+          Akademi Unggul
+        </Link>
+
+        <Link
+          href="/adikarya"
+          onClick={() => setMenuOpen(false)}
+          className="border-b border-white/10 py-4 text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
+        >
+          Adikarya Utama
+        </Link>
+
+        <Link
+          href="/contact"
+          onClick={() => setMenuOpen(false)}
+          className="mt-5 rounded-full bg-white px-5 py-3 text-center text-sm font-semibold text-black transition-all hover:bg-cyan-400"
+        >
+          Contact
+        </Link>
+
+      </div>
+    </div>
   </div>
 </nav>
       {/* =====================================================
