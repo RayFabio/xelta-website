@@ -9,6 +9,7 @@
   --color-primary-700: #334155;
   --color-primary-800: #1e293b;
   --color-primary-950: #020617;
+
   --color-accent-400: #22d3ee;
   --color-accent-500: #06b6d4;
   --color-accent-600: #0891b2;
@@ -31,7 +32,17 @@ body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -46,6 +57,10 @@ a {
   color: #ffffff;
 }
 
+/* =========================================
+   XELTA GLOBAL
+========================================= */
+
 .container-xelta {
   width: 100%;
   max-width: 80rem;
@@ -59,26 +74,105 @@ a {
   }
 }
 
-/* =====================================================
-   XELTA NAVBAR
-===================================================== */
+/* =========================================
+   SECTION
+========================================= */
 
-/* Navigation links - desktop & mobile */
-.xelta-navbar .nav-link {
-  color: #ffffff !important;
-  text-decoration: none;
+.xelta-section {
+  min-height: 100svh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
-.xelta-navbar .nav-link:hover {
-  color: #22d3ee !important;
+.xelta-scroll {
+  scroll-snap-type: y mandatory;
 }
 
-/* Contact button */
-.xelta-navbar .nav-contact {
-  color: #020617 !important;
-  text-decoration: none;
+/* =========================================
+   LOGO GLOW
+========================================= */
+
+.xelta-logo-glow {
+  filter:
+    drop-shadow(0 0 20px rgba(255, 255, 255, 0.08))
+    drop-shadow(0 0 60px rgba(6, 182, 212, 0.08));
 }
 
-.xelta-navbar .nav-contact:hover {
-  color: #020617 !important;
+/* =========================================
+   LOGO FLOAT
+========================================= */
+
+@keyframes xeltaFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.xelta-floating {
+  animation: xeltaFloat 5s ease-in-out infinite;
+}
+
+/* =========================================
+   PULSE
+========================================= */
+
+@keyframes xeltaPulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.08);
+  }
+}
+
+.xelta-pulse {
+  animation: xeltaPulse 4s ease-in-out infinite;
+}
+
+/* =========================================
+   SECTION REVEAL
+========================================= */
+
+@keyframes xeltaReveal {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.xelta-reveal {
+  animation: xeltaReveal 0.9s ease-out both;
+}
+
+/* =========================================
+   GRID BACKGROUND
+========================================= */
+
+.xelta-grid {
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px
+    );
+
+  background-size: 80px 80px;
 }

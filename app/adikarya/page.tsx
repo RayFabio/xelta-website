@@ -1,178 +1,312 @@
 import Navbar from "@/components/Navbar";
-import Link from 'next/link';
-import type { Metadata } from 'next';
+import Link from "next/link";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Adikarya Utama | Civil Construction & Infrastructure | XELTA',
+  title: "Adikarya Utama | XELTA",
   description:
-    'XELTA Adikarya Utama - Professional civil construction, infrastructure development, and project management services.',
+    "XELTA Adikarya Utama - Professional civil construction, infrastructure development, and project management services.",
   keywords: [
-    'civil construction',
-    'infrastructure',
-    'project management',
-    'engineering',
-    'construction services',
+    "civil construction",
+    "infrastructure",
+    "project management",
+    "engineering",
+    "construction services",
   ],
 };
 
+const services = [
+  {
+    title: "Civil Construction",
+    description:
+      "Full-service civil construction including foundations, structural design, and infrastructure development.",
+  },
+  {
+    title: "Infrastructure Development",
+    description:
+      "Large-scale infrastructure projects including roads, bridges, utilities, and public facilities.",
+  },
+  {
+    title: "Project Management",
+    description:
+      "Professional project management from planning through completion with budget and timeline oversight.",
+  },
+  {
+    title: "Engineering & Design",
+    description:
+      "Expert engineering services with innovative design solutions for complex construction challenges.",
+  },
+  {
+    title: "Quality Assurance",
+    description:
+      "Rigorous quality control and testing to ensure all projects meet industry standards and specifications.",
+  },
+  {
+    title: "Maintenance & Support",
+    description:
+      "Post-construction maintenance, repairs, and ongoing support services for long-term asset preservation.",
+  },
+];
+
+const specialties = [
+  "Commercial building construction",
+  "Infrastructure and public works",
+  "Sustainable construction practices",
+  "Advanced engineering solutions",
+  "Construction safety management",
+  "Timely project delivery",
+];
+
 export default function Adikarya() {
-  const services = [
-    {
-      title: 'Civil Construction',
-      description: 'Full-service civil construction including foundations, structural design, and infrastructure development.',
-    },
-    {
-      title: 'Infrastructure Development',
-      description: 'Large-scale infrastructure projects including roads, bridges, utilities, and public facilities.',
-    },
-    {
-      title: 'Project Management',
-      description: 'Professional project management from planning through completion with budget and timeline oversight.',
-    },
-    {
-      title: 'Engineering & Design',
-      description: 'Expert engineering services with innovative design solutions for complex construction challenges.',
-    },
-    {
-      title: 'Quality Assurance',
-      description: 'Rigorous quality control and testing to ensure all projects meet industry standards and specifications.',
-    },
-    {
-      title: 'Maintenance & Support',
-      description: 'Post-construction maintenance, repairs, and ongoing support services for long-term asset preservation.',
-    },
-  ];
-
-  const specialties = [
-    'Commercial building construction',
-    'Infrastructure and public works',
-    'Sustainable construction practices',
-    'Advanced engineering solutions',
-    'Construction safety management',
-    'Timely project delivery',
-  ];
-
   return (
-    <div className="min-h-screen">
+    <main className="min-h-screen bg-slate-950 text-white">
 
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="section py-24 bg-gradient-dark text-white">
-        <div className="container-xelta text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            XELTA Adikarya Utama
-          </h1>
-          <p className="text-xl text-primary-200 max-w-2xl mx-auto">
-            Building excellence through professional civil construction and infrastructure development
-          </p>
-        </div>
-      </section>
+      {/* HERO */}
+      <section className="relative flex min-h-screen items-center overflow-hidden bg-slate-950">
 
-      {/* About Section */}
-      <section className="section bg-white">
-        <div className="container-xelta">
-          <h2 className="text-3xl font-bold mb-6 text-center">About Adikarya Utama</h2>
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="text-lg text-primary-700 mb-6 leading-relaxed">
-              XELTA Adikarya Utama is a premier construction and infrastructure development company committed to 
-              delivering world-class projects that stand the test of time. We combine modern engineering practices 
-              with deep industry expertise to build infrastructure that serves communities and businesses.
-            </p>
-            <p className="text-lg text-primary-700 leading-relaxed">
-              With a focus on quality, safety, and innovation, we transform ambitious visions into concrete reality, 
-              managing complex projects with precision and professional excellence.
-            </p>
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:80px_80px]" />
+
+        <div className="absolute right-0 top-1/3 h-[500px] w-[500px] rounded-full bg-cyan-500/10 blur-[150px]" />
+
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pt-24 lg:px-8">
+
+          <div className="grid items-center gap-16 lg:grid-cols-[1.2fr_0.8fr]">
+
+            <div>
+
+              <p className="mb-6 text-xs font-bold tracking-[0.3em] text-cyan-400">
+                XELTA / 02
+              </p>
+
+              <h1 className="text-5xl font-semibold leading-[0.95] tracking-[-0.05em] sm:text-6xl md:text-7xl">
+                Adikarya
+                <br />
+                <span className="text-slate-500">
+                  Utama.
+                </span>
+              </h1>
+
+              <p className="mt-8 max-w-xl text-lg leading-8 text-slate-400">
+                Building excellence through professional civil construction
+                and infrastructure development.
+              </p>
+
+              <Link
+                href="#about"
+                className="group mt-10 inline-flex items-center gap-4 rounded-full border border-white/15 px-7 py-4 text-sm font-semibold transition-all duration-300 hover:border-cyan-400 hover:bg-cyan-400 hover:text-slate-950"
+              >
+                Explore Adikarya
+                <span className="transition-transform duration-300 group-hover:translate-y-1">
+                  ↓
+                </span>
+              </Link>
+
+            </div>
+
+            <div className="flex justify-center lg:justify-end">
+
+              <div className="relative">
+
+                <div className="absolute inset-0 rounded-full bg-cyan-400/10 blur-[100px]" />
+
+                <img
+                  src="/XELTA%20Logo.jpg.jpeg"
+                  alt="XELTA Adikarya Utama"
+                  className="relative w-[220px] opacity-90 grayscale transition duration-700 hover:grayscale-0 md:w-[300px]"
+                />
+
+              </div>
+
+            </div>
+
           </div>
+
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="section bg-primary-50">
-        <div className="container-xelta">
-          <h2 className="text-3xl font-bold mb-12 text-center">Our Services</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* ABOUT */}
+      <section
+        id="about"
+        className="border-y border-white/10 bg-slate-900 py-28"
+      >
+
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+
+          <div className="grid gap-16 lg:grid-cols-[0.8fr_1.2fr]">
+
+            <div>
+
+              <p className="mb-5 text-xs font-bold tracking-[0.3em] text-cyan-400">
+                ABOUT ADIKARYA
+              </p>
+
+              <h2 className="text-4xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
+                Building today.
+                <br />
+                <span className="text-slate-500">
+                  Shaping tomorrow.
+                </span>
+              </h2>
+
+            </div>
+
+            <div>
+
+              <p className="text-xl leading-9 text-slate-300">
+                XELTA Adikarya Utama is a premier construction and
+                infrastructure development company committed to delivering
+                world-class projects that stand the test of time.
+              </p>
+
+              <p className="mt-7 text-base leading-8 text-slate-500">
+                We combine modern engineering practices with deep industry
+                expertise to build infrastructure that serves communities
+                and businesses.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* SERVICES */}
+      <section className="bg-slate-950 py-28">
+
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+
+          <div className="mb-14">
+
+            <p className="mb-5 text-xs font-bold tracking-[0.3em] text-cyan-400">
+              WHAT WE DO
+            </p>
+
+            <h2 className="text-4xl font-semibold md:text-6xl">
+              Our Services.
+            </h2>
+
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+
             {services.map((service, index) => (
               <div
-                key={index}
-                className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                key={service.title}
+                className="group rounded-3xl border border-white/10 bg-white/[0.03] p-7 transition-all duration-500 hover:-translate-y-2 hover:border-cyan-400/40 hover:bg-white/[0.06]"
               >
-                <h3 className="text-xl font-semibold mb-3 text-primary-950">
+
+                <span className="text-xs font-bold tracking-[0.2em] text-cyan-400">
+                  0{index + 1}
+                </span>
+
+                <h3 className="mt-8 text-xl font-semibold">
                   {service.title}
                 </h3>
-                <p className="text-primary-700 text-sm leading-relaxed">
+
+                <p className="mt-4 text-sm leading-7 text-slate-500">
                   {service.description}
                 </p>
+
               </div>
             ))}
+
           </div>
+
         </div>
       </section>
 
-      {/* Specialties Section */}
-      <section className="section bg-white">
-        <div className="container-xelta">
-          <h2 className="text-3xl font-bold mb-12 text-center">Our Specialties</h2>
-          <div className="max-w-2xl mx-auto">
-            <ul className="space-y-4">
-              {specialties.map((specialty, index) => (
-                <li
-                  key={index}
-                  className="flex items-start gap-4 text-lg text-primary-700"
-                >
-                  <span className="text-accent-600 font-bold mt-1">✓</span>
-                  <span>{specialty}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
+      {/* SPECIALTIES */}
+      <section className="bg-white py-28 text-slate-950">
 
-      {/* Why Choose Section */}
-      <section className="section bg-primary-50">
-        <div className="container-xelta">
-          <h2 className="text-3xl font-bold mb-12 text-center">Why Choose Adikarya Utama</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Expert Teams',
-                description: 'Experienced engineers and construction professionals with proven project delivery records',
-              },
-              {
-                title: 'Quality Focus',
-                description: 'Rigorous quality standards and safety practices on every project',
-              },
-              {
-                title: 'Innovation',
-                description: 'Cutting-edge construction methods and sustainable infrastructure solutions',
-              },
-            ].map((item, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg text-center">
-                <h3 className="text-xl font-semibold mb-3 text-primary-950">
-                  {item.title}
-                </h3>
-                <p className="text-primary-700">{item.description}</p>
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+
+          <div className="grid gap-16 lg:grid-cols-2">
+
+            <div>
+
+              <p className="mb-5 text-xs font-bold tracking-[0.3em] text-cyan-600">
+                OUR SPECIALTIES
+              </p>
+
+              <h2 className="text-4xl font-semibold tracking-[-0.03em] md:text-5xl">
+                Precision.
+                <br />
+                <span className="text-slate-400">
+                  Quality.
+                </span>
+                <br />
+                Reliability.
+              </h2>
+
+            </div>
+
+            <div>
+
+              <div className="divide-y divide-slate-200">
+
+                {specialties.map((specialty, index) => (
+                  <div
+                    key={specialty}
+                    className="flex gap-5 py-5"
+                  >
+
+                    <span className="font-mono text-sm text-cyan-600">
+                      0{index + 1}
+                    </span>
+
+                    <span className="text-slate-600">
+                      {specialty}
+                    </span>
+
+                  </div>
+                ))}
+
               </div>
-            ))}
+
+            </div>
+
           </div>
+
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="section bg-primary-950 text-white">
-        <div className="container-xelta text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Let's Build Something Great Together
-          </h2>
-          <p className="text-lg text-primary-200 mb-8 max-w-2xl mx-auto">
-            Discuss your construction and infrastructure needs with our expert team. We're ready to turn your vision into reality.
+      {/* CTA */}
+      <section className="relative overflow-hidden bg-slate-950 py-32 text-white">
+
+        <div className="absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-cyan-500/10 blur-[130px]" />
+
+        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+
+          <p className="mb-6 text-xs font-bold tracking-[0.3em] text-cyan-400">
+            ADIKARYA UTAMA
           </p>
-          <Link href="/contact" className="btn-accent">
-            Get a Project Quote
+
+          <h2 className="max-w-4xl text-4xl font-semibold leading-tight md:text-6xl">
+            Let&apos;s build
+            <br />
+            <span className="text-slate-500">
+              something great together.
+            </span>
+          </h2>
+
+          <p className="mt-8 max-w-2xl text-base leading-8 text-slate-400">
+            Discuss your construction and infrastructure needs with our
+            expert team. We are ready to turn your vision into reality.
+          </p>
+
+          <Link
+            href="/contact"
+            className="mt-10 inline-flex rounded-full bg-white px-7 py-4 text-sm font-bold text-slate-950 transition-all duration-300 hover:bg-cyan-400"
+          >
+            Get a Project Quote →
           </Link>
+
         </div>
       </section>
-    </div>
+
+    </main>
   );
 }
