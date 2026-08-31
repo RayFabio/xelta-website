@@ -75,9 +75,10 @@ export default function Home() {
     <Link
   href="/"
   onClick={() => setMenuOpen(false)}
-  className="!text-red-500 text-2xl font-black"
+  className="flex items-center text-2xl font-black italic tracking-wider transition-opacity duration-200 hover:opacity-80"
 >
-  XELTA
+  <span className="!text-slate-400">x</span>
+  <span className="!text-red-600">elta</span>
 </Link>
 
     {/* Desktop Navigation */}
