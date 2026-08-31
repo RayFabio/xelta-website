@@ -62,6 +62,60 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white text-slate-950">
       {/* =====================================================
+    NAVBAR
+====================================================== */}
+<nav className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+  <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
+
+    {/* Logo / Brand */}
+    <Link
+      href="/"
+      className="text-lg font-bold tracking-[0.18em] text-white transition-colors hover:text-cyan-400"
+    >
+      XELTA
+    </Link>
+
+    {/* Navigation */}
+    <div className="hidden items-center gap-8 md:flex">
+      <Link
+        href="/"
+        className="text-sm font-medium text-slate-300 transition-colors hover:text-white"
+      >
+        Home
+      </Link>
+
+      <Link
+        href="/#about"
+        className="text-sm font-medium text-slate-300 transition-colors hover:text-white"
+      >
+        About
+      </Link>
+
+      <Link
+        href="/akademi"
+        className="text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
+      >
+        Akademi Unggul
+      </Link>
+
+      <Link
+        href="/adikarya"
+        className="text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400"
+      >
+        Adikarya Utama
+      </Link>
+
+      <Link
+        href="/contact"
+        className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black transition-all duration-300 hover:bg-cyan-400"
+      >
+        Contact
+      </Link>
+    </div>
+
+  </div>
+</nav>
+      {/* =====================================================
           HERO
       ====================================================== */}
       <section
