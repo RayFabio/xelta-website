@@ -58,3 +58,27 @@ a {
     padding-inline: 2rem;
   }
 }
+
+/* =====================================================
+   XELTA NAVBAR
+===================================================== */
+
+/* Navigation links - desktop & mobile */
+.xelta-navbar .nav-link {
+  color: #ffffff !important;
+  text-decoration: none;
+}
+
+.xelta-navbar .nav-link:hover {
+  color: #22d3ee !important;
+}
+
+/* Contact button */
+.xelta-navbar .nav-contact {
+  color: #020617 !important;
+  text-decoration: none;
+}
+
+.xelta-navbar .nav-contact:hover {
+  color: #020617 !important;
+}
