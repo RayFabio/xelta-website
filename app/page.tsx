@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const LOGO_SRC = "/XELTA Logo.jpg.jpeg";
+const LOGO_SRC = "/XELTA%Logo.jpg.jpeg";
 
 export default function HomePage() {
   const page1Ref = useRef<HTMLElement | null>(null);
