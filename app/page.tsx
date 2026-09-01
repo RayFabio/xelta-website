@@ -2,671 +2,477 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export default function Home() {
+const LOGO_SRC = "/XELTA Logo.jpg.jpeg";
+
+export default function HomePage() {
   const page1Ref = useRef<HTMLElement | null>(null);
   const page2Ref = useRef<HTMLElement | null>(null);
   const page3Ref = useRef<HTMLElement | null>(null);
 
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const isAnimating = useRef(false);
-  const touchStartY = useRef<number | null>(null);
-
-  /*
-  ============================================================
-  PAGE DETECTION
-  ============================================================
-  */
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
+    let animationFrame = 0;
+
+    const updateAnimation = () => {
+      const page1 = page1Ref.current;
+      const page2 = page2Ref.current;
+      const page3 = page3Ref.current;
+
+      if (!page1 || !page2 || !page3) {
+        return;
+      }
+
       const viewportHeight = window.innerHeight;
+      const scrollY = window.scrollY;
+
+      const page1Top = page1.offsetTop;
+      const page2Top = page2.offsetTop;
+      const page3Top = page3.offsetTop;
+
+      let progress = 0;
 
       /*
-       * Page 1
+       * PAGE 1 → PAGE 2
+       *
+       * 0   = logo masih di tengah Page 1
+       * 1   = logo sudah terbelah menjadi 2 di Page 2
        */
-      if (scrollY < viewportHeight * 0.5) {
-        setCurrentPage(0);
-        return;
+      if (scrollY >= page1Top && scrollY < page2Top) {
+        const distance = page2Top - page1Top;
+
+        if (distance > 0) {
+          progress = (scrollY - page1Top) / distance;
+        }
+      } else if (scrollY >= page2Top && scrollY < page3Top) {
+        /*
+         * PAGE 2 sudah penuh.
+         */
+        progress = 1;
+      } else if (scrollY >= page3Top) {
+        /*
+         * PAGE 3
+         *
+         * 1 → 2
+         *
+         * Dua logo menyatu kembali menjadi satu
+         * dan kemudian menjadi background.
+         */
+        const distance = viewportHeight;
+
+        if (distance > 0) {
+          const page3Progress = Math.min(
+            Math.max((scrollY - page3Top) / distance, 0),
+            1
+          );
+
+          progress = 1 + page3Progress;
+        }
       }
 
-      /*
-       * Page 2
-       */
-      if (scrollY < viewportHeight * 1.5) {
-        setCurrentPage(1);
-        return;
-      }
+      progress = Math.min(Math.max(progress, 0), 2);
 
-      /*
-       * Page 3
-       */
-      setCurrentPage(2);
+      setScrollProgress(progress);
     };
+
+    const handleScroll = () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+
+      animationFrame = requestAnimationFrame(updateAnimation);
+    };
+
+    updateAnimation();
 
     window.addEventListener("scroll", handleScroll, {
       passive: true,
     });
 
-    handleScroll();
+    window.addEventListener("resize", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
     };
   }, []);
 
   /*
-  ============================================================
-  SMOOTH PAGE NAVIGATION
-  ============================================================
-  */
+   * PAGE 1 → PAGE 2
+   */
 
-  const goToPage = (page: number) => {
-    if (isAnimating.current) return;
-
-    const viewportHeight = window.innerHeight;
-
-    let target = 0;
-
-    if (page === 0) {
-      target = 0;
-    }
-
-    if (page === 1) {
-      target = viewportHeight;
-    }
-
-    if (page === 2) {
-      target = viewportHeight * 2;
-    }
-
-    isAnimating.current = true;
-
-    window.scrollTo({
-      top: target,
-      behavior: "smooth",
-    });
-
-    /*
-     * Berikan waktu agar scroll animation selesai.
-     */
-    window.setTimeout(() => {
-      isAnimating.current = false;
-    }, 1000);
-  };
+  const page1Progress = Math.min(Math.max(scrollProgress, 0), 1);
 
   /*
-  ============================================================
-  MOUSE WHEEL
-  ============================================================
-  PAGE 1 + PAGE 2 = LOCKED
-  PAGE 3 = NORMAL SCROLL
-  ============================================================
-  */
+   * PAGE 1 LOGO
+   *
+   * Besar di tengah.
+   * Ketika menuju Page 2:
+   * - sedikit membesar
+   * - bergerak ke atas
+   * - fade out
+   */
+  const page1LogoScale = 1 + page1Progress * 0.35;
 
-  useEffect(() => {
-    const handleWheel = (event: WheelEvent) => {
-      const scrollY = window.scrollY;
-      const viewportHeight = window.innerHeight;
+  const page1LogoY = page1Progress * -80;
 
-      /*
-       * PAGE 1
-       */
-      if (scrollY < viewportHeight * 0.5) {
-        event.preventDefault();
-
-        if (event.deltaY > 0) {
-          goToPage(1);
-        }
-
-        return;
-      }
-
-      /*
-       * PAGE 2
-       */
-      if (
-        scrollY >= viewportHeight * 0.5 &&
-        scrollY < viewportHeight * 1.5
-      ) {
-        event.preventDefault();
-
-        if (event.deltaY > 0) {
-          goToPage(2);
-        } else if (event.deltaY < 0) {
-          goToPage(0);
-        }
-
-        return;
-      }
-
-      /*
-       * PAGE 3
-       *
-       * TIDAK DI-LOCK.
-       *
-       * User bebas scroll sampai footer.
-       *
-       * Hanya ketika benar-benar berada di paling atas
-       * Page 3 dan scroll ke atas, kembali ke Page 2.
-       */
-      if (scrollY >= viewportHeight * 1.5) {
-        const page3Top = viewportHeight * 2;
-
-        if (scrollY <= page3Top + 5 && event.deltaY < 0) {
-          event.preventDefault();
-          goToPage(1);
-        }
-
-        return;
-      }
-    };
-
-    window.addEventListener("wheel", handleWheel, {
-      passive: false,
-    });
-
-    return () => {
-      window.removeEventListener("wheel", handleWheel);
-    };
-  }, []);
+  const page1LogoOpacity = 1 - page1Progress;
 
   /*
-  ============================================================
-  TOUCH SUPPORT
-  ============================================================
-  */
+   * SPLIT LOGO
+   *
+   * Pada awalnya tidak terlihat.
+   *
+   * Saat Page 1 → Page 2:
+   * dua logo muncul dari posisi tengah
+   * lalu bergerak kiri dan kanan.
+   */
 
-  useEffect(() => {
-    const handleTouchStart = (event: TouchEvent) => {
-      if (event.touches.length !== 1) return;
+  const splitOpacity = page1Progress;
 
-      touchStartY.current = event.touches[0].clientY;
-    };
+  const splitScale = 0.45 + page1Progress * 0.35;
 
-    const handleTouchEnd = (event: TouchEvent) => {
-      if (touchStartY.current === null) return;
+  const splitLeftX = -page1Progress * 360;
+  const splitRightX = page1Progress * 360;
 
-      const touchEndY = event.changedTouches[0].clientY;
-      const difference = touchStartY.current - touchEndY;
-
-      touchStartY.current = null;
-
-      /*
-       * Swipe terlalu kecil → abaikan
-       */
-      if (Math.abs(difference) < 50) {
-        return;
-      }
-
-      const scrollY = window.scrollY;
-      const viewportHeight = window.innerHeight;
-
-      /*
-       * PAGE 1
-       */
-      if (scrollY < viewportHeight * 0.5) {
-        if (difference > 0) {
-          goToPage(1);
-        }
-
-        return;
-      }
-
-      /*
-       * PAGE 2
-       */
-      if (
-        scrollY >= viewportHeight * 0.5 &&
-        scrollY < viewportHeight * 1.5
-      ) {
-        if (difference > 0) {
-          goToPage(2);
-        } else {
-          goToPage(0);
-        }
-
-        return;
-      }
-
-      /*
-       * PAGE 3
-       */
-      if (scrollY >= viewportHeight * 1.5) {
-        const page3Top = viewportHeight * 2;
-
-        if (scrollY <= page3Top + 5 && difference < 0) {
-          goToPage(1);
-        }
-      }
-    };
-
-    window.addEventListener("touchstart", handleTouchStart, {
-      passive: true,
-    });
-
-    window.addEventListener("touchend", handleTouchEnd, {
-      passive: true,
-    });
-
-    return () => {
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchend", handleTouchEnd);
-    };
-  }, []);
+  const splitY = 30 - page1Progress * 30;
 
   /*
-  ============================================================
-  KEYBOARD SUPPORT
-  ============================================================
-  */
+   * PAGE 2 → PAGE 3
+   */
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      const scrollY = window.scrollY;
-      const viewportHeight = window.innerHeight;
-
-      /*
-       * PAGE 1
-       */
-      if (scrollY < viewportHeight * 0.5) {
-        if (
-          event.key === "ArrowDown" ||
-          event.key === "PageDown" ||
-          event.key === " "
-        ) {
-          event.preventDefault();
-          goToPage(1);
-        }
-
-        return;
-      }
-
-      /*
-       * PAGE 2
-       */
-      if (
-        scrollY >= viewportHeight * 0.5 &&
-        scrollY < viewportHeight * 1.5
-      ) {
-        if (
-          event.key === "ArrowDown" ||
-          event.key === "PageDown" ||
-          event.key === " "
-        ) {
-          event.preventDefault();
-          goToPage(2);
-        }
-
-        if (
-          event.key === "ArrowUp" ||
-          event.key === "PageUp"
-        ) {
-          event.preventDefault();
-          goToPage(0);
-        }
-
-        return;
-      }
-
-      /*
-       * PAGE 3
-       *
-       * Jangan lock keyboard di sini.
-       * Page 3 tetap normal.
-       */
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+  const page3Progress =
+    scrollProgress > 1 ? scrollProgress - 1 : 0;
 
   /*
-  ============================================================
-  LOGO
-  ============================================================
-  */
+   * Dua logo kembali ke tengah.
+   */
+
+  const mergeLeftX = -360 * (1 - page3Progress);
+  const mergeRightX = 360 * (1 - page3Progress);
+
+  /*
+   * Logo membesar saat menjadi background.
+   */
+
+  const backgroundScale = 1 + page3Progress * 7;
+
+  const backgroundOpacity =
+    page3Progress < 0.25
+      ? 0
+      : Math.min((page3Progress - 0.25) / 0.5, 1) * 0.16;
+
+  /*
+   * Setelah menyatu, dua logo semakin transparan.
+   */
+
+  const mergingOpacity =
+    page3Progress < 0.35
+      ? 1
+      : 1 - (page3Progress - 0.35) / 0.65;
 
   return (
     <main className="xelta-site">
-
-      {/* ======================================================
-          SINGLE XELTA LOGO
-          ======================================================
-
-          INI ADALAH SATU-SATUNYA LOGO.
-
-          Logo ini tidak dibuat ulang di Page 2 atau Page 3.
-
-          CSS akan mengubah:
-          - ukuran
-          - posisi
-          - opacity
-          - blur
-
-          berdasarkan page.
+      {/* =====================================================
+          ANIMATED LOGO LAYER
       ====================================================== */}
 
-      <div
-        className={`global-logo global-logo-page-${currentPage + 1}`}
-        aria-hidden="true"
-      >
+      <div className="logo-animation-layer" aria-hidden="true">
+        {/* PAGE 1 — SINGLE LOGO */}
+
         <img
-          src="/XELTA logo.jpg.jpeg"
+          src={LOGO_SRC}
           alt=""
+          className="animated-logo page-one-logo"
+          style={{
+            transform: `
+              translate3d(
+                0,
+                ${page1LogoY}px,
+                0
+              )
+              scale(${page1LogoScale})
+            `,
+            opacity: page1LogoOpacity,
+          }}
+        />
+
+        {/* PAGE 2 — LEFT LOGO */}
+
+        <img
+          src={LOGO_SRC}
+          alt=""
+          className="animated-logo split-logo split-logo-left"
+          style={{
+            transform: `
+              translate3d(
+                ${splitLeftX}px,
+                ${splitY}px,
+                0
+              )
+              scale(${splitScale})
+            `,
+            opacity:
+              splitOpacity * mergingOpacity,
+          }}
+        />
+
+        {/* PAGE 2 — RIGHT LOGO */}
+
+        <img
+          src={LOGO_SRC}
+          alt=""
+          className="animated-logo split-logo split-logo-right"
+          style={{
+            transform: `
+              translate3d(
+                ${splitRightX}px,
+                ${splitY}px,
+                0
+              )
+              scale(${splitScale})
+            `,
+            opacity:
+              splitOpacity * mergingOpacity,
+          }}
+        />
+
+        {/* PAGE 3 — BACKGROUND LOGO */}
+
+        <img
+          src={LOGO_SRC}
+          alt=""
+          className="animated-logo page-three-background-logo"
+          style={{
+            transform: `
+              translate3d(0, 0, 0)
+              scale(${backgroundScale})
+            `,
+            opacity: backgroundOpacity,
+          }}
         />
       </div>
 
-
-      {/* ======================================================
+      {/* =====================================================
           PAGE 1
       ====================================================== */}
 
       <section
         ref={page1Ref}
+        id="home"
         className="xelta-page page-one"
       >
+        <div className="page-background-glow" />
 
         <div className="page-one-content">
-
-          <div className="eyebrow">
+          <p className="company-label">
             PT XELTA
+          </p>
+
+          <div className="page-one-title">
+            <h1>
+              Build the Future,
+            </h1>
+
+            <h1 className="title-muted">
+              Creating Meaningful Impact.
+            </h1>
           </div>
 
-          <div className="hero-title">
-            <span>Build</span>
-            <span>Tomorrow,</span>
+          <div className="page-one-logo-space">
+            {/* 
+              Ruang ini sengaja dikosongkan.
+
+              Logo utama berada pada
+              fixed animation layer sehingga
+              dapat bergerak mulus ke Page 2.
+            */}
           </div>
 
-          <div className="hero-subtitle">
-            Creating Meaningful Impact.
-          </div>
+          <div className="scroll-explore">
+            <span>
+              Scroll to Explore
+            </span>
 
-          <button
-            type="button"
-            className="scroll-button"
-            onClick={() => goToPage(1)}
-          >
-            <span>Scroll to Explore</span>
-
-            <span className="scroll-button-icon">
+            <span className="scroll-arrow">
               ↓
             </span>
-          </button>
-
+          </div>
         </div>
-
-        <div className="scroll-indicator">
-          <span>SCROLL</span>
-          <span className="scroll-line" />
-        </div>
-
       </section>
 
-
-      {/* ======================================================
+      {/* =====================================================
           PAGE 2
       ====================================================== */}
 
       <section
         ref={page2Ref}
+        id="division"
         className="xelta-page page-two"
       >
+        <div className="page-two-glow" />
 
         <div className="page-two-content">
+          <p className="section-kicker">
+            EXPLORE XELTA
+          </p>
 
-          <div className="section-label">
-            XELTA INDONESIA
-          </div>
-
-          <h2 className="page-two-title">
-            Where ideas become
-            <span> meaningful impact.</span>
+          <h2>
+            Choose Your Direction
           </h2>
 
-          <div className="division-container">
+          <p className="section-description">
+            Dua bidang utama yang menjadi bagian
+            dari perjalanan XELTA.
+          </p>
 
-            {/* ==================================================
-                AKADEMI UNGGUL
-            ================================================== */}
+          <div className="division-grid">
+            {/* AKADEMI */}
 
             <a
               href="/akademi"
-              className="division-card division-card-left"
+              className="division-card"
             >
-
-              <div className="division-number">
-                01
-              </div>
+              <div className="division-logo-halo" />
 
               <div className="division-content">
-
-                <p className="division-small">
-                  XELTA
-                </p>
-
-                <h3>
-                  AKADEMI
-                  <br />
-                  UNGGUL
-                </h3>
-
-                <p className="division-description">
-                  Pendidikan dan pengembangan sumber
-                  daya manusia untuk membangun generasi
-                  unggul.
-                </p>
-
-                <span className="division-arrow">
-                  Explore
-                  <span>↗</span>
+                <span className="division-number">
+                  01
                 </span>
 
-              </div>
+                <h3>
+                  XELTA
+                  <br />
+                  <strong>AKADEMI UNGGUL</strong>
+                </h3>
 
+                <p>
+                  Pendidikan, pengembangan
+                  kompetensi, dan sumber daya
+                  manusia unggul.
+                </p>
+
+                <span className="division-link">
+                  Explore
+                  <span>→</span>
+                </span>
+              </div>
             </a>
 
-
-            {/* ==================================================
-                ADIKARYA UTAMA
-            ================================================== */}
+            {/* ADIKARYA */}
 
             <a
               href="/adikarya"
-              className="division-card division-card-right"
+              className="division-card"
             >
-
-              <div className="division-number">
-                02
-              </div>
+              <div className="division-logo-halo" />
 
               <div className="division-content">
-
-                <p className="division-small">
-                  XELTA
-                </p>
-
-                <h3>
-                  ADIKARYA
-                  <br />
-                  UTAMA
-                </h3>
-
-                <p className="division-description">
-                  Karya sipil dan pembangunan infrastruktur
-                  untuk menciptakan ruang yang bernilai.
-                </p>
-
-                <span className="division-arrow">
-                  Explore
-                  <span>↗</span>
+                <span className="division-number">
+                  02
                 </span>
 
+                <h3>
+                  XELTA
+                  <br />
+                  <strong>ADIKARYA UTAMA</strong>
+                </h3>
+
+                <p>
+                  Konstruksi, infrastruktur,
+                  dan karya pembangunan
+                  berkelanjutan.
+                </p>
+
+                <span className="division-link">
+                  Explore
+                  <span>→</span>
+                </span>
               </div>
-
             </a>
-
           </div>
-
         </div>
-
-        <div className="page-two-bottom">
-          <span>02</span>
-          <span>OF</span>
-          <span>03</span>
-        </div>
-
       </section>
 
-
-      {/* ======================================================
+      {/* =====================================================
           PAGE 3
-          
-          PAGE INI TIDAK DI-LOCK.
-          Jadi content bisa panjang dan footer tetap bisa
-          diakses.
       ====================================================== */}
 
       <section
         ref={page3Ref}
         id="about"
-        className="page-three"
+        className="xelta-page page-three"
       >
+        <div className="page-three-background" />
 
         <div className="page-three-content">
-
-          <div className="about-label">
+          <p className="section-kicker">
             ABOUT XELTA
-          </div>
+          </p>
+
+          <h2>
+            Building Tomorrow.
+            <br />
+            Creating Meaningful Impact.
+          </h2>
+
+          <div className="about-line" />
 
           <div className="about-grid">
-
-            <div className="about-heading">
-
-              <span className="about-small">
-                PT XELTA
-              </span>
-
-              <h2>
-                Building
-                <br />
-                <span>Meaningful</span>
-                <br />
-                Impact.
-              </h2>
-
+            <div className="about-intro">
+              <p>
+                PT XELTA hadir sebagai perusahaan
+                yang berfokus pada penciptaan
+                dampak nyata melalui pendidikan,
+                pengembangan manusia, dan karya
+                pembangunan.
+              </p>
             </div>
-
 
             <div className="about-text">
-
-              <p className="about-lead">
-                XELTA Indonesia hadir untuk menciptakan
-                karya yang memberikan dampak nyata bagi
-                masyarakat dan masa depan.
+              <p>
+                Kami percaya bahwa masa depan
+                dibangun melalui manusia yang
+                unggul dan karya yang memiliki
+                manfaat jangka panjang.
               </p>
 
               <p>
-                Melalui dua bidang utama, XELTA Akademi
-                Unggul dan XELTA Adikarya Utama, kami
-                mengembangkan pendidikan, sumber daya
-                manusia, serta karya pembangunan yang
-                berorientasi pada kualitas dan keberlanjutan.
+                Melalui XELTA Akademi Unggul dan
+                XELTA Adikarya Utama, kami
+                menggabungkan pengembangan
+                sumber daya manusia dengan
+                pembangunan yang memberikan
+                nilai bagi masyarakat.
               </p>
-
-              <p>
-                Kami percaya bahwa sebuah karya bukan hanya
-                tentang hasil akhir, tetapi juga tentang
-                bagaimana karya tersebut memberikan nilai
-                dan menciptakan perubahan yang berarti.
-              </p>
-
             </div>
-
           </div>
-
-
-          {/* ==================================================
-              VALUES
-          ================================================== */}
-
-          <div className="about-values">
-
-            <div className="value-item">
-              <span>01</span>
-              <h3>VISION</h3>
-              <p>
-                Menjadi bagian dari pembangunan Indonesia
-                melalui karya yang berkualitas dan berdampak.
-              </p>
-            </div>
-
-            <div className="value-item">
-              <span>02</span>
-              <h3>MISSION</h3>
-              <p>
-                Mengembangkan manusia, ide, dan karya untuk
-                menghasilkan masa depan yang lebih baik.
-              </p>
-            </div>
-
-            <div className="value-item">
-              <span>03</span>
-              <h3>VALUES</h3>
-              <p>
-                Integritas, kualitas, kolaborasi, inovasi,
-                dan keberlanjutan.
-              </p>
-            </div>
-
-          </div>
-
         </div>
-
-
-        {/* ==================================================
-            FOOTER
-        ================================================== */}
-
-        <footer className="xelta-footer">
-
-          <div className="footer-top">
-
-            <div className="footer-logo">
-              <span>x</span>
-              <span>elta</span>
-            </div>
-
-            <p>
-              Build Tomorrow.
-              <br />
-              Create Meaningful Impact.
-            </p>
-
-          </div>
-
-          <div className="footer-line" />
-
-          <div className="footer-bottom">
-
-            <span>
-              © 2026 PT XELTA. All Rights Reserved.
-            </span>
-
-            <span>
-              INDONESIA
-            </span>
-
-          </div>
-
-        </footer>
-
       </section>
 
+      {/* =====================================================
+          FOOTER
+      ====================================================== */}
+
+      <footer className="xelta-footer">
+        <div>
+          <span className="footer-logo">
+            XELTA
+          </span>
+
+          <p>
+            Building Tomorrow. Creating Meaningful Impact.
+          </p>
+        </div>
+
+        <div className="footer-right">
+          © {new Date().getFullYear()} PT XELTA
+        </div>
+      </footer>
     </main>
   );
 }

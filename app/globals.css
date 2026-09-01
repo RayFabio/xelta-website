@@ -1,32 +1,69 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
+:root {
+  --xelta-bg: #020617;
+  --xelta-bg-soft: #061124;
 
-/* ============================================================
-   RESET
-============================================================ */
+  --xelta-white: #f8fafc;
+  --xelta-muted: #64748b;
+  --xelta-muted-light: #94a3b8;
+
+  --xelta-red: #ef233c;
+  --xelta-cyan: #00d9ff;
+
+  --border: rgba(255, 255, 255, 0.12);
+}
 
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 html {
+  margin: 0;
+  padding: 0;
+
   scroll-behavior: smooth;
-  background: #020617;
+
+  /*
+   * Tidak menggunakan scroll lock.
+   *
+   * proximity membuat perpindahan antar section
+   * terasa natural tanpa memaksa viewport.
+   */
+  scroll-snap-type: y proximity;
 }
 
 body {
   margin: 0;
-  background: #020617;
-  color: #ffffff;
-  font-family: "Inter", sans-serif;
+  padding: 0;
+
+  background: var(--xelta-bg);
+  color: var(--xelta-white);
+
+  font-family:
+    "Inter",
+    Arial,
+    Helvetica,
+    sans-serif;
+
   overflow-x: hidden;
 }
 
-button,
-a {
-  font-family: inherit;
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.32);
 }
 
 a {
@@ -34,32 +71,56 @@ a {
   text-decoration: none;
 }
 
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
 
 /* ============================================================
-   MAIN SITE
+   MAIN
 ============================================================ */
 
 .xelta-site {
   position: relative;
   width: 100%;
   min-height: 100vh;
+
   background:
     radial-gradient(
-      circle at 50% 45%,
-      rgba(0, 150, 200, 0.08),
-      transparent 35%
+      circle at 50% 20%,
+      rgba(0, 217, 255, 0.055),
+      transparent 32%
     ),
     #020617;
 }
-
 
 /* ============================================================
    GRID BACKGROUND
 ============================================================ */
 
-.xelta-page,
-.page-three {
+.xelta-page {
   position: relative;
+
+  width: 100%;
+  min-height: 100vh;
+
+  overflow: hidden;
+
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+
+  isolation: isolate;
+
+  background-color: var(--xelta-bg);
+}
+
+.xelta-page::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: -4;
 
   background-image:
     linear-gradient(
@@ -72,160 +133,172 @@ a {
       transparent 1px
     );
 
-  background-size:
-    80px 80px;
+  background-size: 76px 76px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    rgba(0, 0, 0, 0.65),
+    transparent
+  );
+
+  pointer-events: none;
 }
 
-
 /* ============================================================
-   SINGLE GLOBAL LOGO
-============================================================
-
-   IMPORTANT:
-
-   Hanya ADA SATU <img> logo di page.tsx.
-
-   Logo ini bergerak:
-
-   PAGE 1
-   ↓
-   kecil / normal
-   center
-
-   PAGE 2
-   ↓
-   besar
-   belakang division cards
-
-   PAGE 3
-   ↓
-   menjadi background besar
+   ANIMATED LOGO LAYER
 ============================================================ */
 
-.global-logo {
+.logo-animation-layer {
   position: fixed;
+
+  inset: 0;
+
+  z-index: 20;
+
+  pointer-events: none;
+
+  overflow: hidden;
+}
+
+/*
+ * Semua logo menggunakan asset yang sama:
+ *
+ * /public/XELTA Logo.jpg.jpeg
+ *
+ * Karena JPG memiliki background putih,
+ * multiply membuat area putih menyatu
+ * dengan background.
+ */
+
+.animated-logo {
+  position: absolute;
 
   left: 50%;
   top: 50%;
 
-  width: 360px;
+  width: min(48vw, 620px);
 
-  transform:
-    translate(-50%, -50%)
-    scale(1);
-
-  z-index: 2;
-
-  pointer-events: none;
-
-  transition:
-    transform 1.25s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 1s ease,
-    filter 1s ease;
-
-  will-change: transform;
-}
-
-.global-logo img {
-  display: block;
-
-  width: 100%;
   height: auto;
 
+  display: block;
+
+  transform-origin: center center;
+
   object-fit: contain;
+
+  mix-blend-mode: multiply;
+
+  filter:
+    contrast(1.15)
+    saturate(1.08);
+
+  will-change:
+    transform,
+    opacity;
+
+  backface-visibility: hidden;
+
+  transition:
+    transform 80ms linear,
+    opacity 120ms linear;
 
   user-select: none;
 }
 
-
 /* ============================================================
-   LOGO PAGE 1
+   PAGE 1 LOGO
 ============================================================ */
 
-.global-logo-page-1 {
-  width: 360px;
+.page-one-logo {
+  margin-left: -50%;
+  margin-top: -50%;
 
-  transform:
-    translate(-50%, -50%)
-    scale(1);
-
-  opacity: 1;
-
-  filter:
-    drop-shadow(
-      0 0 50px rgba(0, 160, 220, 0.12)
-    );
+  z-index: 3;
 }
-
 
 /* ============================================================
-   LOGO PAGE 2
+   SPLIT LOGOS
 ============================================================ */
 
-.global-logo-page-2 {
-  width: 760px;
+.split-logo {
+  margin-left: -50%;
+  margin-top: -50%;
 
-  transform:
-    translate(-50%, -50%)
-    scale(1);
+  width: min(30vw, 400px);
 
-  opacity: 0.17;
-
-  filter:
-    blur(0.5px)
-    drop-shadow(
-      0 0 80px rgba(0, 160, 220, 0.2)
-    );
+  z-index: 4;
 }
 
+.split-logo-left {
+  margin-left: calc(-50% - 360px);
+}
+
+.split-logo-right {
+  margin-left: calc(-50% + 360px);
+}
 
 /* ============================================================
-   LOGO PAGE 3
+   PAGE 3 BACKGROUND LOGO
 ============================================================ */
 
-.global-logo-page-3 {
-  width: min(1100px, 80vw);
+.page-three-background-logo {
+  margin-left: -50%;
+  margin-top: -50%;
 
-  transform:
-    translate(-50%, -50%)
-    scale(1);
+  width: min(58vw, 760px);
 
-  opacity: 0.075;
+  z-index: 1;
 
   filter:
-    blur(1px)
-    drop-shadow(
-      0 0 120px rgba(0, 160, 220, 0.12)
-    );
+    contrast(1.05)
+    saturate(0.9)
+    blur(0.3px);
 }
-
 
 /* ============================================================
    PAGE 1
 ============================================================ */
 
-.xelta-page {
-  width: 100%;
-  height: 100vh;
+.page-one {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
 
   min-height: 100vh;
 
-  overflow: hidden;
-
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding:
+    80px
+    40px
+    70px;
 }
 
+.page-background-glow {
+  position: absolute;
 
-/* ============================================================
-   PAGE 1 CONTENT
-============================================================ */
+  left: 50%;
+  top: 50%;
 
-.page-one {
-  z-index: 3;
+  width: 650px;
+  height: 650px;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(0, 217, 255, 0.11),
+      transparent 65%
+    );
+
+  filter: blur(45px);
+
+  pointer-events: none;
+
+  z-index: -2;
 }
 
 .page-one-content {
@@ -233,111 +306,119 @@ a {
 
   z-index: 5;
 
-  width: min(1200px, 90vw);
+  width: min(1200px, 100%);
+
+  min-height: calc(100vh - 130px);
 
   display: flex;
+
   flex-direction: column;
 
   align-items: center;
+
   justify-content: center;
 
   text-align: center;
 }
 
-
 /* ============================================================
-   PT XELTA
+   COMPANY LABEL
 ============================================================ */
 
-.eyebrow {
-  margin-bottom: 38px;
+.company-label {
+  margin: 0;
 
   font-size: 14px;
 
   font-weight: 700;
 
-  letter-spacing: 0.5em;
+  letter-spacing: 0.48em;
 
-  color: #22d3ee;
+  color: var(--xelta-cyan);
 
   text-transform: uppercase;
 }
 
-
 /* ============================================================
-   HERO TITLE
+   PAGE 1 TITLE
 ============================================================ */
 
-.hero-title {
-  display: flex;
+.page-one-title {
+  position: relative;
 
-  flex-direction: column;
+  z-index: 6;
 
-  align-items: center;
+  margin-top: 80px;
 
-  font-size: clamp(
-    60px,
-    8vw,
-    128px
-  );
+  pointer-events: none;
+}
 
-  line-height: 0.92;
+.page-one-title h1 {
+  margin: 0;
 
-  font-weight: 800;
+  font-size:
+    clamp(
+      48px,
+      7vw,
+      104px
+    );
+
+  line-height: 0.95;
 
   letter-spacing: -0.065em;
 
-  color: #ffffff;
+  font-weight: 800;
+
+  color: #f8fafc;
 }
 
-.hero-title span:last-child {
-  color: rgba(255, 255, 255, 0.16);
+.page-one-title .title-muted {
+  margin-top: 12px;
 
-  margin-top: 8px;
+  color: #64748b;
 }
-
 
 /* ============================================================
-   HERO SUBTITLE
+   EMPTY LOGO SPACE
 ============================================================ */
 
-.hero-subtitle {
-  margin-top: 38px;
+.page-one-logo-space {
+  position: absolute;
 
-  font-size: clamp(
-    18px,
-    2.2vw,
-    32px
-  );
+  left: 50%;
+  top: 50%;
 
-  font-weight: 500;
+  width: 520px;
+  height: 330px;
 
-  color: rgba(255, 255, 255, 0.55);
+  transform: translate(-50%, -50%);
 
-  letter-spacing: -0.025em;
+  pointer-events: none;
 }
 
-
 /* ============================================================
-   SCROLL BUTTON
+   SCROLL EXPLORE
 ============================================================ */
 
-.scroll-button {
-  margin-top: 52px;
+.scroll-explore {
+  position: absolute;
 
-  display: inline-flex;
+  left: 50%;
+  bottom: 40px;
+
+  transform: translateX(-50%);
+
+  display: flex;
 
   align-items: center;
 
-  gap: 22px;
-
-  height: 64px;
+  gap: 18px;
 
   padding:
-    0
     10px
-    0
-    28px;
+    10px
+    10px
+    22px;
 
   border:
     1px solid
@@ -348,36 +429,375 @@ a {
   background:
     rgba(255, 255, 255, 0.025);
 
-  color: #ffffff;
+  backdrop-filter: blur(12px);
 
-  cursor: pointer;
+  color: #f8fafc;
 
-  font-size: 16px;
+  font-size: 14px;
 
   font-weight: 600;
 
-  transition:
-    background 0.35s ease,
-    border-color 0.35s ease,
-    transform 0.35s ease;
+  white-space: nowrap;
+
+  z-index: 10;
 }
 
-.scroll-button:hover {
-  background:
-    rgba(255, 255, 255, 0.08);
-
-  border-color:
-    rgba(34, 211, 238, 0.45);
-
-  transform:
-    translateY(-3px);
-}
-
-.scroll-button-icon {
-  width: 44px;
-  height: 44px;
+.scroll-arrow {
+  width: 42px;
+  height: 42px;
 
   display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.18);
+
+  border-radius: 50%;
+
+  font-size: 20px;
+
+  animation:
+    scrollArrow 1.8s
+    ease-in-out
+    infinite;
+}
+
+@keyframes scrollArrow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+/* ============================================================
+   PAGE 2
+============================================================ */
+
+.page-two {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 100vh;
+
+  padding:
+    100px
+    40px;
+}
+
+.page-two-glow {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 850px;
+  height: 600px;
+
+  transform: translate(-50%, -50%);
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(0, 217, 255, 0.07),
+      transparent 65%
+    );
+
+  filter: blur(40px);
+
+  z-index: -3;
+
+  pointer-events: none;
+}
+
+.page-two-content {
+  position: relative;
+
+  z-index: 8;
+
+  width: min(1250px, 100%);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  text-align: center;
+}
+
+.section-kicker {
+  margin: 0 0 20px;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.42em;
+
+  color: var(--xelta-cyan);
+
+  text-transform: uppercase;
+}
+
+.page-two-content h2 {
+  margin: 0;
+
+  font-size:
+    clamp(
+      38px,
+      5vw,
+      72px
+    );
+
+  line-height: 1;
+
+  letter-spacing: -0.055em;
+
+  font-weight: 800;
+}
+
+.section-description {
+  max-width: 560px;
+
+  margin:
+    24px
+    auto
+    0;
+
+  color: var(--xelta-muted-light);
+
+  font-size: 16px;
+
+  line-height: 1.7;
+}
+
+/* ============================================================
+   DIVISION GRID
+============================================================ */
+
+.division-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 24px;
+
+  margin-top: 70px;
+}
+
+/* ============================================================
+   DIVISION CARD
+============================================================ */
+
+.division-card {
+  position: relative;
+
+  min-height: 390px;
+
+  display: flex;
+
+  align-items: flex-end;
+
+  overflow: hidden;
+
+  padding: 42px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.13);
+
+  border-radius: 30px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.015)
+    );
+
+  backdrop-filter: blur(3px);
+
+  text-align: left;
+
+  transition:
+    transform 500ms
+      cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 400ms ease,
+    background 400ms ease;
+
+  z-index: 10;
+}
+
+.division-card:hover {
+  transform:
+    translateY(-10px);
+
+  border-color:
+    rgba(0, 217, 255, 0.42);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.085),
+      rgba(255, 255, 255, 0.025)
+    );
+}
+
+/* ============================================================
+   LOGO BEHIND CARD
+============================================================ */
+
+.division-logo-halo {
+  position: absolute;
+
+  left: 50%;
+  top: 45%;
+
+  width: 520px;
+  height: 300px;
+
+  transform:
+    translate(-50%, -50%);
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(0, 217, 255, 0.12),
+      transparent 65%
+    );
+
+  filter: blur(35px);
+
+  opacity: 0.5;
+
+  pointer-events: none;
+}
+
+/*
+ * Cahaya di belakang kartu.
+ */
+
+.division-card::before {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 250px;
+  height: 250px;
+
+  transform:
+    translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.045),
+      transparent 68%
+    );
+
+  pointer-events: none;
+}
+
+/* ============================================================
+   DIVISION CONTENT
+============================================================ */
+
+.division-content {
+  position: relative;
+
+  z-index: 5;
+
+  width: 100%;
+}
+
+.division-number {
+  display: inline-block;
+
+  margin-bottom: 45px;
+
+  color: var(--xelta-cyan);
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.22em;
+}
+
+.division-content h3 {
+  margin: 0;
+
+  font-size:
+    clamp(
+      28px,
+      3vw,
+      46px
+    );
+
+  line-height: 0.98;
+
+  letter-spacing: -0.04em;
+
+  font-weight: 500;
+
+  color: #f8fafc;
+}
+
+.division-content h3 strong {
+  font-weight: 800;
+}
+
+.division-content p {
+  max-width: 430px;
+
+  margin:
+    24px
+    0
+    30px;
+
+  color: #94a3b8;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+}
+
+.division-link {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  color: #f8fafc;
+
+  font-size: 14px;
+
+  font-weight: 700;
+}
+
+.division-link span {
+  display: flex;
+
+  width: 38px;
+  height: 38px;
 
   align-items: center;
   justify-content: center;
@@ -388,603 +808,141 @@ a {
 
   border-radius: 50%;
 
-  font-size: 21px;
-
   transition:
-    transform 0.35s ease,
-    background 0.35s ease;
+    transform 350ms ease,
+    border-color 350ms ease;
 }
 
-.scroll-button:hover .scroll-button-icon {
-  transform:
-    translateY(3px);
-
-  background:
-    rgba(34, 211, 238, 0.12);
-}
-
-
-/* ============================================================
-   SCROLL INDICATOR
-============================================================ */
-
-.scroll-indicator {
-  position: absolute;
-
-  bottom: 34px;
-
-  left: 50%;
-
-  transform:
-    translateX(-50%);
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  gap: 12px;
-
-  z-index: 5;
-}
-
-.scroll-indicator > span:first-child {
-  font-size: 9px;
-
-  letter-spacing: 0.5em;
-
-  color:
-    rgba(255, 255, 255, 0.35);
-}
-
-.scroll-line {
-  width: 1px;
-
-  height: 38px;
-
-  background:
-    linear-gradient(
-      to bottom,
-      #22d3ee,
-      transparent
-    );
-}
-
-
-/* ============================================================
-   PAGE 2
-============================================================ */
-
-.page-two {
-  z-index: 3;
-
-  min-height: 100vh;
-}
-
-
-/* ============================================================
-   PAGE 2 CONTENT
-============================================================ */
-
-.page-two-content {
-  position: relative;
-
-  z-index: 5;
-
-  width: min(
-    1320px,
-    90vw
-  );
-
-  margin: 0 auto;
-
-  padding:
-    90px
-    0;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-}
-
-
-/* ============================================================
-   PAGE 2 LABEL
-============================================================ */
-
-.section-label {
-  font-size: 11px;
-
-  font-weight: 700;
-
-  letter-spacing: 0.5em;
-
-  color: #22d3ee;
-
-  text-transform: uppercase;
-
-  margin-bottom: 25px;
-}
-
-
-/* ============================================================
-   PAGE 2 TITLE
-============================================================ */
-
-.page-two-title {
-  max-width: 750px;
-
-  text-align: center;
-
-  font-size: clamp(
-    34px,
-    4vw,
-    62px
-  );
-
-  line-height: 1;
-
-  letter-spacing: -0.05em;
-
-  font-weight: 700;
-
-  color: #ffffff;
-}
-
-.page-two-title span {
-  color:
-    rgba(255, 255, 255, 0.28);
-}
-
-
-/* ============================================================
-   DIVISION CONTAINER
-============================================================ */
-
-.division-container {
-  width: 100%;
-
-  margin-top: 65px;
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(2, 1fr);
-
-  gap: 20px;
-}
-
-
-/* ============================================================
-   DIVISION CARD
-============================================================ */
-
-.division-card {
-  position: relative;
-
-  min-height: 360px;
-
-  overflow: hidden;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.12);
-
-  border-radius: 24px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.055),
-      rgba(255, 255, 255, 0.015)
-    );
-
-  backdrop-filter:
-    blur(8px);
-
-  transition:
-    transform 0.6s
-      cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.4s ease,
-    background 0.4s ease;
-}
-
-
-/* ============================================================
-   CARD HOVER
-============================================================ */
-
-.division-card:hover {
-  transform:
-    translateY(-10px);
+.division-card:hover .division-link span {
+  transform: translateX(5px);
 
   border-color:
-    rgba(34, 211, 238, 0.4);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(34, 211, 238, 0.08),
-      rgba(255, 255, 255, 0.02)
-    );
+    var(--xelta-cyan);
 }
-
-
-/* ============================================================
-   CARD NUMBER
-============================================================ */
-
-.division-number {
-  position: absolute;
-
-  top: 30px;
-
-  right: 35px;
-
-  font-size: 11px;
-
-  letter-spacing: 0.25em;
-
-  color:
-    rgba(255, 255, 255, 0.3);
-}
-
-
-/* ============================================================
-   CARD CONTENT
-============================================================ */
-
-.division-content {
-  position: absolute;
-
-  left: 40px;
-  right: 40px;
-
-  bottom: 40px;
-}
-
-.division-small {
-  margin-bottom: 12px;
-
-  font-size: 10px;
-
-  letter-spacing: 0.4em;
-
-  color:
-    #22d3ee;
-
-  font-weight: 700;
-}
-
-.division-content h3 {
-  font-size: clamp(
-    32px,
-    4vw,
-    58px
-  );
-
-  line-height: 0.95;
-
-  letter-spacing: -0.05em;
-
-  font-weight: 800;
-
-  color: #ffffff;
-}
-
-
-/* ============================================================
-   CARD DESCRIPTION
-============================================================ */
-
-.division-description {
-  max-width: 450px;
-
-  margin-top: 22px;
-
-  font-size: 14px;
-
-  line-height: 1.7;
-
-  color:
-    rgba(255, 255, 255, 0.45);
-}
-
-
-/* ============================================================
-   CARD ARROW
-============================================================ */
-
-.division-arrow {
-  display: inline-flex;
-
-  align-items: center;
-
-  gap: 12px;
-
-  margin-top: 28px;
-
-  font-size: 13px;
-
-  font-weight: 600;
-
-  color:
-    rgba(255, 255, 255, 0.85);
-
-  transition:
-    color 0.3s ease;
-}
-
-.division-arrow span {
-  font-size: 18px;
-
-  transition:
-    transform 0.35s ease;
-}
-
-.division-card:hover
-.division-arrow {
-  color: #22d3ee;
-}
-
-.division-card:hover
-.division-arrow span {
-  transform:
-    translate(4px, -4px);
-}
-
-
-/* ============================================================
-   PAGE 2 COUNTER
-============================================================ */
-
-.page-two-bottom {
-  position: absolute;
-
-  bottom: 30px;
-
-  left: 50%;
-
-  transform:
-    translateX(-50%);
-
-  display: flex;
-
-  gap: 10px;
-
-  font-size: 9px;
-
-  letter-spacing: 0.3em;
-
-  color:
-    rgba(255, 255, 255, 0.28);
-
-  z-index: 5;
-}
-
 
 /* ============================================================
    PAGE 3
 ============================================================ */
 
 .page-three {
-  min-height: 180vh;
+  min-height: 100vh;
 
-  position: relative;
+  padding:
+    150px
+    40px
+    100px;
 
-  z-index: 3;
+  display: flex;
 
-  overflow: hidden;
+  align-items: center;
+
+  justify-content: center;
 }
 
+.page-three-background {
+  position: absolute;
 
-/* ============================================================
-   PAGE 3 CONTENT
-============================================================ */
+  inset: 0;
+
+  z-index: -3;
+
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(0, 217, 255, 0.075),
+      transparent 42%
+    );
+}
 
 .page-three-content {
   position: relative;
 
+  width: min(1150px, 100%);
+
   z-index: 5;
+}
 
-  width: min(
-    1250px,
-    90vw
-  );
+.page-three-content h2 {
+  max-width: 950px;
 
-  margin: 0 auto;
+  margin: 0;
 
-  padding:
-    180px
+  font-size:
+    clamp(
+      42px,
+      6vw,
+      86px
+    );
+
+  line-height: 0.98;
+
+  letter-spacing: -0.06em;
+
+  font-weight: 800;
+}
+
+.about-line {
+  width: 100%;
+
+  height: 1px;
+
+  margin:
+    80px
     0
-    160px;
+    50px;
+
+  background:
+    linear-gradient(
+      to right,
+      rgba(0, 217, 255, 0.5),
+      rgba(255, 255, 255, 0.08),
+      transparent
+    );
 }
-
-
-/* ============================================================
-   ABOUT LABEL
-============================================================ */
-
-.about-label {
-  display: inline-block;
-
-  margin-bottom: 100px;
-
-  padding:
-    10px
-    18px;
-
-  border:
-    1px solid
-    rgba(34, 211, 238, 0.25);
-
-  border-radius: 999px;
-
-  font-size: 10px;
-
-  font-weight: 700;
-
-  letter-spacing: 0.35em;
-
-  color:
-    #22d3ee;
-}
-
-
-/* ============================================================
-   ABOUT GRID
-============================================================ */
 
 .about-grid {
   display: grid;
 
   grid-template-columns:
-    1fr
-    1fr;
+    minmax(0, 0.9fr)
+    minmax(0, 1fr);
 
   gap: 100px;
 }
 
+.about-intro p {
+  margin: 0;
 
-/* ============================================================
-   ABOUT HEADING
-============================================================ */
+  color: #e2e8f0;
 
-.about-small {
-  display: block;
+  font-size:
+    clamp(
+      22px,
+      2.2vw,
+      34px
+    );
 
-  margin-bottom: 25px;
+  line-height: 1.35;
 
-  font-size: 12px;
+  letter-spacing: -0.025em;
 
-  letter-spacing: 0.4em;
-
-  color:
-    rgba(255, 255, 255, 0.4);
+  font-weight: 500;
 }
-
-.about-heading h2 {
-  font-size: clamp(
-    60px,
-    8vw,
-    125px
-  );
-
-  line-height: 0.88;
-
-  letter-spacing: -0.075em;
-
-  font-weight: 800;
-}
-
-.about-heading h2 span {
-  color:
-    rgba(255, 255, 255, 0.2);
-}
-
-
-/* ============================================================
-   ABOUT TEXT
-============================================================ */
 
 .about-text {
-  padding-top: 70px;
-
-  max-width: 550px;
-}
-
-.about-text p {
-  margin-bottom: 30px;
+  color: #94a3b8;
 
   font-size: 16px;
 
   line-height: 1.9;
-
-  color:
-    rgba(255, 255, 255, 0.48);
 }
 
-.about-text .about-lead {
-  font-size: 24px;
-
-  line-height: 1.45;
-
-  color:
-    rgba(255, 255, 255, 0.88);
-
-  letter-spacing: -0.025em;
+.about-text p {
+  margin:
+    0
+    0
+    30px;
 }
-
-
-/* ============================================================
-   VALUES
-============================================================ */
-
-.about-values {
-  margin-top: 180px;
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  border-top:
-    1px solid
-    rgba(255, 255, 255, 0.12);
-}
-
-.value-item {
-  padding:
-    35px 30px 35px 0;
-
-  border-right:
-    1px solid
-    rgba(255, 255, 255, 0.1);
-}
-
-.value-item:not(:first-child) {
-  padding-left: 30px;
-}
-
-.value-item:last-child {
-  border-right: none;
-}
-
-.value-item > span {
-  display: block;
-
-  margin-bottom: 30px;
-
-  font-size: 10px;
-
-  letter-spacing: 0.3em;
-
-  color:
-    #22d3ee;
-}
-
-.value-item h3 {
-  margin-bottom: 20px;
-
-  font-size: 18px;
-
-  letter-spacing: 0.12em;
-}
-
-.value-item p {
-  max-width: 300px;
-
-  font-size: 13px;
-
-  line-height: 1.8;
-
-  color:
-    rgba(255, 255, 255, 0.4);
-}
-
 
 /* ============================================================
    FOOTER
@@ -993,26 +951,8 @@ a {
 .xelta-footer {
   position: relative;
 
-  z-index: 10;
+  min-height: 220px;
 
-  width: min(
-    1250px,
-    90vw
-  );
-
-  margin: 0 auto;
-
-  padding:
-    80px 0
-    45px;
-}
-
-
-/* ============================================================
-   FOOTER TOP
-============================================================ */
-
-.footer-top {
   display: flex;
 
   align-items: flex-end;
@@ -1020,280 +960,290 @@ a {
   justify-content: space-between;
 
   gap: 40px;
+
+  padding:
+    60px
+    max(40px, 6vw);
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.09);
+
+  background:
+    #01040d;
+
+  color: #64748b;
 }
 
 .footer-logo {
-  display: flex;
+  display: block;
 
-  align-items: center;
+  margin-bottom: 10px;
 
-  font-size: 42px;
+  color: #f8fafc;
+
+  font-size: 24px;
 
   font-weight: 900;
 
-  font-style: italic;
-
-  letter-spacing: -0.08em;
+  letter-spacing: 0.08em;
 }
 
-.footer-logo span:first-child {
-  color: #ffffff;
-}
-
-.footer-logo span:last-child {
-  color: #ef1b2d;
-}
-
-.footer-top p {
-  text-align: right;
+.xelta-footer p {
+  margin: 0;
 
   font-size: 13px;
 
-  line-height: 1.6;
-
-  color:
-    rgba(255, 255, 255, 0.4);
+  color: #64748b;
 }
 
+.footer-right {
+  font-size: 12px;
 
-/* ============================================================
-   FOOTER LINE
-============================================================ */
-
-.footer-line {
-  width: 100%;
-
-  height: 1px;
-
-  margin:
-    50px 0
-    25px;
-
-  background:
-    rgba(255, 255, 255, 0.12);
+  color: #475569;
 }
 
-
 /* ============================================================
-   FOOTER BOTTOM
-============================================================ */
-
-.footer-bottom {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 20px;
-
-  font-size: 9px;
-
-  letter-spacing: 0.25em;
-
-  color:
-    rgba(255, 255, 255, 0.25);
-}
-
-
-/* ============================================================
-   RESPONSIVE
+   RESPONSIVE TABLET
 ============================================================ */
 
 @media (max-width: 900px) {
-
-  .global-logo-page-1 {
-    width: 280px;
+  .animated-logo {
+    width: min(58vw, 520px);
   }
 
-  .global-logo-page-2 {
-    width: 600px;
+  .split-logo {
+    width: min(36vw, 340px);
   }
 
-  .global-logo-page-3 {
-    width: 750px;
+  .split-logo-left {
+    margin-left: calc(-50% - 220px);
   }
 
-  .division-container {
-    grid-template-columns:
-      1fr;
+  .split-logo-right {
+    margin-left: calc(-50% + 220px);
+  }
+
+  .division-grid {
+    gap: 18px;
   }
 
   .division-card {
-    min-height: 330px;
+    min-height: 350px;
+
+    padding: 32px;
   }
 
   .about-grid {
-    grid-template-columns:
-      1fr;
-
-    gap: 40px;
-  }
-
-  .about-text {
-    padding-top: 0;
-  }
-
-  .about-values {
-    grid-template-columns:
-      1fr;
-  }
-
-  .value-item,
-  .value-item:not(:first-child) {
-    padding:
-      30px 0;
-
-    border-right: none;
-
-    border-bottom:
-      1px solid
-      rgba(255, 255, 255, 0.1);
-  }
-
-  .value-item:last-child {
-    border-bottom: none;
-  }
-
-  .footer-top {
-    align-items: flex-start;
-
-    flex-direction: column;
-  }
-
-  .footer-top p {
-    text-align: left;
+    gap: 50px;
   }
 }
 
+/* ============================================================
+   RESPONSIVE MOBILE
+============================================================ */
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+  html {
+    scroll-snap-type: y proximity;
+  }
 
   .xelta-page {
+    min-height: 100svh;
+  }
+
+  .page-one {
     padding:
-      0 20px;
+      70px
+      20px
+      50px;
   }
 
-  .global-logo-page-1 {
-    width: 230px;
+  .page-one-content {
+    min-height:
+      calc(
+        100svh - 120px
+      );
   }
 
-  .global-logo-page-2 {
-    width: 470px;
+  .company-label {
+    font-size: 11px;
+
+    letter-spacing: 0.35em;
   }
 
-  .global-logo-page-3 {
-    width: 600px;
+  .page-one-title {
+    margin-top: 50px;
   }
 
-  .eyebrow {
-    font-size: 10px;
-
-    letter-spacing: 0.4em;
-
-    margin-bottom: 30px;
+  .page-one-title h1 {
+    font-size:
+      clamp(
+        38px,
+        11vw,
+        60px
+      );
   }
 
-  .hero-title {
-    font-size: 54px;
+  .page-one-title .title-muted {
+    margin-top: 10px;
   }
 
-  .hero-subtitle {
-    max-width: 320px;
-
-    font-size: 17px;
+  .animated-logo {
+    width: 72vw;
   }
 
-  .scroll-button {
-    height: 58px;
-
-    padding-left: 22px;
-
-    gap: 15px;
-
-    font-size: 14px;
+  .split-logo {
+    width: 42vw;
   }
 
-  .scroll-button-icon {
-    width: 40px;
-    height: 40px;
+  .split-logo-left {
+    margin-left: calc(-50% - 125px);
   }
 
-  .page-two-content {
-    padding:
-      70px 0;
+  .split-logo-right {
+    margin-left: calc(-50% + 125px);
   }
 
-  .page-two-title {
-    font-size: 38px;
-  }
-
-  .division-container {
-    margin-top: 40px;
-  }
-
-  .division-card {
-    min-height: 310px;
-
-    border-radius: 18px;
-  }
-
-  .division-content {
-    left: 25px;
-    right: 25px;
+  .scroll-explore {
     bottom: 25px;
-  }
 
-  .division-content h3 {
-    font-size: 38px;
-  }
+    padding-left: 18px;
 
-  .division-description {
+    gap: 12px;
+
     font-size: 12px;
   }
 
-  .page-three-content {
+  .scroll-arrow {
+    width: 36px;
+    height: 36px;
+
+    font-size: 16px;
+  }
+
+  .page-two {
     padding:
-      120px 0
-      100px;
+      100px
+      20px;
   }
 
-  .about-label {
-    margin-bottom: 60px;
+  .page-two-content h2 {
+    font-size:
+      clamp(
+        36px,
+        10vw,
+        56px
+      );
   }
 
-  .about-heading h2 {
-    font-size: 62px;
+  .section-description {
+    font-size: 14px;
+
+    line-height: 1.65;
   }
 
-  .about-text .about-lead {
-    font-size: 20px;
+  .division-grid {
+    grid-template-columns: 1fr;
+
+    margin-top: 50px;
   }
 
-  .footer-bottom {
-    align-items: flex-start;
+  .division-card {
+    min-height: 340px;
+
+    padding: 28px;
+
+    border-radius: 24px;
+  }
+
+  .division-number {
+    margin-bottom: 35px;
+  }
+
+  .division-content h3 {
+    font-size: 32px;
+  }
+
+  .division-content p {
+    font-size: 13px;
+  }
+
+  .page-three {
+    padding:
+      110px
+      20px
+      70px;
+  }
+
+  .page-three-content h2 {
+    font-size:
+      clamp(
+        38px,
+        11vw,
+        62px
+      );
+  }
+
+  .about-line {
+    margin:
+      50px
+      0
+      35px;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+
+    gap: 35px;
+  }
+
+  .about-intro p {
+    font-size: 24px;
+  }
+
+  .about-text {
+    font-size: 14px;
+  }
+
+  .xelta-footer {
+    min-height: 240px;
 
     flex-direction: column;
 
-    gap: 12px;
+    align-items: flex-start;
+
+    justify-content: flex-end;
+
+    padding:
+      50px
+      20px
+      40px;
   }
 }
-
 
 /* ============================================================
    REDUCED MOTION
 ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
-
   html {
     scroll-behavior: auto;
   }
 
-  *,
-  *::before,
-  *::after {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
+  .animated-logo {
+    transition: none;
+  }
+
+  .scroll-arrow {
+    animation: none;
+  }
+
+  .division-card {
+    transition: none;
+  }
+
+  .division-link span {
+    transition: none;
   }
 }
