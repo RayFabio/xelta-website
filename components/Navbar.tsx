@@ -17,7 +17,7 @@ export default function Navbar() {
           className="group flex items-center"
         >
           <img
-            src="/XELTAdesign_2_nobg.png"
+            src="/Logo-Xelta-no-bg.png"
             alt="XELTA"
             className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
           />
