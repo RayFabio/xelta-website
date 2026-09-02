@@ -14,15 +14,13 @@ export default function Navbar() {
         <Link
           href="/"
           onClick={() => setMenuOpen(false)}
-          className="group flex items-center gap-2"
+          className="group flex items-center"
         >
-          <span className="text-2xl font-black italic tracking-wider text-white transition-colors duration-300 group-hover:text-cyan-400">
-            x
-          </span>
-
-          <span className="text-2xl font-black italic tracking-wider text-red-600 transition-colors duration-300 group-hover:text-cyan-400">
-            elta
-          </span>
+          <img
+            src="/XELTAdesign_2_nobg.png"
+            alt="XELTA"
+            className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+          />
         </Link>
 
         {/* DESKTOP NAVIGATION */}

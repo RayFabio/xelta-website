@@ -29,7 +29,7 @@ export default function ScrollAnimationController() {
       if (content) {
         const image = document.createElement("img");
         image.className = "division-hero-logo";
-        image.src = "/XELTA%20Logo.jpg.jpeg";
+        image.src = "/Logo-Xelta-no-bg.png";
         image.alt = "XELTA";
         content.prepend(image);
         content.classList.add("has-runtime-logo");
@@ -45,7 +45,7 @@ export default function ScrollAnimationController() {
         const progress = Math.min(1, Math.max(0, -heroTop / Math.max(1, window.innerHeight)));
         const logoDrop = progress * (window.innerHeight + 180);
         logo?.style.setProperty("transform", `translate3d(0, ${logoDrop}px, 0) scale(${1 - progress * .58})`);
-        logo?.style.setProperty("opacity", String(1 - progress * .92));
+        logo?.style.setProperty("opacity", String(.22 - progress * .18));
         hero?.style.setProperty("--hero-progress", progress.toFixed(3));
         hero?.style.setProperty("--hero-logo-drop", `${logoDrop}px`);
         root.style.setProperty("--academy-logo-progress", progress.toFixed(3));

@@ -66,9 +66,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-screen bg-white text-slate-950 antialiased">
-        <div className="site-logo-background" aria-hidden="true">
-          <img src="/XELTA%20Logo.jpg.jpeg" alt="" />
-        </div>
         <ScrollAnimationController />
         <Navbar />
         <main className="flex-grow">

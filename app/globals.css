@@ -126,32 +126,6 @@ html {
   animation: xeltaFloat 6s ease-in-out infinite;
 }
 
-.site-logo-background {
-  position: fixed;
-  inset: 0;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  pointer-events: none;
-  opacity: calc(0.035 + var(--home-bg-progress, 0) * 0.06);
-  mix-blend-mode: screen;
-}
-
-.site-logo-background img {
-  width: clamp(32rem, 78vw, 90rem);
-  max-width: none;
-  filter: grayscale(1) contrast(1.2);
-  transform: rotate(-8deg);
-}
-
-body > nav,
-body > main,
-body > footer {
-  position: relative;
-  z-index: 2;
-}
 
 /* Scroll storytelling primitives used by the Home experience. */
 .xelta-scroll-trigger > *:not(.xelta-sticky-visual) {
@@ -300,8 +274,13 @@ body > footer {
 .home-hero-bg { position: absolute; inset: -10%; background: radial-gradient(circle at 72% 42%, rgba(245,158,11,.28), transparent 26%), linear-gradient(135deg, #0f172a 0%, #020617 70%); transform: translateY(calc(var(--hero-progress, 0) * 12%)) scale(1.12); }
 .home-hero-grid { position: absolute; inset: 0; opacity: .25; background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px); background-size: 72px 72px; transform: translateY(calc(var(--hero-progress, 0) * -5%)); }
 .home-hero-content { opacity: calc(1 - var(--hero-progress, 0) * 1.15); transform: translateY(calc(var(--hero-progress, 0) * -80px)) scale(calc(1 - var(--hero-progress, 0) * .08)); }
-.home-main-logo { width: clamp(10rem, 22vw, 18rem); margin: 0 auto 2.25rem; content: url('/XELTA%20Logo.jpg.jpeg'); filter: drop-shadow(0 18px 35px rgba(0,0,0,.4)); }
+.home-main-logo { width: clamp(10rem, 22vw, 18rem); margin: 0 auto 2.25rem; content: url('/Logo-Xelta-no-bg.png'); filter: drop-shadow(0 18px 35px rgba(0,0,0,.4)); }
 .home-main-logo { animation: none !important; transition: transform .08s linear, opacity .08s linear; will-change: transform, opacity; }
+.home-hero-content, .division-hero-content { isolation:isolate; }
+.home-main-logo, .division-hero-logo { position:absolute; left:50%; top:50%; z-index:0; margin:0; translate:-50% -50%; opacity:.22; pointer-events:none; }
+.home-main-logo { width:clamp(22rem,52vw,52rem); }
+.division-hero-logo { width:clamp(22rem,52vw,52rem); }
+.home-hero-content > :not(.home-main-logo), .division-hero-content > :not(.division-hero-logo) { position:relative; z-index:1; }
 @supports (animation-timeline: scroll()) {
   .home-main-logo { animation: homeLogoHandoff linear both; animation-timeline: scroll(nearest); animation-range: 0 100vh; }
 }
@@ -322,7 +301,7 @@ body > footer {
 .home-visual-card::after { content:""; position:absolute; inset:0; z-index:3; background:linear-gradient(to top,rgba(2,6,23,.85),rgba(2,6,23,.05) 65%); pointer-events:none; }
 .home-visual-card[data-panel="1"] { transform: scale(1.025) rotate(1.5deg); }
 .home-visual-card[data-panel="2"] { transform: scale(.975) rotate(-1.5deg); }
-.home-visual-card img { position: relative; z-index: 4; width: 60%; opacity: .88; content: url('/xelta-logo.svg'); object-fit:contain; padding:12%; filter:none; animation: xeltaFloat 6s ease-in-out infinite; }
+.home-visual-card img { position: relative; z-index: 4; width: 100%; height: 100%; opacity: .9; content: url('/Logo-Xelta-no-bg.png'); object-fit:contain; padding:12%; filter:none; animation: xeltaFloat 6s ease-in-out infinite; }
 .home-visual-card img { filter: none; transition: transform .7s cubic-bezier(.22,1,.36,1), filter .7s, opacity .7s; }
 .home-visual-card[data-panel="0"] img { filter: saturate(1.2) hue-rotate(0deg); }
 .home-visual-card[data-panel="1"] img { filter: saturate(1.5) hue-rotate(35deg); transform: scale(1.08) rotate(-5deg); }
@@ -348,7 +327,7 @@ body > footer {
 .division-scroll { height: calc(100vh - 5rem); overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth; }
 .division-hero { isolation: isolate; }
 .division-hero--academy { z-index: 4; background: #09090b; }
-.division-hero-logo { width: clamp(11rem, 22vw, 18rem); margin: 0 auto 2.5rem; filter: drop-shadow(0 18px 35px rgba(0,0,0,.4)); }
+.division-hero-logo { width: clamp(11rem, 22vw, 18rem); margin: 0 auto 2.5rem; content:url('/Logo-Xelta-no-bg.png'); filter: drop-shadow(0 18px 35px rgba(0,0,0,.4)); }
 .division-page .division-hero { background:#09090b; }
 .division-page .division-hero-bg, .division-page .division-grid { display:none; }
 .division-academy .division-hero-logo { transform: translateY(calc(var(--academy-logo-progress, 0) * 280px)) scale(calc(1 - var(--academy-logo-progress, 0) * .28)); opacity: calc(1 - var(--academy-logo-progress, 0)); transition: transform .1s linear, opacity .1s linear; will-change: transform, opacity; }
@@ -378,6 +357,7 @@ body > footer {
 .division-visual[data-panel="1"] img { filter:saturate(1.5) hue-rotate(35deg); transform:scale(1.08) rotate(-5deg); } .division-visual[data-panel="2"] img { filter:saturate(1.35) hue-rotate(125deg); transform:scale(.94) rotate(5deg); }
 .division-visual[data-panel] img { animation: panelLogoIn .75s cubic-bezier(.22,1,.36,1); }
 .division-visual .division-image { position:absolute; inset:0; z-index:1; width:100%; height:100%; object-fit:contain; padding:12%; opacity:0; transform:scale(1.08); animation:none; }
+.division-visual .division-image { content:url('/Logo-Xelta-no-bg.png'); }
 .division-visual .division-image.active { opacity:1; transform:scale(1); }
 .division-glow { position:absolute; right:-100px; bottom:-100px; z-index:2; width:250px; height:250px; border-radius:50%; background:#f59e0b; filter:blur(120px); opacity:.25; animation:xeltaPulse 4s ease-in-out infinite; pointer-events:none; }
 .division-image-number { position:absolute; left:30px; bottom:25px; z-index:5; display:flex; align-items:baseline; gap:8px; }
@@ -464,14 +444,26 @@ body > footer {
 .contact-page .btn-secondary { border: 1px solid rgba(255,255,255,.18); border-radius: 9999px; background: transparent; color: #e4e4e7; padding: .9rem 1.25rem; font-weight: 700; }
 
 /* Soft XELTA palette and subtle technical grid. */
-:root { --xelta-soft-base:#121214; --xelta-soft-surface:#1a1a1d; --xelta-soft-card:#202024; --xelta-soft-gold:#d9bd8a; --xelta-grid-line:rgba(217,189,138,.055); }
+:root { --xelta-soft-base:#121214; --xelta-soft-surface:#1a1a1d; --xelta-soft-card:#202024; --xelta-red:#f51a25; --xelta-red-soft:#ef8a90; --xelta-graphite:#5d5d61; --xelta-grid-line:rgba(245,26,37,.05); }
 .home-scroll, .division-page, .contact-page { background-color:var(--xelta-soft-base) !important; }
-.home-hero-bg, .division-hero { background:radial-gradient(circle at 70% 30%,rgba(217,189,138,.13),transparent 30%),linear-gradient(135deg,#1d1d20 0%,#121214 68%) !important; }
+.home-hero-bg, .division-hero { background:radial-gradient(circle at 70% 30%,rgba(245,26,37,.14),transparent 30%),linear-gradient(135deg,#1d1d20 0%,#121214 68%) !important; }
 .home-hero-grid, .division-page .division-grid { display:block; opacity:.5; background-image:linear-gradient(var(--xelta-grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--xelta-grid-line) 1px,transparent 1px); background-size:72px 72px; }
 .home-scroll > section:not(.home-hero), .division-page > section:not(.division-hero), .contact-page > section { background-image:linear-gradient(var(--xelta-grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--xelta-grid-line) 1px,transparent 1px); background-size:72px 72px; }
 .home-scroll .bg-slate-900, .division-page .bg-slate-900, .contact-page .bg-primary-50 { background-color:var(--xelta-soft-surface) !important; }
 .home-scroll .bg-slate-950, .division-page .bg-slate-950, .contact-page .bg-gradient-dark { background-color:var(--xelta-soft-base) !important; }
-.home-scroll .bg-slate-900, .division-page .division-card, .home-scroll .reveal-card:not(.home-panel) { border-color:rgba(217,189,138,.14); }
+.home-scroll .bg-slate-900, .division-page .division-card, .home-scroll .reveal-card:not(.home-panel) { border-color:rgba(245,26,37,.16); }
+
+/* XELTA brand accents: red carries action; graphite carries structure. */
+.home-scroll .text-amber-400, .division-page .text-amber-400, .contact-page .text-accent-600, .contact-page .text-accent-500 { color:var(--xelta-red-soft) !important; }
+.home-scroll .bg-amber-400, .division-page .bg-amber-400, .contact-page .btn-primary { background-color:var(--xelta-red) !important; color:#fff !important; }
+.home-scroll .home-button, .division-page .division-button { background:var(--xelta-red); color:#fff; }
+.home-scroll .home-button:hover, .division-page .division-button:hover { background:#ff4a52; }
+.home-scroll .home-dark-button, .division-page .division-dark-button { background:var(--xelta-graphite); }
+.home-scroll .home-dark-button:hover, .division-page .division-dark-button:hover { background:#737377; }
+.division-page .division-glow, .home-scroll .home-visual-glow { background:var(--xelta-red); }
+.division-page .division-panel::before, .division-page .grid > .division-card::before, .home-scroll .grid > .reveal-card:not(.home-panel)::before { background:var(--xelta-red); }
+.division-card:hover, .home-scroll .reveal-card:not(.home-panel):hover { border-color:rgba(245,26,37,.8); background:rgba(245,26,37,.09); }
+.division-card:hover h3, .home-scroll .reveal-card:not(.home-panel):hover h3 { color:#ffb7bb; }
 
 /* Soft palette for the division experiences. */
 .division-page .text-amber-400 { color: #e4c58a !important; }

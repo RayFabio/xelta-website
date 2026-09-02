@@ -26,7 +26,7 @@ export default function Navigation() {
       <div className="container-xelta flex h-20 items-center justify-between">
         <Link href="/" className="group flex items-center gap-3">
           <Image
-            src="/XELTA%20Logo.jpg.jpeg"
+            src="/Logo-Xelta-no-bg.png"
             alt="XELTA Logo"
             width={42}
             height={42}
