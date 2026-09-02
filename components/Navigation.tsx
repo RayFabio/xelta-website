@@ -22,7 +22,7 @@ export default function Navigation() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-slate-950/85 backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-[100] border-b border-white/20 bg-slate-950/95 shadow-lg shadow-black/20 backdrop-blur-xl">
       <div className="container-xelta flex h-20 items-center justify-between">
         <Link href="/" className="group flex items-center gap-3">
           <Image
@@ -46,8 +46,8 @@ export default function Navigation() {
               href={link.href}
               className={`text-sm transition-colors ${
                 isActive(link.href)
-                  ? "text-white"
-                  : "text-slate-400 hover:text-white"
+                  ? "!text-white"
+                  : "!text-white hover:!text-cyan-400"
               }`}
             >
               {link.label}

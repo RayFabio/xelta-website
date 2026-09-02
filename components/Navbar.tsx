@@ -7,7 +7,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-slate-950/85 backdrop-blur-xl">
+    <nav className="fixed left-0 right-0 top-0 z-[100] border-b border-white/20 bg-slate-950/95 shadow-lg shadow-black/20 backdrop-blur-xl">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
 
         {/* LOGO */}
@@ -30,28 +30,28 @@ export default function Navbar() {
 
           <Link
             href="/"
-            className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
+            className="text-sm font-semibold !text-white transition-colors duration-200 hover:!text-cyan-400"
           >
             Home
           </Link>
 
           <Link
             href="/#about"
-            className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
+            className="text-sm font-semibold !text-white transition-colors duration-200 hover:!text-cyan-400"
           >
             About
           </Link>
 
           <Link
             href="/akademi"
-            className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
+            className="text-sm font-semibold !text-white transition-colors duration-200 hover:!text-cyan-400"
           >
             Akademi Unggul
           </Link>
 
           <Link
             href="/adikarya"
-            className="text-sm font-medium text-white transition-colors duration-200 hover:text-cyan-400"
+            className="text-sm font-semibold !text-white transition-colors duration-200 hover:!text-cyan-400"
           >
             Adikarya Utama
           </Link>
@@ -100,7 +100,7 @@ export default function Navbar() {
             <Link
               href="/"
               onClick={() => setMenuOpen(false)}
-              className="text-sm font-medium text-white transition-colors hover:text-cyan-400"
+              className="text-sm font-semibold !text-white transition-colors hover:!text-cyan-400"
             >
               Home
             </Link>
@@ -108,7 +108,7 @@ export default function Navbar() {
             <Link
               href="/#about"
               onClick={() => setMenuOpen(false)}
-              className="text-sm font-medium text-white transition-colors hover:text-cyan-400"
+              className="text-sm font-semibold !text-white transition-colors hover:!text-cyan-400"
             >
               About
             </Link>
@@ -116,7 +116,7 @@ export default function Navbar() {
             <Link
               href="/akademi"
               onClick={() => setMenuOpen(false)}
-              className="text-sm font-medium text-white transition-colors hover:text-cyan-400"
+              className="text-sm font-semibold !text-white transition-colors hover:!text-cyan-400"
             >
               Akademi Unggul
             </Link>
@@ -124,7 +124,7 @@ export default function Navbar() {
             <Link
               href="/adikarya"
               onClick={() => setMenuOpen(false)}
-              className="text-sm font-medium text-white transition-colors hover:text-cyan-400"
+              className="text-sm font-semibold !text-white transition-colors hover:!text-cyan-400"
             >
               Adikarya Utama
             </Link>

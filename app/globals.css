@@ -1,17 +1,23 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #f8fafc;
+  --color-primary-200: #e2e8f0;
+  --color-primary-300: #cbd5e1;
+  --color-primary-400: #94a3b8;
+  --color-primary-600: #475569;
+  --color-primary-700: #334155;
+  --color-primary-800: #1e293b;
+  --color-primary-950: #020617;
+
+  --color-accent-400: #22d3ee;
+  --color-accent-500: #06b6d4;
+  --color-accent-600: #0891b2;
+}
 
 :root {
-  --xelta-bg: #020617;
-  --xelta-bg-soft: #061124;
-
-  --xelta-white: #f8fafc;
-  --xelta-muted: #64748b;
-  --xelta-muted-light: #94a3b8;
-
-  --xelta-red: #ef233c;
-  --xelta-cyan: #00d9ff;
-
-  --border: rgba(255, 255, 255, 0.12);
+  --background: #ffffff;
+  --foreground: #0f172a;
 }
 
 * {
@@ -19,51 +25,26 @@
 }
 
 html {
-  margin: 0;
-  padding: 0;
-
   scroll-behavior: smooth;
-
-  /*
-   * Tidak menggunakan scroll lock.
-   *
-   * proximity membuat perpindahan antar section
-   * terasa natural tanpa memaksa viewport.
-   */
-  scroll-snap-type: y proximity;
 }
 
 body {
   margin: 0;
-  padding: 0;
-
-  background: var(--xelta-bg);
-  color: var(--xelta-white);
-
+  background: var(--background);
+  color: var(--foreground);
   font-family:
-    "Inter",
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
     Arial,
-    Helvetica,
     sans-serif;
 
-  overflow-x: hidden;
-}
-
-body::-webkit-scrollbar {
-  width: 8px;
-}
-
-body::-webkit-scrollbar-track {
-  background: #020617;
-}
-
-body::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.18);
-  border-radius: 999px;
-}
-
-body::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.32);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -71,1179 +52,136 @@ a {
   text-decoration: none;
 }
 
-button,
-a {
-  -webkit-tap-highlight-color: transparent;
+::selection {
+  background: #06b6d4;
+  color: #ffffff;
 }
 
-/* ============================================================
-   MAIN
-============================================================ */
+/* =========================================
+   XELTA GLOBAL
+========================================= */
 
-.xelta-site {
-  position: relative;
+.container-xelta {
   width: 100%;
-  min-height: 100vh;
-
-  background:
-    radial-gradient(
-      circle at 50% 20%,
-      rgba(0, 217, 255, 0.055),
-      transparent 32%
-    ),
-    #020617;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
 }
 
-/* ============================================================
-   GRID BACKGROUND
-============================================================ */
+@media (min-width: 1024px) {
+  .container-xelta {
+    padding-inline: 2rem;
+  }
+}
 
-.xelta-page {
-  position: relative;
+/* =========================================
+   XELTA SCROLL
+========================================= */
 
-  width: 100%;
+html {
+  scroll-behavior: smooth;
+}
+
+.xelta-scroll {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-y: contain;
+}
+
+.xelta-section {
+  height: 100vh;
   min-height: 100vh;
-
-  overflow: hidden;
-
   scroll-snap-align: start;
-  scroll-snap-stop: normal;
-
-  isolation: isolate;
-
-  background-color: var(--xelta-bg);
+  scroll-snap-stop: always;
 }
 
-.xelta-page::before {
-  content: "";
+/* =========================================
+   LOGO GLOW
+========================================= */
 
-  position: absolute;
-  inset: 0;
-
-  z-index: -4;
-
-  background-image:
-    linear-gradient(
-      rgba(255, 255, 255, 0.035) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.035) 1px,
-      transparent 1px
-    );
-
-  background-size: 76px 76px;
-
-  mask-image: linear-gradient(
-    to bottom,
-    black,
-    rgba(0, 0, 0, 0.65),
-    transparent
-  );
-
-  pointer-events: none;
-}
-
-/* ============================================================
-   ANIMATED LOGO LAYER
-============================================================ */
-
-.logo-animation-layer {
-  position: fixed;
-
-  inset: 0;
-
-  z-index: 20;
-
-  pointer-events: none;
-
-  overflow: hidden;
-}
-
-/*
- * Semua logo menggunakan asset yang sama:
- *
- * /public/XELTA Logo.jpg.jpeg
- *
- * Karena JPG memiliki background putih,
- * multiply membuat area putih menyatu
- * dengan background.
- */
-
-.animated-logo {
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
-  width: min(48vw, 620px);
-
-  height: auto;
-
-  display: block;
-
-  transform-origin: center center;
-
-  object-fit: contain;
-
-  mix-blend-mode: multiply;
-
+.xelta-logo-glow {
   filter:
-    contrast(1.15)
-    saturate(1.08);
-
-  will-change:
-    transform,
-    opacity;
-
-  backface-visibility: hidden;
-
-  transition:
-    transform 80ms linear,
-    opacity 120ms linear;
-
-  user-select: none;
+    drop-shadow(0 0 20px rgba(255, 255, 255, 0.08))
+    drop-shadow(0 0 60px rgba(6, 182, 212, 0.08));
 }
 
-/* ============================================================
-   PAGE 1 LOGO
-============================================================ */
-
-.page-one-logo {
-  margin-left: -50%;
-  margin-top: -50%;
-
-  z-index: 3;
-}
-
-/* ============================================================
-   SPLIT LOGOS
-============================================================ */
-
-.split-logo {
-  margin-left: -50%;
-  margin-top: -50%;
-
-  width: min(30vw, 400px);
-
-  z-index: 4;
-}
-
-.split-logo-left {
-  margin-left: calc(-50% - 360px);
-}
-
-.split-logo-right {
-  margin-left: calc(-50% + 360px);
-}
-
-/* ============================================================
-   PAGE 3 BACKGROUND LOGO
-============================================================ */
-
-.page-three-background-logo {
-  margin-left: -50%;
-  margin-top: -50%;
-
-  width: min(58vw, 760px);
-
-  z-index: 1;
-
-  filter:
-    contrast(1.05)
-    saturate(0.9)
-    blur(0.3px);
-}
-
-/* ============================================================
-   PAGE 1
-============================================================ */
-
-.page-one {
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  min-height: 100vh;
-
-  padding:
-    80px
-    40px
-    70px;
-}
-
-.page-background-glow {
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
-  width: 650px;
-  height: 650px;
-
-  transform: translate(-50%, -50%);
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(0, 217, 255, 0.11),
-      transparent 65%
-    );
-
-  filter: blur(45px);
-
-  pointer-events: none;
-
-  z-index: -2;
-}
-
-.page-one-content {
-  position: relative;
-
-  z-index: 5;
-
-  width: min(1200px, 100%);
-
-  min-height: calc(100vh - 130px);
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
-
-  text-align: center;
-}
-
-/* ============================================================
-   COMPANY LABEL
-============================================================ */
-
-.company-label {
-  margin: 0;
-
-  font-size: 14px;
-
-  font-weight: 700;
-
-  letter-spacing: 0.48em;
-
-  color: var(--xelta-cyan);
-
-  text-transform: uppercase;
-}
-
-/* ============================================================
-   PAGE 1 TITLE
-============================================================ */
-
-.page-one-title {
-  position: relative;
-
-  z-index: 6;
-
-  margin-top: 80px;
-
-  pointer-events: none;
-}
-
-.page-one-title h1 {
-  margin: 0;
-
-  font-size:
-    clamp(
-      48px,
-      7vw,
-      104px
-    );
-
-  line-height: 0.95;
-
-  letter-spacing: -0.065em;
-
-  font-weight: 800;
-
-  color: #f8fafc;
-}
-
-.page-one-title .title-muted {
-  margin-top: 12px;
-
-  color: #64748b;
-}
-
-/* ============================================================
-   EMPTY LOGO SPACE
-============================================================ */
-
-.page-one-logo-space {
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
-  width: 520px;
-  height: 330px;
-
-  transform: translate(-50%, -50%);
-
-  pointer-events: none;
-}
-
-/* ============================================================
-   SCROLL EXPLORE
-============================================================ */
-
-.scroll-explore {
-  position: absolute;
-
-  left: 50%;
-  bottom: 40px;
-
-  transform: translateX(-50%);
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 18px;
-
-  padding:
-    10px
-    10px
-    10px
-    22px;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.18);
-
-  border-radius: 999px;
-
-  background:
-    rgba(255, 255, 255, 0.025);
-
-  backdrop-filter: blur(12px);
-
-  color: #f8fafc;
-
-  font-size: 14px;
-
-  font-weight: 600;
-
-  white-space: nowrap;
-
-  z-index: 10;
-}
-
-.scroll-arrow {
-  width: 42px;
-  height: 42px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.18);
-
-  border-radius: 50%;
-
-  font-size: 20px;
-
-  animation:
-    scrollArrow 1.8s
-    ease-in-out
-    infinite;
-}
-
-@keyframes scrollArrow {
+/* =========================================
+   LOGO FLOAT
+========================================= */
+
+@keyframes xeltaFloat {
   0%,
   100% {
     transform: translateY(0);
   }
 
   50% {
-    transform: translateY(5px);
+    transform: translateY(-15px);
   }
 }
 
-/* ============================================================
-   PAGE 2
-============================================================ */
-
-.page-two {
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  min-height: 100vh;
-
-  padding:
-    100px
-    40px;
+.xelta-floating {
+  animation: xeltaFloat 6s ease-in-out infinite;
 }
 
-.page-two-glow {
-  position: absolute;
+/* =========================================
+   PULSE
+========================================= */
 
-  left: 50%;
-  top: 50%;
+@keyframes xeltaPulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
 
-  width: 850px;
-  height: 600px;
-
-  transform: translate(-50%, -50%);
-
-  background:
-    radial-gradient(
-      ellipse,
-      rgba(0, 217, 255, 0.07),
-      transparent 65%
-    );
-
-  filter: blur(40px);
-
-  z-index: -3;
-
-  pointer-events: none;
+  50% {
+    opacity: 0.8;
+    transform: scale(1.08);
+  }
 }
 
-.page-two-content {
-  position: relative;
-
-  z-index: 8;
-
-  width: min(1250px, 100%);
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  text-align: center;
+.xelta-pulse {
+  animation: xeltaPulse 4s ease-in-out infinite;
 }
 
-.section-kicker {
-  margin: 0 0 20px;
+/* =========================================
+   SECTION REVEAL
+========================================= */
 
-  font-size: 11px;
+@keyframes xeltaReveal {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
 
-  font-weight: 700;
-
-  letter-spacing: 0.42em;
-
-  color: var(--xelta-cyan);
-
-  text-transform: uppercase;
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.page-two-content h2 {
-  margin: 0;
-
-  font-size:
-    clamp(
-      38px,
-      5vw,
-      72px
-    );
-
-  line-height: 1;
-
-  letter-spacing: -0.055em;
-
-  font-weight: 800;
+.xelta-reveal {
+  animation: xeltaReveal 0.9s ease-out both;
 }
 
-.section-description {
-  max-width: 560px;
+/* =========================================
+   GRID BACKGROUND
+========================================= */
 
-  margin:
-    24px
-    auto
-    0;
-
-  color: var(--xelta-muted-light);
-
-  font-size: 16px;
-
-  line-height: 1.7;
-}
-
-/* ============================================================
-   DIVISION GRID
-============================================================ */
-
-.division-grid {
-  width: 100%;
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(2, minmax(0, 1fr));
-
-  gap: 24px;
-
-  margin-top: 70px;
-}
-
-/* ============================================================
-   DIVISION CARD
-============================================================ */
-
-.division-card {
-  position: relative;
-
-  min-height: 390px;
-
-  display: flex;
-
-  align-items: flex-end;
-
-  overflow: hidden;
-
-  padding: 42px;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.13);
-
-  border-radius: 30px;
-
-  background:
+.xelta-grid {
+  background-image:
     linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.055),
-      rgba(255, 255, 255, 0.015)
-    );
-
-  backdrop-filter: blur(3px);
-
-  text-align: left;
-
-  transition:
-    transform 500ms
-      cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 400ms ease,
-    background 400ms ease;
-
-  z-index: 10;
-}
-
-.division-card:hover {
-  transform:
-    translateY(-10px);
-
-  border-color:
-    rgba(0, 217, 255, 0.42);
-
-  background:
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px
+    ),
     linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.085),
-      rgba(255, 255, 255, 0.025)
-    );
-}
-
-/* ============================================================
-   LOGO BEHIND CARD
-============================================================ */
-
-.division-logo-halo {
-  position: absolute;
-
-  left: 50%;
-  top: 45%;
-
-  width: 520px;
-  height: 300px;
-
-  transform:
-    translate(-50%, -50%);
-
-  background:
-    radial-gradient(
-      ellipse,
-      rgba(0, 217, 255, 0.12),
-      transparent 65%
+      90deg,
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px
     );
 
-  filter: blur(35px);
-
-  opacity: 0.5;
-
-  pointer-events: none;
-}
-
-/*
- * Cahaya di belakang kartu.
- */
-
-.division-card::before {
-  content: "";
-
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
-  width: 250px;
-  height: 250px;
-
-  transform:
-    translate(-50%, -50%);
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.045),
-      transparent 68%
-    );
-
-  pointer-events: none;
-}
-
-/* ============================================================
-   DIVISION CONTENT
-============================================================ */
-
-.division-content {
-  position: relative;
-
-  z-index: 5;
-
-  width: 100%;
-}
-
-.division-number {
-  display: inline-block;
-
-  margin-bottom: 45px;
-
-  color: var(--xelta-cyan);
-
-  font-size: 12px;
-
-  font-weight: 700;
-
-  letter-spacing: 0.22em;
-}
-
-.division-content h3 {
-  margin: 0;
-
-  font-size:
-    clamp(
-      28px,
-      3vw,
-      46px
-    );
-
-  line-height: 0.98;
-
-  letter-spacing: -0.04em;
-
-  font-weight: 500;
-
-  color: #f8fafc;
-}
-
-.division-content h3 strong {
-  font-weight: 800;
-}
-
-.division-content p {
-  max-width: 430px;
-
-  margin:
-    24px
-    0
-    30px;
-
-  color: #94a3b8;
-
-  font-size: 14px;
-
-  line-height: 1.7;
-}
-
-.division-link {
-  display: inline-flex;
-
-  align-items: center;
-
-  gap: 14px;
-
-  color: #f8fafc;
-
-  font-size: 14px;
-
-  font-weight: 700;
-}
-
-.division-link span {
-  display: flex;
-
-  width: 38px;
-  height: 38px;
-
-  align-items: center;
-  justify-content: center;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.2);
-
-  border-radius: 50%;
-
-  transition:
-    transform 350ms ease,
-    border-color 350ms ease;
-}
-
-.division-card:hover .division-link span {
-  transform: translateX(5px);
-
-  border-color:
-    var(--xelta-cyan);
-}
-
-/* ============================================================
-   PAGE 3
-============================================================ */
-
-.page-three {
-  min-height: 100vh;
-
-  padding:
-    150px
-    40px
-    100px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-}
-
-.page-three-background {
-  position: absolute;
-
-  inset: 0;
-
-  z-index: -3;
-
-  background:
-    radial-gradient(
-      circle at 50% 45%,
-      rgba(0, 217, 255, 0.075),
-      transparent 42%
-    );
-}
-
-.page-three-content {
-  position: relative;
-
-  width: min(1150px, 100%);
-
-  z-index: 5;
-}
-
-.page-three-content h2 {
-  max-width: 950px;
-
-  margin: 0;
-
-  font-size:
-    clamp(
-      42px,
-      6vw,
-      86px
-    );
-
-  line-height: 0.98;
-
-  letter-spacing: -0.06em;
-
-  font-weight: 800;
-}
-
-.about-line {
-  width: 100%;
-
-  height: 1px;
-
-  margin:
-    80px
-    0
-    50px;
-
-  background:
-    linear-gradient(
-      to right,
-      rgba(0, 217, 255, 0.5),
-      rgba(255, 255, 255, 0.08),
-      transparent
-    );
-}
-
-.about-grid {
-  display: grid;
-
-  grid-template-columns:
-    minmax(0, 0.9fr)
-    minmax(0, 1fr);
-
-  gap: 100px;
-}
-
-.about-intro p {
-  margin: 0;
-
-  color: #e2e8f0;
-
-  font-size:
-    clamp(
-      22px,
-      2.2vw,
-      34px
-    );
-
-  line-height: 1.35;
-
-  letter-spacing: -0.025em;
-
-  font-weight: 500;
-}
-
-.about-text {
-  color: #94a3b8;
-
-  font-size: 16px;
-
-  line-height: 1.9;
-}
-
-.about-text p {
-  margin:
-    0
-    0
-    30px;
-}
-
-/* ============================================================
-   FOOTER
-============================================================ */
-
-.xelta-footer {
-  position: relative;
-
-  min-height: 220px;
-
-  display: flex;
-
-  align-items: flex-end;
-
-  justify-content: space-between;
-
-  gap: 40px;
-
-  padding:
-    60px
-    max(40px, 6vw);
-
-  border-top:
-    1px solid
-    rgba(255, 255, 255, 0.09);
-
-  background:
-    #01040d;
-
-  color: #64748b;
-}
-
-.footer-logo {
-  display: block;
-
-  margin-bottom: 10px;
-
-  color: #f8fafc;
-
-  font-size: 24px;
-
-  font-weight: 900;
-
-  letter-spacing: 0.08em;
-}
-
-.xelta-footer p {
-  margin: 0;
-
-  font-size: 13px;
-
-  color: #64748b;
-}
-
-.footer-right {
-  font-size: 12px;
-
-  color: #475569;
-}
-
-/* ============================================================
-   RESPONSIVE TABLET
-============================================================ */
-
-@media (max-width: 900px) {
-  .animated-logo {
-    width: min(58vw, 520px);
-  }
-
-  .split-logo {
-    width: min(36vw, 340px);
-  }
-
-  .split-logo-left {
-    margin-left: calc(-50% - 220px);
-  }
-
-  .split-logo-right {
-    margin-left: calc(-50% + 220px);
-  }
-
-  .division-grid {
-    gap: 18px;
-  }
-
-  .division-card {
-    min-height: 350px;
-
-    padding: 32px;
-  }
-
-  .about-grid {
-    gap: 50px;
-  }
-}
-
-/* ============================================================
-   RESPONSIVE MOBILE
-============================================================ */
-
-@media (max-width: 700px) {
-  html {
-    scroll-snap-type: y proximity;
-  }
-
-  .xelta-page {
-    min-height: 100svh;
-  }
-
-  .page-one {
-    padding:
-      70px
-      20px
-      50px;
-  }
-
-  .page-one-content {
-    min-height:
-      calc(
-        100svh - 120px
-      );
-  }
-
-  .company-label {
-    font-size: 11px;
-
-    letter-spacing: 0.35em;
-  }
-
-  .page-one-title {
-    margin-top: 50px;
-  }
-
-  .page-one-title h1 {
-    font-size:
-      clamp(
-        38px,
-        11vw,
-        60px
-      );
-  }
-
-  .page-one-title .title-muted {
-    margin-top: 10px;
-  }
-
-  .animated-logo {
-    width: 72vw;
-  }
-
-  .split-logo {
-    width: 42vw;
-  }
-
-  .split-logo-left {
-    margin-left: calc(-50% - 125px);
-  }
-
-  .split-logo-right {
-    margin-left: calc(-50% + 125px);
-  }
-
-  .scroll-explore {
-    bottom: 25px;
-
-    padding-left: 18px;
-
-    gap: 12px;
-
-    font-size: 12px;
-  }
-
-  .scroll-arrow {
-    width: 36px;
-    height: 36px;
-
-    font-size: 16px;
-  }
-
-  .page-two {
-    padding:
-      100px
-      20px;
-  }
-
-  .page-two-content h2 {
-    font-size:
-      clamp(
-        36px,
-        10vw,
-        56px
-      );
-  }
-
-  .section-description {
-    font-size: 14px;
-
-    line-height: 1.65;
-  }
-
-  .division-grid {
-    grid-template-columns: 1fr;
-
-    margin-top: 50px;
-  }
-
-  .division-card {
-    min-height: 340px;
-
-    padding: 28px;
-
-    border-radius: 24px;
-  }
-
-  .division-number {
-    margin-bottom: 35px;
-  }
-
-  .division-content h3 {
-    font-size: 32px;
-  }
-
-  .division-content p {
-    font-size: 13px;
-  }
-
-  .page-three {
-    padding:
-      110px
-      20px
-      70px;
-  }
-
-  .page-three-content h2 {
-    font-size:
-      clamp(
-        38px,
-        11vw,
-        62px
-      );
-  }
-
-  .about-line {
-    margin:
-      50px
-      0
-      35px;
-  }
-
-  .about-grid {
-    grid-template-columns: 1fr;
-
-    gap: 35px;
-  }
-
-  .about-intro p {
-    font-size: 24px;
-  }
-
-  .about-text {
-    font-size: 14px;
-  }
-
-  .xelta-footer {
-    min-height: 240px;
-
-    flex-direction: column;
-
-    align-items: flex-start;
-
-    justify-content: flex-end;
-
-    padding:
-      50px
-      20px
-      40px;
-  }
-}
-
-/* ============================================================
-   REDUCED MOTION
-============================================================ */
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .animated-logo {
-    transition: none;
-  }
-
-  .scroll-arrow {
-    animation: none;
-  }
-
-  .division-card {
-    transition: none;
-  }
-
-  .division-link span {
-    transition: none;
-  }
+  background-size: 80px 80px;
 }

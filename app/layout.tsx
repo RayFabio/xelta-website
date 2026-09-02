@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navigation from "@/components/Navigation";
+import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { COMPANY_NAME, COMPANY_DESCRIPTION } from "@/lib/constants";
 
@@ -65,7 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-screen bg-white text-slate-950 antialiased">
-        <Navigation />
+        <Navbar />
         <main className="flex-grow">
           {children}
         </main>

@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -60,8 +59,6 @@ const specialties = [
 export default function Adikarya() {
   return (
     <main className="min-h-screen bg-slate-950 text-white">
-
-      <Navbar />
 
       {/* HERO */}
       <section className="relative flex min-h-screen items-center overflow-hidden bg-slate-950">
@@ -299,7 +296,7 @@ export default function Adikarya() {
 
           <Link
             href="/contact"
-            className="mt-10 inline-flex rounded-full bg-white px-7 py-4 text-sm font-bold text-slate-950 transition-all duration-300 hover:bg-cyan-400"
+            className="mt-10 inline-flex rounded-full bg-white px-7 py-4 text-sm font-bold !text-black transition-all duration-300 hover:bg-cyan-400"
           >
             Get a Project Quote →
           </Link>
