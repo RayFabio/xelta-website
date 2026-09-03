@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 export default function Akademi() {
   return <DivisionExperience division={{
     eyebrow: "XELTA / 01 — XELTA ACADEMY",
-    title: "Make Your",
-    accent: "Next Move",
+    title: "SHAPE WHAT",
+    accent: "MATTERS",
     intro: "We design learning experiences that help professionals grow, teams perform better, and organizations move forward.",
     panels: [
       ["OUR APPROACH", "Learn from the real world", "Practical programs designed around industry challenges and measurable outcomes."],
