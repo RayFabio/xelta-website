@@ -346,10 +346,6 @@ html {
 .division-image-stack { position:absolute; inset:0; }
 .division-image { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; padding:12%; opacity:0; transform:scale(1.08); transition:opacity .7s ease,transform 1s ease; filter:none !important; }
 .division-image.active { opacity:1; transform:scale(1); }
-.division-academy .division-visual { background: transparent; box-shadow: none; }
-.division-academy .division-visual::after { background: transparent; }
-.division-academy .division-visual .division-image { opacity: 0; transition: opacity .2s linear, transform 1s ease; }
-.division-academy .division-visual .division-image.active { opacity: calc(var(--academy-logo-progress, 0) * .9); }
 .division-visual::after { content:""; position:absolute; inset:0; z-index:3; background:linear-gradient(to top,rgba(2,6,23,.85),rgba(2,6,23,.05) 65%); pointer-events:none; }
 .division-visual[data-panel="1"] { transform: scale(1.025) rotate(1.5deg); }
 .division-visual[data-panel="2"] { transform: scale(.975) rotate(-1.5deg); }
@@ -451,19 +447,28 @@ html {
 .home-scroll > section:not(.home-hero), .division-page > section:not(.division-hero), .contact-page > section { background-image:linear-gradient(var(--xelta-grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--xelta-grid-line) 1px,transparent 1px); background-size:72px 72px; }
 .home-scroll .bg-slate-900, .division-page .bg-slate-900, .contact-page .bg-primary-50 { background-color:var(--xelta-soft-surface) !important; }
 .home-scroll .bg-slate-950, .division-page .bg-slate-950, .contact-page .bg-gradient-dark { background-color:var(--xelta-soft-base) !important; }
-.home-scroll .bg-slate-900, .division-page .division-card, .home-scroll .reveal-card:not(.home-panel) { border-color:rgba(245,26,37,.16); }
+.home-scroll .bg-slate-900, .division-page .division-card, .home-scroll .reveal-card:not(.home-panel) { border-color:rgba(194,143,72,.22); }
 
 /* XELTA brand accents: red carries action; graphite carries structure. */
 .home-scroll .text-amber-400, .division-page .text-amber-400, .contact-page .text-accent-600, .contact-page .text-accent-500 { color:var(--xelta-red-soft) !important; }
 .home-scroll .bg-amber-400, .division-page .bg-amber-400, .contact-page .btn-primary { background-color:var(--xelta-red) !important; color:#fff !important; }
 .home-scroll .home-button, .division-page .division-button { background:var(--xelta-red); color:#fff; }
 .home-scroll .home-button:hover, .division-page .division-button:hover { background:#ff4a52; }
+.home-scroll .home-button.home-button-secondary {
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .28);
+  color: #f8fafc;
+}
+.home-scroll .home-button.home-button-secondary:hover {
+  background: rgba(233, 201, 154, .12);
+  border-color: var(--xelta-red-soft);
+}
 .home-scroll .home-dark-button, .division-page .division-dark-button { background:var(--xelta-graphite); }
 .home-scroll .home-dark-button:hover, .division-page .division-dark-button:hover { background:#737377; }
 .division-page .division-glow, .home-scroll .home-visual-glow { background:var(--xelta-red); }
 .division-page .division-panel::before, .division-page .grid > .division-card::before, .home-scroll .grid > .reveal-card:not(.home-panel)::before { background:var(--xelta-red); }
-.division-card:hover, .home-scroll .reveal-card:not(.home-panel):hover { border-color:rgba(245,26,37,.8); background:rgba(245,26,37,.09); }
-.division-card:hover h3, .home-scroll .reveal-card:not(.home-panel):hover h3 { color:#ffb7bb; }
+.division-card:hover, .home-scroll .reveal-card:not(.home-panel):hover { border-color:rgba(239,212,164,.78); background:rgba(194,143,72,.12); }
+.division-card:hover h3, .home-scroll .reveal-card:not(.home-panel):hover h3 { color:#efd4a4; }
 
 /* Soft palette for the division experiences. */
 .division-page .text-amber-400 { color: #e4c58a !important; }
@@ -472,3 +477,116 @@ html {
 .division-page .division-button:hover { background: #f0dcb0; }
 .division-page .division-glow { background: #d9b978; opacity: .16; }
 .division-page .division-panel::before { background: #d9b978; }
+
+/* Each division has its own soft accent; Home retains XELTA red. */
+.division-academy {
+  --division-accent: #d7848a;
+  --division-accent-strong: #8e2731;
+  --division-accent-wash: rgba(142, 39, 49, .16);
+  --division-grid: rgba(212, 220, 230, .08);
+  background-color: #0b1728 !important;
+}
+.division-adikarya {
+  --division-accent: #ffc766;
+  --division-accent-strong: #e58a12;
+  --division-accent-wash: rgba(229, 138, 18, .16);
+  --division-grid: rgba(255, 255, 255, .075);
+  background-color: #25272a !important;
+}
+.division-academy .division-hero { background: radial-gradient(circle at 72% 28%, rgba(142, 39, 49, .28), transparent 34%), #0b1728 !important; }
+.division-adikarya .division-hero { background: radial-gradient(circle at 72% 28%, rgba(229, 138, 18, .24), transparent 34%), #25272a !important; }
+.division-academy .bg-slate-900, .division-academy .division-card { background-color: #10213a !important; }
+.division-academy .bg-slate-950 { background-color: #0b1728 !important; }
+.division-adikarya .bg-slate-900, .division-adikarya .division-card { background-color: #303337 !important; }
+.division-adikarya .bg-slate-950 { background-color: #25272a !important; }
+.division-page.division-academy > section:not(.division-hero), .division-page.division-adikarya > section:not(.division-hero) { background-image: linear-gradient(var(--division-grid) 1px, transparent 1px), linear-gradient(90deg, var(--division-grid) 1px, transparent 1px); }
+.division-page .division-grid { background-image: linear-gradient(var(--division-grid) 1px, transparent 1px), linear-gradient(90deg, var(--division-grid) 1px, transparent 1px); }
+.division-page.division-academy .text-amber-400, .division-page.division-adikarya .text-amber-400 { color: var(--division-accent) !important; }
+.division-page.division-academy .bg-amber-400, .division-page.division-adikarya .bg-amber-400, .division-page.division-academy .division-button, .division-page.division-adikarya .division-button { background-color: var(--division-accent-strong) !important; color: #fff; }
+.division-page.division-academy .division-button:hover, .division-page.division-adikarya .division-button:hover { background-color: var(--division-accent) !important; color: #16151b; }
+.division-page.division-academy .division-glow, .division-page.division-adikarya .division-glow, .division-page.division-academy .division-panel::before, .division-page.division-adikarya .division-panel::before, .division-page.division-academy .grid > .division-card::before, .division-page.division-adikarya .grid > .division-card::before { background: var(--division-accent); }
+.division-page.division-academy .division-card, .division-page.division-adikarya .division-card { border-color: color-mix(in srgb, var(--division-accent) 26%, transparent); }
+.division-page.division-academy .division-card:hover, .division-page.division-adikarya .division-card:hover { border-color: var(--division-accent); background: var(--division-accent-wash); }
+.division-page.division-academy .division-card:hover h3, .division-page.division-adikarya .division-card:hover h3 { color: var(--division-accent); }
+
+/* The third Academy visual uses the same full reveal as Adikarya's third visual. */
+.division-academy .division-visual .division-image:nth-child(3).active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity .7s ease, transform 1s ease;
+}
+
+/* Shared XELTA mark behind the hero copy on every main page. */
+.home-main-logo,
+.division-hero-logo {
+  width: clamp(26rem, 60vw, 62rem);
+}
+
+@media (max-width: 640px) {
+  .home-main-logo,
+  .division-hero-logo {
+    width: min(122vw, 34rem);
+  }
+}
+
+/* Keep the Home experience in XELTA red. Division pages use the warm-gold palette above. */
+.home-scroll {
+  --xelta-soft-base: #121214;
+  --xelta-soft-surface: #1a1a1d;
+  --xelta-soft-card: #202024;
+  --xelta-red: #f51a25;
+  --xelta-red-soft: #ef8a90;
+  --xelta-graphite: #5d5d61;
+  --xelta-grid-line: rgba(245, 26, 37, .05);
+}
+.home-scroll .home-hero-bg { background: radial-gradient(circle at 70% 30%, rgba(245, 26, 37, .14), transparent 30%), linear-gradient(135deg, #1d1d20 0%, #121214 68%) !important; }
+.home-scroll .home-button:hover { background: #ff4a52; }
+.home-scroll .home-button.home-button-secondary:hover { background: rgba(245, 26, 37, .14); border-color: var(--xelta-red); }
+.home-scroll .reveal-card:not(.home-panel):hover { border-color: rgba(245, 26, 37, .8); background: rgba(245, 26, 37, .09); }
+.home-scroll .reveal-card:not(.home-panel):hover h3 { color: #ffb7bb; }
+
+/* Home program cards share the Core capabilities reveal and pointer interaction. */
+.home-scroll .home-capability-card {
+  position: relative;
+  isolation: isolate;
+  min-height: 280px;
+  overflow: hidden;
+  transform-origin: center center;
+  transition: opacity .55s cubic-bezier(.22, 1, .36, 1), transform .55s cubic-bezier(.22, 1, .36, 1), border-color .55s ease, background .55s ease, box-shadow .55s ease, filter .55s ease;
+}
+.home-scroll .home-capability-card.is-visible:hover {
+  z-index: 4;
+  transform: translateY(-6px) scale(1.055);
+  border-color: rgba(245, 26, 37, .8);
+  background: rgba(245, 26, 37, .09);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .3);
+}
+.home-scroll .home-capability-card.is-visible:hover h3 { color: #ffb7bb; }
+@supports selector(:has(*)) {
+  .home-scroll .grid:has(.home-capability-card:hover) .home-capability-card.is-visible:not(:hover) {
+    opacity: .38;
+    transform: scale(.955);
+    filter: saturate(.55);
+  }
+}
+
+/* Match the understated section-title highlight used by Academy's Core capabilities. */
+.home-scroll .reveal-card.mb-16:hover {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* Academy: trusted navy foundations with light-grey learning surfaces. */
+.division-academy .division-card {
+  background-color: #dce1e7 !important;
+  border-color: #b9c3cf;
+  color: #10233a;
+}
+.division-academy .division-card .text-slate-400 { color: #526273; }
+.division-academy .division-card:hover {
+  background-color: #eef1f4 !important;
+  border-color: var(--division-accent);
+}
+.division-academy .division-card:hover h3 { color: var(--division-accent-strong); }
+.division-academy .division-visual { background: linear-gradient(145deg, #20344c, #0b1728); }
