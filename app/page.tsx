@@ -16,10 +16,11 @@ export default function Home() {
     const hero = document.querySelector<HTMLElement>(".home-hero");
     const cards = document.querySelectorAll<HTMLElement>(".reveal-card");
     const items = document.querySelectorAll<HTMLElement>(".home-panel");
-    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add("is-visible")), { root, threshold: 0.15 });
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => entry.target.classList.toggle("is-visible", entry.isIntersecting)), { root, threshold: 0.15 });
     cards.forEach((card, index) => { card.style.setProperty("--reveal-delay", `${index * 120}ms`); observer.observe(card); });
     let frame = 0;
-    const onScroll = () => { if (frame) return; frame = requestAnimationFrame(() => { frame = 0; if (!root) return; const progress = Math.min(1, (root.scrollTop || window.scrollY) / Math.max(1, innerHeight)); hero?.style.setProperty("--hero-progress", progress.toFixed(3)); items.forEach((item, index) => { const rect = item.getBoundingClientRect(); if (rect.top < innerHeight * 0.58 && rect.bottom > innerHeight * 0.35) { items.forEach((candidate, candidateIndex) => candidate.classList.toggle("panel-active", index === candidateIndex)); document.querySelector<HTMLElement>(".home-visual-card")?.setAttribute("data-panel", String(index)); } }); }); };
+    let activePanel = -1;
+    const onScroll = () => { if (frame) return; frame = requestAnimationFrame(() => { frame = 0; if (!root) return; const progress = Math.min(1, (root.scrollTop || window.scrollY) / Math.max(1, innerHeight)); hero?.style.setProperty("--hero-progress", progress.toFixed(3)); items.forEach((item, index) => { const rect = item.getBoundingClientRect(); if (rect.top < innerHeight * 0.58 && rect.bottom > innerHeight * 0.35 && activePanel !== index) { activePanel = index; items.forEach((candidate, candidateIndex) => candidate.classList.toggle("panel-active", index === candidateIndex)); document.querySelector<HTMLElement>(".home-visual-card")?.setAttribute("data-panel", String(index)); } }); }); };
     root?.addEventListener("scroll", onScroll, { passive: true }); window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
     return () => { observer.disconnect(); root?.removeEventListener("scroll", onScroll); window.removeEventListener("scroll", onScroll); if (frame) cancelAnimationFrame(frame); };
   }, []);

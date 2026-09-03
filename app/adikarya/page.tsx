@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 export default function Adikarya() {
   return <DivisionExperience division={{
     eyebrow: "XELTA / 02 — XELTA ADIKARYA",
-    title: "Build what",
-    accent: "matters.",
+    title: "Build What",
+    accent: "Matters",
     intro: "We combine engineering, precision, and delivery to create infrastructure that serves communities and businesses.",
     panels: [
       ["CIVIL CONSTRUCTION", "Foundations for the future", "From foundations to structures, every detail is designed to stand strong and endure."],
