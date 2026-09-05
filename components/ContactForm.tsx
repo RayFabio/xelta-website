@@ -71,13 +71,11 @@ export default function ContactForm() {
     setLoading(true);
 
     try {
-      // Simulate form submission (In production: integrate with Formspree/SendGrid)
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       console.log('Form data:', formData);
       setSubmitted(true);
 
-      // Reset form after 3 seconds
       setTimeout(() => {
         setFormData({
           name: '',
@@ -117,7 +115,6 @@ export default function ContactForm() {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Name */}
         <div>
           <label htmlFor="name" className="block text-sm font-semibold text-primary-950 mb-2">
             Full Name *
@@ -134,7 +131,6 @@ export default function ContactForm() {
           />
         </div>
 
-        {/* Email */}
         <div>
           <label htmlFor="email" className="block text-sm font-semibold text-primary-950 mb-2">
             Email Address *
@@ -151,7 +147,6 @@ export default function ContactForm() {
           />
         </div>
 
-        {/* Phone */}
         <div>
           <label htmlFor="phone" className="block text-sm font-semibold text-primary-950 mb-2">
             Phone Number *
@@ -168,7 +163,6 @@ export default function ContactForm() {
           />
         </div>
 
-        {/* Company */}
         <div>
           <label htmlFor="company" className="block text-sm font-semibold text-primary-950 mb-2">
             Company Name
@@ -186,7 +180,6 @@ export default function ContactForm() {
         </div>
       </div>
 
-      {/* Service */}
       <div>
         <label htmlFor="service" className="block text-sm font-semibold text-primary-950 mb-2">
           Service of Interest *
@@ -210,7 +203,6 @@ export default function ContactForm() {
         </select>
       </div>
 
-      {/* Message */}
       <div>
         <label htmlFor="message" className="block text-sm font-semibold text-primary-950 mb-2">
           Message *
@@ -227,7 +219,6 @@ export default function ContactForm() {
         />
       </div>
 
-      {/* Submit Button */}
       <div className="flex gap-4">
         <button
           type="submit"

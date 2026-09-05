@@ -10,7 +10,6 @@ export default function Navbar() {
     <nav className="fixed left-0 right-0 top-0 z-[100] border-b border-white/20 bg-slate-950/95 shadow-lg shadow-black/20 backdrop-blur-xl">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
 
-        {/* LOGO */}
         <Link
           href="/"
           onClick={() => setMenuOpen(false)}
@@ -23,7 +22,6 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* DESKTOP NAVIGATION */}
         <div className="hidden items-center gap-8 md:flex">
 
           <Link
@@ -63,7 +61,6 @@ export default function Navbar() {
 
         </div>
 
-        {/* MOBILE BUTTON */}
         <button
           type="button"
           aria-label="Toggle navigation menu"
@@ -84,7 +81,6 @@ export default function Navbar() {
 
       </div>
 
-      {/* MOBILE MENU */}
       <div
         className={`overflow-hidden border-t border-white/10 bg-slate-950/95 backdrop-blur-xl transition-all duration-300 md:hidden ${
           menuOpen

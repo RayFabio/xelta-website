@@ -11,7 +11,6 @@ export const metadata: Metadata = {
 export default function Contact() {
   return (
     <div className="contact-page min-h-screen bg-slate-950 text-white">
-      {/* Hero Section */}
       <section className="section py-24 bg-gradient-dark text-white">
         <div className="container-xelta text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
@@ -23,14 +22,12 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Contact Section */}
       <section className="section">
         <div className="container-xelta">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold mb-12 text-center">Send us a Message</h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-12">
-              {/* Contact Info */}
               <div className="lg:col-span-1">
                 <div className="space-y-8">
                   <div>
@@ -70,7 +67,6 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Contact Form */}
               <div className="lg:col-span-2">
                 <ContactForm />
               </div>
@@ -79,7 +75,6 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Response Time Info */}
       <section className="section bg-primary-50">
         <div className="container-xelta max-w-3xl text-center">
           <h2 className="text-2xl font-bold mb-6">We're Here to Help</h2>

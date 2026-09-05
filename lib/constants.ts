@@ -1,4 +1,3 @@
-// Constants for XELTA website
 
 export const COMPANY_NAME = 'PT XELTA';
 export const COMPANY_TAGLINE = 'Driving Excellence Across Education and Infrastructure';

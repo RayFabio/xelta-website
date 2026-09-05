@@ -8,7 +8,6 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // XELTA Modern Brand Colors
         primary: {
           950: '#0f172a',
           900: '#1e293b',
@@ -21,25 +20,21 @@ const config: Config = {
           200: '#f1f5f9',
           100: '#f8fafc',
         },
-        // Modern vibrant accent
         accent: {
           600: '#0369a1',
           500: '#0ea5e9',
           400: '#38bdf8',
         },
-        // Modern teal/cyan
         teal: {
           600: '#0d9488',
           500: '#14b8a6',
           400: '#2dd4bf',
         },
-        // Modern violet/purple
         violet: {
           600: '#7c3aed',
           500: '#8b5cf6',
           400: '#a78bfa',
         },
-        // Neutral grays
         neutral: {
           950: '#0a0a0a',
           900: '#1a1a1a',
@@ -53,13 +48,11 @@ const config: Config = {
           100: '#f5f5f5',
           50: '#fafafa',
         },
-        // Semantic colors
         success: '#10b981',
         warning: '#f59e0b',
         error: '#ef4444',
       },
       fontSize: {
-        // Typography scale
         xs: ['0.75rem', { lineHeight: '1rem' }],
         sm: ['0.875rem', { lineHeight: '1.25rem' }],
         base: ['1rem', { lineHeight: '1.5rem' }],
@@ -75,37 +68,36 @@ const config: Config = {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
       },
       spacing: {
-        // 4px base unit
         0: '0',
-        1: '0.25rem', // 4px
-        2: '0.5rem', // 8px
-        3: '0.75rem', // 12px
-        4: '1rem', // 16px
-        5: '1.25rem', // 20px
-        6: '1.5rem', // 24px
-        7: '1.75rem', // 28px
-        8: '2rem', // 32px
-        9: '2.25rem', // 36px
-        10: '2.5rem', // 40px
-        12: '3rem', // 48px
-        14: '3.5rem', // 56px
-        16: '4rem', // 64px
-        20: '5rem', // 80px
-        24: '6rem', // 96px
-        28: '7rem', // 112px
-        32: '8rem', // 128px
-        36: '9rem', // 144px
-        40: '10rem', // 160px
+        1: '0.25rem',
+        2: '0.5rem',
+        3: '0.75rem',
+        4: '1rem',
+        5: '1.25rem',
+        6: '1.5rem',
+        7: '1.75rem',
+        8: '2rem',
+        9: '2.25rem',
+        10: '2.5rem',
+        12: '3rem',
+        14: '3.5rem',
+        16: '4rem',
+        20: '5rem',
+        24: '6rem',
+        28: '7rem',
+        32: '8rem',
+        36: '9rem',
+        40: '10rem',
       },
       borderRadius: {
         none: '0',
-        sm: '0.25rem', // 4px
-        base: '0.375rem', // 6px
-        md: '0.5rem', // 8px
-        lg: '0.75rem', // 12px
-        xl: '1rem', // 16px
-        '2xl': '1.5rem', // 24px
-        '3xl': '2rem', // 32px
+        sm: '0.25rem',
+        base: '0.375rem',
+        md: '0.5rem',
+        lg: '0.75rem',
+        xl: '1rem',
+        '2xl': '1.5rem',
+        '3xl': '2rem',
         full: '9999px',
       },
       boxShadow: {
@@ -119,7 +111,6 @@ const config: Config = {
         inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)',
       },
       transitionTimingFunction: {
-        // Easing curves for animations
         smooth: 'cubic-bezier(0.4, 0, 0.2, 1)',
         gentle: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
       },
