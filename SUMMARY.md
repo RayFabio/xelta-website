@@ -35,7 +35,6 @@
 - `README.md` - Overview
 - `DEPLOYMENT.md` ⭐ **BACA INI UNTUK DEPLOY**
 - `FILES.md` - File checklist
-- `READY_TO_DEPLOY.md` - Status & checklist
 
 ---
 
@@ -119,11 +118,6 @@ xelta-website/
    - Apa yang harus di-push
    - Apa yang di-ignore git
    - File size reference
-
-3. **READY_TO_DEPLOY.md**
-   - Verification checklist
-   - Quick deployment guide
-   - Next steps untuk features lebih
 
 ---
 

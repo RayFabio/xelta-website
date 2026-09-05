@@ -29,16 +29,9 @@
    - What's essential vs optional
    - GitHub setup instructions
 
-### 4. **READY_TO_DEPLOY.md**
-   **→ Quick status check**
-   - Current status verification
-   - Features included
-   - Next steps
-
-### 5. **SUMMARY.md**
+### 4. **SUMMARY.md**
    **→ Indonesian version**
-   - Same info as READY_TO_DEPLOY
-   - In Bahasa Indonesia
+   - Project summary and deployment context
 
 ---
 
@@ -227,8 +220,6 @@ When deploying:
 
 ```
 For quick overview:
-  → READY_TO_DEPLOY.md
-
 For step-by-step deploy:
   → DEPLOYMENT.md ⭐ START HERE
 
