@@ -31,7 +31,7 @@ export default function Home() {
       <div className="home-hero-grid" />
       <div className="home-hero-content relative z-10 max-w-5xl px-6 text-center">
         <img className="home-main-logo" src="/xelta-logo.svg" alt="XELTA" />
-        <h1 className="home-hero-title text-5xl font-black leading-[.86] tracking-[-.07em] sm:text-7xl lg:text-9xl"><span className="home-hero-title-line">build</span><span className="home-hero-title-mark">&</span><span className="home-hero-title-line home-hero-title-accent">SHAPE</span></h1>
+        <h1 className="home-hero-title text-5xl font-black leading-[.86] tracking-[-.07em] sm:text-7xl lg:text-9xl"><span className="home-hero-title-line">build</span><span className="home-hero-title-mark">&</span><span className="home-hero-title-line home-hero-title-accent">shape</span></h1>
         <p className="mx-auto mt-8 max-w-2xl text-base leading-8 text-slate-300 sm:text-xl">Bringing civil construction and professional learning together to build a stronger future.</p>
         <div className="mt-10 flex flex-wrap justify-center gap-4">
           <Link href="/akademi" className="home-button inline-flex">XELTA Akademi</Link>
